@@ -1,0 +1,19 @@
+Package: vn.tamikokiyoko.nobi2mobile
+Architecture: iphoneos-arm64
+Version: 2.2.2
+Priority: optional
+Section: Nobihaza 2 Remake
+Maintainer: Serena1432 <admin@s1432.org>
+Depends: firmware (>= 11.0), uikittools, ai.akemi.appsyncunified
+Filename: ./debs/vn.tamikokiyoko.nobi2mobile-2.2.2-iOS-11.0.deb
+Size: 153449684
+MD5sum: 7058dee2033ed06f2260f66240b77b35
+SHA1: 50d6598a04329d17ebb38e38e3d59b455634ffe0
+SHA256: 312b0105306c23f579a5640145dea6f6884e3fa01f07acde4f8982efb90cb7e9
+Description: Bản Nobihaza 2 Remake chính thức dành cho thiết bị iOS đã jailbreak.
+Name: Nobihaza 2
+Depiction: https://ios.nbhzvn.one/depictions/?p=vn.tamikokiyoko.nobi2mobile
+SileoDepiction: https://ios.nbhzvn.one/depictions/vn.tamikokiyoko.nobi2mobile/sileo.json
+Header: https://ios.nbhzvn.one/depictions/vn.tamikokiyoko.nobi2mobile/header.jpg
+Author: Serena1432
+Icon: https://ios.nbhzvn.one/depictions/vn.tamikokiyoko.nobi2mobile/icon.png

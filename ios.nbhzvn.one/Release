@@ -1,0 +1,8 @@
+Origin: Nobihaza iOS Collection
+Label: Nobihaza Vietnam Community
+Suite: stable
+Version: 1.0
+Codename: nbhzvnios
+Architectures: iphoneos-arm iphoneos-arm64
+Components: main
+Description: Thư viện để người chơi cài một số game Nobihaza, dành cho thiết bị iOS đã Jailbreak.

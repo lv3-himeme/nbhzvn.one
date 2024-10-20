@@ -1,0 +1,387 @@
+{
+    "class": "DepictionTabView",
+    "minVersion": "0.4",
+    "headerImage": "http://192.168.0.181/depictions/vn.tamikokiyoko.nobi2mobile/header.png",
+    "tintColor": "#af1932",
+    "tabs": [
+        {
+            "class": "DepictionStackView",
+            "tabname": "Thông Tin Chính",
+            "views": [
+                {
+                    "class": "DepictionMarkdownView",
+                    "useRawFormat": true,
+                    "markdown": "<style> html, body { font: -apple-system-body; line-height: 1.4; } p, h1, h2, h3, h4, h5, h6, ol, ul { margin: 0 0 1rem 0; } h1, h2, h3, h4, h5, h6 { font-family: ui-rounded, -apple-system; } pre, code { font-family: ui-monospace, Menlo, monospace; font-size: 0.8em; } .small { font-size: 0.85em; } ul { list-style-type: disc; } ul ul, ol ul { list-style-type: circle; } ul ul ul, ol ul ul, ol ol ul, ol ul ul { list-style-type: square; } </style> <div> <h2 style=\"text-align: center\">Tiếp tục hành trình của Nobita và những người bạn!</h2> <p><small>Doraemon: Nobita's Resident Evil 2 (bản Việt Hoá) là một Bản dịch tiếng Việt từ bản game gốc được phát triển bởi wj7wuAofce1vFoN.</p><p>Đây là một bản nâng cấp không chính thức từ bản Nobihaza 2 gốc của aaa-sensei từ RPG Maker 2000 lên RPG Maker MV, được tải lên thư viện Nobihaza iOS Collection của Nobihaza Vietnam Community dành cho các thiết bị iOS (iPhone, iPad) đã Jailbreak.</p><p>Cả hai loại jailbreak Rootful và Rootless đều được hỗ trợ.</small></p> </div>"
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionMarkdownView",
+                    "useRawFormat": true,
+                    "markdown": "<style> html, body { font: -apple-system-body; line-height: 1.4; } p, h1, h2, h3, h4, h5, h6, ol, ul { margin: 0 0 1rem 0; } h1, h2, h3, h4, h5, h6 { font-family: ui-rounded, -apple-system; } pre, code { font-family: ui-monospace, Menlo, monospace; font-size: 0.8em; } .small { font-size: 0.85em; } ul { list-style-type: disc; } ul ul, ol ul { list-style-type: circle; } ul ul ul, ol ul ul, ol ol ul, ol ul ul { list-style-type: square; } </style> <div> <h3 style='margin: 0'><b>Ảnh Chụp Màn Hình</b></h3></div>"
+                },
+                {
+                    "class": "DepictionScreenshotsView",
+                    "itemCornerRadius": 6,
+                    "itemSize": "{0, 180}",
+                    "screenshots": [
+                        {
+                            "url": "http://192.168.0.181/depictions/vn.tamikokiyoko.nobi2mobile/screenshots/1.png",
+                            "accessibilityText": "Nobihaza 2 Remake's Title Screen"
+                        },
+                        {
+                            "url": "http://192.168.0.181/depictions/vn.tamikokiyoko.nobi2mobile/screenshots/2.png",
+                            "accessibilityText": "Nobihaza 2 Remake's Load Screen"
+                        },
+                        {
+                            "url": "http://192.168.0.181/depictions/vn.tamikokiyoko.nobi2mobile/screenshots/3.png",
+                            "accessibilityText": "Nobihaza 2 Remake's Game Screen"
+                        },
+                        {
+                            "url": "http://192.168.0.181/depictions/vn.tamikokiyoko.nobi2mobile/screenshots/4.png",
+                            "accessibilityText": "Nobihaza 2 Remake's Menu Screen"
+                        },
+                        {
+                            "url": "http://192.168.0.181/depictions/vn.tamikokiyoko.nobi2mobile/screenshots/5.png",
+                            "accessibilityText": "Nobihaza 2 Remake's Weapon Menu Screen"
+                        },
+                        {
+                            "url": "http://192.168.0.181/depictions/vn.tamikokiyoko.nobi2mobile/screenshots/6.png",
+                            "accessibilityText": "Nobihaza 2 Remake's Skill Menu Screen"
+                        },
+                        {
+                            "url": "http://192.168.0.181/depictions/vn.tamikokiyoko.nobi2mobile/screenshots/7.png",
+                            "accessibilityText": "Nobihaza 2 Remake's Dialogue Screen"
+                        }
+                    ]
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionStackView",
+                    "orientation": "landscape",
+                    "views": [
+                        {
+                            "class": "DepictionMarkdownView",
+                            "useRawFormat": true,
+                            "markdown": "<style> html, body { font: -apple-system-body; line-height: 1.4; } p, h1, h2, h3, h4, h5, h6, ol, ul { margin: 0 0 1rem 0; } h1, h2, h3, h4, h5, h6 { font-family: ui-rounded, -apple-system; } pre, code { font-family: ui-monospace, Menlo, monospace; font-size: 0.8em; } .small { font-size: 0.85em; } ul { list-style-type: disc; } ul ul, ol ul { list-style-type: circle; } ul ul ul, ol ul ul, ol ol ul, ol ul ul { list-style-type: square; } </style> <div> <h3 style='margin: 0'><b>Phiên Bản Mới Nhất</b></h3></div>"
+                        },
+                        {
+                            "class": "DepictionMarkdownView",
+                            "useRawFormat": true,
+                            "markdown": "<style> html, body { font: -apple-system-body; line-height: 1.4; } p, h1, h2, h3, h4, h5, h6, ol, ul { margin: 0 0 1rem 0; } h1, h2, h3, h4, h5, h6 { font-family: ui-rounded, -apple-system; } pre, code { font-family: ui-monospace, Menlo, monospace; font-size: 0.8em; } .small { font-size: 0.85em; } ul { list-style-type: disc; } ul ul, ol ul { list-style-type: circle; } ul ul ul, ol ul ul, ol ol ul, ol ul ul { list-style-type: square; } </style> <div> <p style='text-align: right'><small>2.2.2</small></p></div>"
+                        }
+                    ]
+                },
+                {
+                    "class": "DepictionLabelView",
+                    "text": "Cập nhật lần cuối vào 25 tháng 8, 2024",
+                    "fontSize": 10,
+                    "margins": "{0, 0, 0, 15}"
+                },
+                {
+                    "class": "DepictionMarkdownView",
+                    "useRawFormat": true,
+                    "markdown": "<style> html, body { font: -apple-system-body; line-height: 1.4; } p, h1, h2, h3, h4, h5, h6, ol, ul { margin: 0 0 1rem 0; } h1, h2, h3, h4, h5, h6 { font-family: ui-rounded, -apple-system; } pre, code { font-family: ui-monospace, Menlo, monospace; font-size: 0.8em; } .small { font-size: 0.85em; } ul { list-style-type: disc; } ul ul, ol ul { list-style-type: circle; } ul ul ul, ol ul ul, ol ol ul, ol ul ul { list-style-type: square; } </style> <div class=\"small\"> <p>Cập nhật này có những thay đổi quan trọng ở bản dành cho các thiết bị iOS. Các thiết bị khác không cần thiết phải cập nhật lên phiên bản này.</p> <ul> <li>Sửa lỗi \"TypeError: Cannot read properties of undefined (reading 'addChild')\"</li> <li>Sửa lỗi plugin \"ChoiceWindowInMessage\" trên các thiết bị iOS.</li> <li>Sửa lỗi \"Tính năng đăng nhập không hỗ trợ trên nền tảng này\" trên các thiết bị iOS.</li> <li>Sửa lỗi liên quan đến hiển thị trên một số thiết bị iOS (lỗi hiển thị thanh thông báo, hiển thị bố cục các nút điều khiển,...)</li> <li>Sửa lỗi không thể đăng nhập trên một số thiết bị iOS.</li> <li>Sửa lỗi không tải được tiến trình từ đám mây trên các thiết bị iOS.</li> <li>Sửa lỗi 3D Touch của iOS mở menu lưu ảnh khi đang điều khiển các nút trên màn hình (được báo cáo bởi LilianaOptimistic1432).</li> <li>Thêm tuỳ chọn \"Sử dụng Canvas thay cho WebGL\". Nếu FPS trên thiết bị của bạn (nhất là các thiết bị iOS) không ổn định khi sử dụng WebGL thì có thể chuyển qua Canvas và thử lại.</li> </ul> <br><p>Xem thêm tại mục Lịch Sử ở phần đầu của trang này.</p> </div>"
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionMarkdownView",
+                    "useRawFormat": true,
+                    "markdown": "<style> html, body { font: -apple-system-body; line-height: 1.4; } p, h1, h2, h3, h4, h5, h6, ol, ul { margin: 0 0 1rem 0; } h1, h2, h3, h4, h5, h6 { font-family: ui-rounded, -apple-system; } pre, code { font-family: ui-monospace, Menlo, monospace; font-size: 0.8em; } .small { font-size: 0.85em; } ul { list-style-type: disc; } ul ul, ol ul { list-style-type: circle; } ul ul ul, ol ul ul, ol ol ul, ol ul ul { list-style-type: square; } </style> <div> <h3 style='margin: 0'><b>Thông Tin Trò Chơi</b></h3></div>"
+                },
+                {
+                    "class": "DepictionStackView",
+                    "orientation": "landscape",
+                    "views": [
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "Dịch giả",
+                            "fontSize": 12,
+                            "fontWeight": "bold",
+                            "margins": "{0, 15, 15, 15}"
+                        },
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "Serena1432",
+                            "fontSize": 12,
+                            "alignment": 2,
+                            "margins": "{0, 15, 15, 15}"
+                        }
+                    ]
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionStackView",
+                    "orientation": "landscape",
+                    "views": [
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "Tác giả gốc",
+                            "fontSize": 12,
+                            "fontWeight": "bold",
+                            "margins": "{15, 15, 15, 15}"
+                        },
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "wj7wuAofce1vFoN",
+                            "fontSize": 12,
+                            "alignment": 2,
+                            "margins": "{15, 15, 15, 15}"
+                        }
+                    ]
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionStackView",
+                    "orientation": "landscape",
+                    "views": [
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "Kích thước",
+                            "fontSize": 12,
+                            "fontWeight": "bold",
+                            "margins": "{15, 15, 15, 15}"
+                        },
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "162.3 MB",
+                            "fontSize": 12,
+                            "alignment": 2,
+                            "margins": "{15, 15, 15, 15}"
+                        }
+                    ]
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionStackView",
+                    "orientation": "landscape",
+                    "views": [
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "Nền tảng",
+                            "fontSize": 12,
+                            "fontWeight": "bold",
+                            "margins": "{15, 15, 15, 15}"
+                        },
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "RPG Maker MV",
+                            "fontSize": 12,
+                            "alignment": 2,
+                            "margins": "{15, 15, 15, 15}"
+                        }
+                    ]
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionStackView",
+                    "orientation": "landscape",
+                    "views": [
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "Tương thích",
+                            "fontSize": 12,
+                            "fontWeight": "bold",
+                            "margins": "{15, 15, 15, 15}"
+                        },
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "iOS/iPadOS 11.0 trở lên",
+                            "fontSize": 12,
+                            "alignment": 2,
+                            "margins": "{15, 15, 15, 15}"
+                        }
+                    ]
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionStackView",
+                    "orientation": "landscape",
+                    "views": [
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "Ngôn ngữ",
+                            "fontSize": 12,
+                            "fontWeight": "bold",
+                            "margins": "{15, 15, 15, 15}"
+                        },
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "Tiếng Việt",
+                            "fontSize": 12,
+                            "alignment": 2,
+                            "margins": "{15, 15, 15, 15}"
+                        }
+                    ]
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionSpacerView",
+                    "spacing": 5
+                },
+                {
+                    "class": "DepictionTableButtonView",
+                    "title": "Website Chính Thức",
+                    "action": "https://nobi2.s1432.org"
+                },
+                {
+                    "class": "DepictionSpacerView",
+                    "spacing": 5
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionSpacerView",
+                    "spacing": 5
+                },
+                {
+                    "class": "DepictionTableButtonView",
+                    "title": "Liên Hệ Nhà Phát Triển",
+                    "action": "https://s1432.org/contact"
+                },
+                {
+                    "class": "DepictionSpacerView",
+                    "spacing": 5
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionSpacerView",
+                    "spacing": 15
+                },
+                {
+                    "class": "DepictionButtonView",
+                    "action": "https://nbhzvn.one",
+                    "isLink": true,
+                    "yPadding": 8,
+                    "text": "Nobihaza Vietnam Community",
+                    "view": {
+                        "class": "DepictionImageView",
+                        "URL": "http://192.168.0.181/CydiaIcon.png",
+                        "width": 48,
+                        "height": 48,
+                        "cornerRadius": 0,
+                        "alignment": 1,
+                        "accessibilityText": "Nobihaza Vietnam Community"
+                    }
+                },
+                {
+                    "class": "DepictionMarkdownView",
+                    "useRawFormat": true,
+                    "markdown": "<style> html, body { font: -apple-system-body; line-height: 1.4; } p, h1, h2, h3, h4, h5, h6, ol, ul { margin: 0 0 1rem 0; } h1, h2, h3, h4, h5, h6 { font-family: ui-rounded, -apple-system; } pre, code { font-family: ui-monospace, Menlo, monospace; font-size: 0.8em; } .small { font-size: 0.85em; } ul { list-style-type: disc; } ul ul, ol ul { list-style-type: circle; } ul ul ul, ol ul ul, ol ol ul, ol ul ul { list-style-type: square; } </style> <div class=\"small\"> <p>\"Nobihaza iOS Collection\" là một thư viện lưu trữ các game Nobihaza dành cho các thiết bị iOS (iPhone, iPad, iPod) đã được Jailbreak.</p> <p>Thư viện này được các thành viên thuộc Cộng đồng Nobihaza Việt Nam (Nobihaza Vietnam Community) cùng nhau xây dựng và đóng góp.</p> <p>Website và trang thư viện thuộc website \"nbhzvn.one\" được phát triển bởi <a href='https://s1432.org'>Serena1432</a>.</p> <p><a href='https://www.facebook.com/groups/nobihazavietnam'>Nhóm Facebook</a> | <a href='https://discord.gg/QpMuX3gQ5u'>Máy Chủ Discord</a> | <a href='https://www.facebook.com/NobiREVietNam'>Nobihaza Vietnam Fanpage</a></p> <p style='font-size: 7pt; color: #555'>\"Doraemon\" là một bộ truyện/phim hoạt hình được viết bởi Fujiko.F.Fujio và chịu trách nhiệm bản quyền bởi Shogakukan Inc. \"Resident Evil\" là một loạt trò chơi kinh dị được phát triển bởi CAPCOM.<br>Các Nhà Phát Triển, Dịch Giả, Serena1432 và các thành viên khác thuộc cộng đồng Nobihaza Việt Nam đều không sở hữu bất kì tài nguyên hay bản quyền nào liên quan đến hai tác phẩm trên.</p> </div>"
+                }
+            ]
+        },
+        {
+            "class": "DepictionStackView",
+            "tabname": "Lịch Sử",
+            "views": [
+                {
+                    "class": "DepictionMarkdownView",
+                    "useRawFormat": true,
+                    "markdown": "<style> html, body { font: -apple-system-body; line-height: 1.4; } p, h1, h2, h3, h4, h5, h6, ol, ul { margin: 0 0 1rem 0; } h1, h2, h3, h4, h5, h6 { font-family: ui-rounded, -apple-system; } pre, code { font-family: ui-monospace, Menlo, monospace; font-size: 0.8em; } .small { font-size: 0.85em; } ul { list-style-type: disc; } ul ul, ol ul { list-style-type: circle; } ul ul ul, ol ul ul, ol ol ul, ol ul ul { list-style-type: square; } </style> <div class=\"small\"> <p>Một số phiên bản sẽ không xuất hiện trong phần Lịch Sử này.</p> </div>"
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionStackView",
+                    "orientation": "landscape",
+                    "views": [
+                        {
+                            "class": "DepictionSubheaderView",
+                            "title": "2.2.2",
+                            "useBoldText": true,
+                            "useBottomMargin": false
+                        },
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "25 tháng 8, 2024",
+                            "fontSize": 12,
+                            "alignment": 2,
+                            "margins": "{21, 15, 6, 15}"
+                        }
+                    ]
+                },
+                {
+                    "class": "DepictionMarkdownView",
+                    "useRawFormat": true,
+                    "markdown": "<style> html, body { font: -apple-system-body; line-height: 1.4; } p, h1, h2, h3, h4, h5, h6, ol, ul { margin: 0 0 1rem 0; } h1, h2, h3, h4, h5, h6 { font-family: ui-rounded, -apple-system; } pre, code { font-family: ui-monospace, Menlo, monospace; font-size: 0.8em; } .small { font-size: 0.85em; } ul { list-style-type: disc; } ul ul, ol ul { list-style-type: circle; } ul ul ul, ol ul ul, ol ol ul, ol ul ul { list-style-type: square; } </style> <div class=\"small\"> <p>Cập nhật này có những thay đổi quan trọng ở bản dành cho các thiết bị iOS. Các thiết bị khác không cần thiết phải cập nhật lên phiên bản này.</p> <ul> <li>Sửa lỗi \"TypeError: Cannot read properties of undefined (reading 'addChild')\"</li> <li>Sửa lỗi plugin \"ChoiceWindowInMessage\" trên các thiết bị iOS.</li> <li>Sửa lỗi \"Tính năng đăng nhập không hỗ trợ trên nền tảng này\" trên các thiết bị iOS.</li> <li>Sửa lỗi liên quan đến hiển thị trên một số thiết bị iOS (lỗi hiển thị thanh thông báo, hiển thị bố cục các nút điều khiển,...)</li> <li>Sửa lỗi không thể đăng nhập trên một số thiết bị iOS.</li> <li>Sửa lỗi không tải được tiến trình từ đám mây trên các thiết bị iOS.</li> <li>Sửa lỗi 3D Touch của iOS mở menu lưu ảnh khi đang điều khiển các nút trên màn hình (được báo cáo bởi LilianaOptimistic1432).</li> <li>Thêm tuỳ chọn \"Sử dụng Canvas thay cho WebGL\". Nếu FPS trên thiết bị của bạn (nhất là các thiết bị iOS) không ổn định khi sử dụng WebGL thì có thể chuyển qua Canvas và thử lại.</li> </ul></div>"
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionStackView",
+                    "orientation": "landscape",
+                    "views": [
+                        {
+                            "class": "DepictionSubheaderView",
+                            "title": "2.2.1",
+                            "useBoldText": true,
+                            "useBottomMargin": false
+                        },
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "26 tháng 6, 2024",
+                            "fontSize": 12,
+                            "alignment": 2,
+                            "margins": "{21, 15, 6, 15}"
+                        }
+                    ]
+                },
+                {
+                    "class": "DepictionMarkdownView",
+                    "useRawFormat": true,
+                    "markdown": "<style> html, body { font: -apple-system-body; line-height: 1.4; } p, h1, h2, h3, h4, h5, h6, ol, ul { margin: 0 0 1rem 0; } h1, h2, h3, h4, h5, h6 { font-family: ui-rounded, -apple-system; } pre, code { font-family: ui-monospace, Menlo, monospace; font-size: 0.8em; } .small { font-size: 0.85em; } ul { list-style-type: disc; } ul ul, ol ul { list-style-type: circle; } ul ul ul, ol ul ul, ol ol ul, ol ul ul { list-style-type: square; } </style> <div class=\"small\"> <ul> <li>Sửa lỗi hiển thị ảnh máy bay sau khi đã đánh bại boss Miscreation II.</li> </ul> </div>"
+                },
+                {
+                    "class": "DepictionSeparatorView"
+                },
+                {
+                    "class": "DepictionStackView",
+                    "orientation": "landscape",
+                    "views": [
+                        {
+                            "class": "DepictionSubheaderView",
+                            "title": "2.2.0",
+                            "useBoldText": true,
+                            "useBottomMargin": false
+                        },
+                        {
+                            "class": "DepictionLabelView",
+                            "text": "25 tháng 6, 2024",
+                            "fontSize": 12,
+                            "alignment": 2,
+                            "margins": "{21, 15, 6, 15}"
+                        }
+                    ]
+                },
+                {
+                    "class": "DepictionMarkdownView",
+                    "useRawFormat": true,
+                    "markdown": "<style> html, body { font: -apple-system-body; line-height: 1.4; } p, h1, h2, h3, h4, h5, h6, ol, ul { margin: 0 0 1rem 0; } h1, h2, h3, h4, h5, h6 { font-family: ui-rounded, -apple-system; } pre, code { font-family: ui-monospace, Menlo, monospace; font-size: 0.8em; } .small { font-size: 0.85em; } ul { list-style-type: disc; } ul ul, ol ul { list-style-type: circle; } ul ul ul, ol ul ul, ol ol ul, ol ul ul { list-style-type: square; } </style> <div class=\"small\"> <ul> <li>Bạn đã có thể chiến đấu với boss trong minigame ẩn với 3 nhân vật cùng lúc thay vì chỉ có 2 như trước đây.</li> <li>Cải thiện lại nút nhắm bắn trong bản APK (trên Android) và IPA (trên iOS) của bàn phím ảo trong game.</li> <li>Sửa lỗi không thể di chuyển khi quay trở lại phòng để đồ rồi ra ngoài sau đoạn cứu Seina.</li> <li>Sửa lỗi hiển thị sai thanh máu ở HUD sau khi chữa trị thông qua Seina.</li> <li>Sửa lỗi không thể sử dụng vũ khí sau khi có đoạn hội thoại giữa chừng trong lúc đang sử dụng kĩ năng đặc biệt (nút S) của VGL-YAMATO hay Ebony & Ivory.</li> <li>Sửa lỗi hiển thị sai giá trị thanh máu khi chiến đấu với boss G4 trong minigame NOBITA MUST DIE.</li> <li>Sửa lỗi TypeError: Cannot read properties of undefined (reading 'addChild').</li> <li>Sửa lỗi không thể thông báo phiên bản mới ở trên thiết bị di động.</li> <li>Sửa lỗi \"ファイル名 is not defined\".</li> </ul> </div>"
+                }
+            ]
+        }
+    ]
+}
