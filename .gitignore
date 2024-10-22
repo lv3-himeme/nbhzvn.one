@@ -25,3 +25,5 @@
 # Ignore macOS DS_Store thingy
 **/.DS_Store
 **/._*
+
+.env
