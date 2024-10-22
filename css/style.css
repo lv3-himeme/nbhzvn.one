@@ -36,7 +36,7 @@ body {
 	height: 100%;
 	font-family: "Mulish", sans-serif;
 	-webkit-font-smoothing: antialiased;
-	background: #0b0c2a;
+	background: #1f2122;
 }
 
 h1,
@@ -134,7 +134,7 @@ ol {
 	top: -6px;
 	height: 32px;
 	width: 4px;
-	background: #e53637;
+	background: #af1932;
 	content: "";
 }
 
@@ -183,7 +183,7 @@ ol {
 .site-btn {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #af1932;
 	font-weight: 700;
 	border: none;
 	border-radius: 2px;
@@ -327,7 +327,7 @@ ol {
 -----------------------*/
 
 .header {
-	background: #070720;
+	background: #27292a;
 }
 
 .header__logo {
@@ -350,7 +350,7 @@ ol {
 }
 
 .header__menu ul li.active a {
-	background: #e53637;
+	background: #af1932;
 	color: #ffffff;
 }
 
@@ -457,7 +457,7 @@ ol {
 
 .hero__text .label {
 	font-size: 13px;
-	color: #e53637;
+	color: #af1932;
 	background: #ffffff;
 	padding: 5px 14px 3px;
 	display: inline-block;
@@ -509,7 +509,7 @@ ol {
 .hero__text a span {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #af1932;
 	display: inline-block;
 	font-weight: 700;
 	letter-spacing: 2px;
@@ -522,7 +522,7 @@ ol {
 .hero__text a i {
 	font-size: 20px;
 	display: inline-block;
-	background: #e53637;
+	background: #af1932;
 	padding: 11px 5px 16px 8px;
 	color: #ffffff;
 	border-radius: 0 4px 4px 0;
@@ -576,7 +576,7 @@ ol {
 	font-size: 36px;
 	height: 66px;
 	width: 66px;
-	background: #0b0c2a;
+	background: #27292a;
 	line-height: 66px;
 	text-align: center;
 	color: #ffffff;
@@ -660,7 +660,7 @@ ol {
 .product__item__pic .ep {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #af1932;
 	display: inline-block;
 	padding: 2px 12px;
 	border-radius: 4px;
@@ -734,7 +734,7 @@ ol {
 	top: -6px;
 	height: 32px;
 	width: 4px;
-	background: #e53637;
+	background: #af1932;
 	content: "";
 }
 
@@ -776,7 +776,7 @@ ol {
 .product__sidebar__view__item .ep {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #af1932;
 	display: inline-block;
 	padding: 2px 12px;
 	border-radius: 4px;
@@ -1064,7 +1064,7 @@ ol {
 .anime__details__btn .follow-btn {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #af1932;
 	display: inline-block;
 	font-weight: 700;
 	letter-spacing: 2px;
@@ -1077,7 +1077,7 @@ ol {
 .anime__details__btn .watch-btn span {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #af1932;
 	display: inline-block;
 	font-weight: 700;
 	letter-spacing: 2px;
@@ -1090,7 +1090,7 @@ ol {
 .anime__details__btn .watch-btn i {
 	font-size: 20px;
 	display: inline-block;
-	background: #e53637;
+	background: #af1932;
 	padding: 11px 5px 16px 8px;
 	color: #ffffff;
 	border-radius: 0 4px 4px 0;
@@ -1116,7 +1116,7 @@ ol {
 	right: -30px;
 	top: 15px;
 	border-top: 15px solid transparent;
-	border-left: 15px solid #1d1e39;
+	border-left: 15px solid #27292a;
 	content: "";
 	-webkit-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
@@ -1131,7 +1131,7 @@ ol {
 
 .anime__review__item__text {
 	overflow: hidden;
-	background: #1d1e39;
+	background: #27292a;
 	padding: 18px 30px 16px 20px;
 	border-radius: 10px;
 }
@@ -1172,7 +1172,7 @@ ol {
 	font-weight: 700;
 	letter-spacing: 2px;
 	text-transform: uppercase;
-	background: #e53637;
+	background: #af1932;
 	border: none;
 	padding: 10px 15px;
 	border-radius: 2px;
@@ -1306,7 +1306,7 @@ ol {
 
 .breadcrumb__links a i {
 	margin-right: 5px;
-	color: #e53637;
+	color: #af1932;
 }
 
 .breadcrumb__links a:after {
@@ -1403,7 +1403,7 @@ ol {
 }
 
 .blog__item__text p span {
-	color: #e53637;
+	color: #af1932;
 	margin-right: 5px;
 }
 
@@ -1633,7 +1633,7 @@ ol {
 }
 
 .blog__details__comment__item__text a:hover {
-	background: #e53637;
+	background: #af1932;
 }
 
 .blog__details__form {
@@ -1823,7 +1823,7 @@ ol {
 }
 
 .login__register .primary-btn {
-	background: #e53637;
+	background: #af1932;
 	padding: 12px 42px;
 }
 
@@ -1906,7 +1906,7 @@ ol {
 }
 
 .signup .login__form h5 a {
-	color: #e53637;
+	color: #af1932;
 	font-weight: 700;
 }
 
@@ -1932,7 +1932,7 @@ ol {
 -----------------------*/
 
 .footer {
-	background: #070720;
+	background: #27292a;
 	padding-top: 60px;
 	padding-bottom: 40px;
 	position: relative;
@@ -1951,7 +1951,7 @@ ol {
 	color: #ffffff;
 	height: 50px;
 	width: 50px;
-	background: #e53637;
+	background: #af1932;
 	line-height: 50px;
 	text-align: center;
 	border-radius: 50%;
@@ -1992,7 +1992,7 @@ ol {
 }
 
 .footer__copyright__text a {
-	color: #e53637;
+	color: #af1932;
 }
 
 /*--------------------------------- Responsive Media Quaries -----------------------------*/
