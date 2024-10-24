@@ -1,6 +1,6 @@
 <?php
 error_reporting(E_ERROR);
-ini_set('display_errors', 1);
+ini_set('display_errors', intval($_ENV["DISPLAY_ERRORS"]));
 include __DIR__ . "/init_functions.php";
 $db_host = $_ENV["DB_HOST"];
 $db_username = $_ENV["DB_USERNAME"];
