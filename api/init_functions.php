@@ -34,12 +34,11 @@ function decrypt_string($hash) {
     $hash_tmp = base64_decode($hash);
     $hash_part = explode("/.lh/.", $hash_tmp);
     $ciphering = "AES-256-CTR";
-    $iv_length = openssl_cipher_iv_length($ciphering);
     $options = 0;
     $encryption_iv = base64_decode($hash_part[0]);
     $encryption_key = openssl_digest($encryption_password, "MD5", true);
     $encrypted_string = $hash_part[1];
-    return openssl_decrypt($encrypted_string, $ciphering, $encryption_key, $option, $encryption_iv);
+    return openssl_decrypt($encrypted_string, $ciphering, $encryption_key, $options, $encryption_iv);
 }
 
 function random_string(

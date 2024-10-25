@@ -1,7 +1,8 @@
 <?php
+include __DIR__ . "/init_functions.php";
 error_reporting(E_ERROR);
 ini_set('display_errors', intval($_ENV["DISPLAY_ERRORS"]));
-include __DIR__ . "/init_functions.php";
+ini_set('expose_php', 'off');
 $db_host = $_ENV["DB_HOST"];
 $db_username = $_ENV["DB_USERNAME"];
 $db_password = $_ENV["DB_PASSWORD"];
