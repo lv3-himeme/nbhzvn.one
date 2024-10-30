@@ -55,4 +55,8 @@ function random_string(
     }
     return implode('', $pieces);
 }
+
+function special_chars($str) {
+    return preg_match('/[^a-zA-Z0-9]/', $str) > 0;
+}
 ?>

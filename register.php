@@ -1,11 +1,37 @@
 <?php
 require "api/functions.php";
+require "api/users/functions.php";
+$error = "";
 if (post("submit")) {
-
+    $username = post("username"); $password = post("password"); $email = post("email");
+    if (!check_csrf(post("csrf_token"))) $error = "Mã xác thực CSRF không đúng.";
+    else if (!$username || !$email || !$password) $error = "Vui lòng nhập đầy đủ thông tin.";
+    else if (!check_email_validity($email)) $error = "Email này không được hỗ trợ.";
+    else if (strlen($username) < 6 || special_chars($username)) $error = "Tên đăng nhập không hơp lệ.";
+    else if (strlen($password) < 8) $error = "Mật khẩu phải trên 8 kí tự.";
+    else {
+        $result = register($username, $email, $password);
+        switch ($result) {
+            case 1: {
+                $error = "Đăng ký thành công.";
+                break;
+            }
+            case -1: {
+                $error = "Đã có lỗi máy chủ xảy ra, vui lòng thử lại.";
+                break;
+            }
+            case -2: {
+                $error = "Tên đăng nhập này đã tồn tại.";
+                break;
+            }
+            case -3: {
+                $error = "Địa chỉ email này đã tồn tại.";
+                break;
+            }
+        }
+    }
 }
-else {
-    refresh_csrf();
-}
+refresh_csrf();
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -43,19 +69,20 @@ else {
                         <h3>Đăng Ký</h3>
                         <form action="" method="POST">
                             <div class="input__item">
-                                <input type="text" name="username" placeholder="Tên Người Dùng">
+                                <input type="text" name="username" placeholder="Tên Người Dùng" required>
                                 <span class="icon_profile"></span>
                             </div>
                             <div class="input__item">
-                                <input type="email" name="email" placeholder="Địa Chỉ Email">
+                                <input type="email" name="email" placeholder="Địa Chỉ Email" required>
                                 <span class="icon_mail"></span>
                             </div>
                             <div class="input__item">
-                                <input type="password" name="password" placeholder="Mật Khẩu">
+                                <input type="password" name="password" placeholder="Mật Khẩu" required>
                                 <span class="icon_lock"></span>
                             </div>
                             <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
-                            <button type="submit" class="site-btn" value="Submit">Đăng Ký</button>
+                            <p style="color: #e36666"><i><?php echo $error ?></i></p>
+                            <button type="submit" name="submit" class="site-btn" value="Submit">Đăng Ký</button>
                         </form>
                         <br>
                         <p><i>Website sẽ chỉ sử dụng Địa Chỉ Email của bạn để xác nhận tài khoản và khi lấy lại mật khẩu, ngoài ra email của bạn sẽ không được sử dụng cho bất kì hành động nào khác của website.<br>Chỉ hỗ trợ email đến từ Gmail, Yahoo! Mail hoặc Outlook.</i></p>

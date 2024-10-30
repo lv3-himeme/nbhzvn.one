@@ -3,6 +3,11 @@ include __DIR__ . "/connection.php";
 require __DIR__ . "/db_setup.php";
 require __DIR__ . "/csrf.php";
 
+function check_email_validity($email) {
+    return filter_var($email, FILTER_VALIDATE_EMAIL) &&
+           (str_ends_with($email, "@gmail.com") || str_ends_with($email, "@yahoo.com") || str_ends_with($email, "@outlook.com"));
+}
+
 function db_query($query, ...$args) {
     global $conn;
     $tmp = $conn->prepare($query);
