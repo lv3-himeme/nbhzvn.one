@@ -12,6 +12,7 @@ function email_exists($email) {
 }
 
 function create_login_token($id) {
+    global $conn;
     // Multiple hashing and encrypting layers for true randomness!
     $token = encrypt_string(password_hash(random_string(32), PASSWORD_DEFAULT));
     db_query('UPDATE `nbhzvn_users` SET `login_token` = ? WHERE `id` = ?', $token, $id);
@@ -20,6 +21,7 @@ function create_login_token($id) {
 }
 
 function get_user_by_id($id) {
+    global $conn;
     $result = db_query('SELECT * FROM `nbhzvn_users` WHERE id = ?', $id);
     if ($conn->error) return null;
     while ($row = $result->fetch_object()) {
