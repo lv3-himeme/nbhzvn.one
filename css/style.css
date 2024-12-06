@@ -2348,3 +2348,51 @@ ol {
 		padding: 18px 20px 20px;
 	}
 }
+
+.nbhzvn_profile {
+	display: inline;
+}
+
+.nbhzvn_profile a:hover .dropdown {
+	top: 62px;
+	opacity: 1;
+	visibility: visible;
+}
+
+.nbhzvn_profile a:hover .dropdown li a {
+	background: transparent;
+}
+
+.nbhzvn_profile a .dropdown {
+	position: absolute;
+	left: 0;
+	top: 82px;
+	width: 150px;
+	background: #ffffff;
+	text-align: left;
+	padding: 5px 0;
+	z-index: 9;
+	opacity: 0;
+	visibility: hidden;
+	-webkit-transition: all, 0.3s;
+	-o-transition: all, 0.3s;
+	transition: all, 0.3s;
+}
+
+.nbhzvn_profile a .dropdown li {
+	display: block;
+	margin-right: 0;
+}
+
+.nbhzvn_profile a .dropdown li a {
+	font-size: 14px;
+	color: #111111;
+	font-weight: 500;
+	padding: 5px 20px;
+}
+
+.nbhzvn_username {
+	font-size: 15px;
+	color: #b7b7b7;
+	font-weight: 700;
+}

@@ -1,7 +1,12 @@
 <?php
 require "api/functions.php";
 require "api/users/functions.php";
+require "api/users/cookies.php";
 $error = "";
+if ($user) {
+    header("Location: /");
+    die();
+}
 if (post("submit")) {
     $username = post("username"); $password = post("password");
     if (!check_csrf(post("csrf_token"))) $error = "Mã xác thực CSRF không đúng.";
@@ -11,7 +16,12 @@ if (post("submit")) {
     else {
         try {
             $result = login($username, $password);
-            if ($result == SUCCESS) $error = "Đăng nhập thành công.";
+            if ($result == SUCCESS) {
+                $user = new Nbhzvn_User($username);
+                $user->apply_cookie();
+                header("Location: /");
+                die();
+            }
         }
         catch (Exception $ex) {
             switch ($ex->getMessage()) {
@@ -25,6 +35,10 @@ if (post("submit")) {
                 }
                 case INCORRECT_CREDENTIALS: {
                     $error = "Tên đăng nhập hoặc mật khẩu không đúng.";
+                    break;
+                }
+                default: {
+                    $error = "Có lỗi không xác định xảy ra. Vui lòng báo cáo cho nhà phát triển của website.";
                     break;
                 }
             }

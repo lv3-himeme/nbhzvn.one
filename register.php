@@ -12,7 +12,11 @@ if (post("submit")) {
     else {
         try {
             $result = register($username, $email, $password);
-            $error = "Đăng ký thành công.";
+            if ($result == SUCCESS) {
+                $user = new Nbhzvn_User($username);
+                $user->apply_cookie();
+                header("Location: /");
+            }
         }
         catch (Exception $ex) {
             switch ($ex->getMessage()) {
@@ -30,6 +34,10 @@ if (post("submit")) {
                 }
                 case EMAIL_ALREADY_EXISTS: {
                     $error = "Email này đã tồn tại.";
+                    break;
+                }
+                default: {
+                    $error = "Có lỗi không xác định xảy ra. Vui lòng báo cáo cho nhà phát triển của website.";
                     break;
                 }
             }

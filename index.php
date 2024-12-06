@@ -1,5 +1,6 @@
 <?php
 require "api/functions.php";
+require "api/users/cookies.php";
 ?>
 <!DOCTYPE html>
 <html lang="zxx">

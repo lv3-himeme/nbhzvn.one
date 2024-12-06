@@ -11,12 +11,6 @@ function email_exists($email) {
     return false;
 }
 
-function get_user_from_cookie() {
-    $username = cookie("nbhzvn_username"); $login_token = cookie("nbhzvn_login_token");
-    if (!$username || !$login_token) return null;
-
-}
-
 function register($username, $email, $passphrase) {
     global $conn;
     if (!$username || !$email || !$passphrase) throw new Exception(MISSING_INFORMATION);

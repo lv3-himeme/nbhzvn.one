@@ -4,12 +4,12 @@ class Nbhzvn_User {
     public $username;
     public $email;
     public $type;
-    protected $passphrase;
+    private $passphrase;
     public $display_name;
     public $description;
     public $discord_id;
-    protected $verification_code;
-    protected $login_token;
+    private $verification_code;
+    private $login_token;
 
     function __construct($id) {
         if (gettype($id) == "string") $result = db_query('SELECT * FROM `nbhzvn_users` WHERE username = ?', $id);
@@ -42,15 +42,23 @@ class Nbhzvn_User {
 
     function update_login_token() {
         global $conn;
-        $hash = password_hash(random_string(64), PASSWORD_DEFAULT);
+        $login_token = random_string(64);
+        $hash = password_hash($login_token, PASSWORD_BCRYPT);
         $token = encrypt_string($hash);
         db_query('UPDATE `nbhzvn_users` SET `login_token` = ? WHERE `id` = ?', $token, $this->id);
-        if (!$conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->login_token = $hash;
+        return $login_token;
     }
 
     function check_login_token($token) {
         return password_verify($token, $this->login_token);
+    }
+
+    function apply_cookie() {
+        $login_token = $this->update_login_token();
+        setcookie("nbhzvn_username", $this->username, time() + 2592000);
+        setcookie("nbhzvn_login_token", $login_token, time() + 2592000);
     }
 }
 ?>
