@@ -13,4 +13,8 @@ function get_user_from_cookie() {
 }
 
 $user = get_user_from_cookie();
+if ($user->verification_required && !str_contains($_SERVER["REQUEST_URI"], "verify")) {
+    header("Location: /verify");
+    die();
+}
 ?>

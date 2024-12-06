@@ -2,11 +2,11 @@
 require "api/functions.php";
 require "api/users/functions.php";
 require "api/users/cookies.php";
-$error = "";
 if ($user) {
     header("Location: /");
     die();
 }
+$error = "";
 if (post("submit")) {
     $username = post("username"); $password = post("password");
     if (!check_csrf(post("csrf_token"))) $error = "Mã xác thực CSRF không đúng.";

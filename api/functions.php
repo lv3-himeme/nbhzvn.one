@@ -2,6 +2,7 @@
 include __DIR__ . "/connection.php";
 require __DIR__ . "/db_setup.php";
 require __DIR__ . "/csrf.php";
+require __DIR__ . "/mail.php";
 require __DIR__ . "/classes.php";
 
 function check_email_validity($email) {

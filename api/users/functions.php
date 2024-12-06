@@ -20,7 +20,7 @@ function register($username, $email, $passphrase) {
     if (email_exists($email)) throw new Exception(EMAIL_ALREADY_EXISTS);
     $email = encrypt_string($email);
     $passphrase = encrypt_string(password_hash($passphrase, PASSWORD_DEFAULT));
-    db_query('INSERT INTO `nbhzvn_users` (`username`, `email`, `passphrase`, `type`, `verification_required`) VALUES (?, ?, ?, 1, false)', $username, $email, $passphrase);
+    db_query('INSERT INTO `nbhzvn_users` (`username`, `email`, `passphrase`, `type`, `verification_required`) VALUES (?, ?, ?, 1, true)', $username, $email, $passphrase);
     if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     return SUCCESS;
 }

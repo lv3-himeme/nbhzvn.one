@@ -1,6 +1,11 @@
 <?php
 require "api/functions.php";
 require "api/users/functions.php";
+require "api/users/cookies.php";
+if ($user) {
+    header("Location: /");
+    die();
+}
 $error = "";
 if (post("submit")) {
     $username = post("username"); $password = post("password"); $email = post("email");
