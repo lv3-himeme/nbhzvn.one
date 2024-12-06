@@ -1,28 +1,46 @@
+<?php
+require "api/functions.php";
+require "api/users/functions.php";
+$error = "";
+if (post("submit")) {
+    $username = post("username"); $password = post("password");
+    if (!check_csrf(post("csrf_token"))) $error = "Mã xác thực CSRF không đúng.";
+    else if (!$username || !$password) $error = "Vui lòng nhập đầy đủ thông tin.";
+    else if (strlen($username) < 6 || special_chars($username)) $error = "Tên đăng nhập không hơp lệ.";
+    else if (strlen($password) < 8) $error = "Mật khẩu phải trên 8 kí tự.";
+    else {
+        try {
+            $result = login($username, $password);
+            if ($result == SUCCESS) $error = "Đăng nhập thành công.";
+        }
+        catch (Exception $ex) {
+            switch ($ex->getMessage()) {
+                case DB_CONNECTION_ERROR: {
+                    $error = "Lỗi kết nối tới máy chủ. Vui lòng thử lại.";
+                    break;
+                }
+                case MISSING_INFORMATION: {
+                    $error = "Vui lòng nhập đầy đủ thông tin.";
+                    break;
+                }
+                case INCORRECT_CREDENTIALS: {
+                    $error = "Tên đăng nhập hoặc mật khẩu không đúng.";
+                    break;
+                }
+            }
+        }
+    }
+}
+refresh_csrf();
+?>
 <!DOCTYPE html>
 <html lang="zxx">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Anime Template">
-    <meta name="keywords" content="Anime, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Nobihaza Vietnam Collection</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/plyr.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <?php
+        $title = "Đăng Nhập";
+        require __DIR__ . "/head.php";
+    ?>
 </head>
 
 <body>
@@ -77,16 +95,6 @@
 
     <!-- Normal Breadcrumb Begin -->
     <section class="normal-breadcrumb set-bg" data-setbg="img/normal-breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="normal__breadcrumb__text">
-                        <h2>Login</h2>
-                        <p>Welcome to the official Anime blog.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
     <!-- Normal Breadcrumb End -->
 
@@ -96,25 +104,27 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="login__form">
-                        <h3>Login</h3>
-                        <form action="#">
+                        <h3>Đăng Nhập</h3>
+                        <form action="" method="POST">
                             <div class="input__item">
-                                <input type="text" placeholder="Email address">
-                                <span class="icon_mail"></span>
+                                <input type="text" name="username" placeholder="Tên Người Dùng" required>
+                                <span class="icon_profile"></span>
                             </div>
                             <div class="input__item">
-                                <input type="text" placeholder="Password">
+                                <input type="password" name="password" placeholder="Mật Khẩu" required>
                                 <span class="icon_lock"></span>
                             </div>
-                            <button type="submit" class="site-btn">Login Now</button>
+                            <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
+                            <p style="color: #e36666"><i><?php echo $error ?></i></p>
+                            <button type="submit" name="submit" class="site-btn" value="Submit">Đăng Nhập</button>
                         </form>
-                        <a href="#" class="forget_pass">Forgot Your Password?</a>
+                        <a href="/forgot_password" class="forget_pass">Quên mật khẩu?</a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="login__register">
-                        <h3>Dont’t Have An Account?</h3>
-                        <a href="#" class="primary-btn">Register Now</a>
+                        <h3>Chưa Có Tài Khoản?</h3>
+                        <a href="/register" class="primary-btn">Đăng Ký</a>
                     </div>
                 </div>
             </div>
@@ -122,13 +132,9 @@
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-6">
                         <div class="login__social__links">
-                            <span>or</span>
+                            <span>hoặc là</span>
                             <ul>
-                                <li><a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With
-                                Facebook</a></li>
-                                <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
-                                <li><a href="#" class="twitter"><i class="fa fa-twitter"></i> Sign in With Twitter</a>
-                                </li>
+                                <li><a href="#" class="discord">Đăng Nhập Bằng Discord</a></li>
                             </ul>
                         </div>
                     </div>
@@ -140,34 +146,7 @@
 
     <!-- Footer Section Begin -->
     <footer class="footer">
-        <div class="page-up">
-            <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="footer__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="footer__nav">
-                        <ul>
-                            <li class="active"><a href="./index.html">Homepage</a></li>
-                            <li><a href="./categories.html">Categories</a></li>
-                            <li><a href="./blog.html">Our Blog</a></li>
-                            <li><a href="#">Contacts</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                      Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                      <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-
-                  </div>
-              </div>
-          </div>
+        <?php require "footer.php" ?>
       </footer>
       <!-- Footer Section End -->
 

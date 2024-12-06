@@ -1,4 +1,5 @@
 <?php
+include __DIR__ . "/definitions.php";
 include __DIR__ . "/init_functions.php";
 error_reporting(E_ERROR);
 ini_set('display_errors', intval($_ENV["DISPLAY_ERRORS"]));

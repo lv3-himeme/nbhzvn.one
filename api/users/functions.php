@@ -11,67 +11,38 @@ function email_exists($email) {
     return false;
 }
 
-function create_login_token($id) {
-    global $conn;
-    // Multiple hashing and encrypting layers for true randomness!
-    $token = encrypt_string(password_hash(random_string(32), PASSWORD_DEFAULT));
-    db_query('UPDATE `nbhzvn_users` SET `login_token` = ? WHERE `id` = ?', $token, $id);
-    if ($conn->error) return null;
-    return $token;
-}
+function get_user_from_cookie() {
+    $username = cookie("nbhzvn_username"); $login_token = cookie("nbhzvn_login_token");
+    if (!$username || !$login_token) return null;
 
-function get_user_by_id($id) {
-    global $conn;
-    $result = db_query('SELECT * FROM `nbhzvn_users` WHERE id = ?', $id);
-    if ($conn->error) return null;
-    while ($row = $result->fetch_object()) {
-        unset($row->passphrase);
-        unset($row->verification_code);
-        $row->email = decrypt_string($row->email);
-        $row->discord_id = decrypt_string($row->discord_id);
-        return $row;
-    }
 }
 
 function register($username, $email, $passphrase) {
     global $conn;
-    if (!$username || !$email || !$passphrase) return 0;
+    if (!$username || !$email || !$passphrase) throw new Exception(MISSING_INFORMATION);
     $username = strtolower($username);
-    if (user_exists($username)) return -2;
+    if (user_exists($username)) throw new Exception(USERNAME_ALREADY_EXISTS);
     $email = strtolower($email);
-    if (email_exists($email)) return -3;
+    if (email_exists($email)) throw new Exception(EMAIL_ALREADY_EXISTS);
     $email = encrypt_string($email);
     $passphrase = encrypt_string(password_hash($passphrase, PASSWORD_DEFAULT));
-    db_query('INSERT INTO `nbhzvn_users` (`username`, `email`, `passphrase`, `verification_required`) VALUES (?, ?, ?, false)', $username, $email, $passphrase);
-    if ($conn->error) return -1;
-    return 1;
-    /*
-    1: Success
-    0: Missing information
-    -1: Database error
-    -2: Username already exists
-    -3: Email already exists
-    */
+    db_query('INSERT INTO `nbhzvn_users` (`username`, `email`, `passphrase`, `type`, `verification_required`) VALUES (?, ?, ?, 1, false)', $username, $email, $passphrase);
+    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+    return SUCCESS;
 }
 
 function login($username, $passphrase) {
     global $conn;
-    if (!$username || !$passphrase) return 0;
+    if (!$username || !$passphrase) throw new Exception(MISSING_INFORMATION);
     $result = db_query('SELECT `id`, `passphrase` FROM `nbhzvn_users` WHERE `username` = ?', $username);
-    if ($conn->error) return -1;
+    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     $passphrase_hash = null; $user_id = null;
     while ($row = $result->fetch_object()) {
         $passphrase_hash = decrypt_string($row->passphrase);
         $user_id = $row->id;
     }
-    if (!$passphrase_hash || !$user_id) return -2;
-    if (!password_verify($passphrase, $passphrase_hash)) return -2;
+    if (!$passphrase_hash || !$user_id) throw new Exception(INCORRECT_CREDENTIALS);
+    if (!password_verify($passphrase, $passphrase_hash)) throw new Exception(INCORRECT_CREDENTIALS);
     return $user_id;
-    /*
-    >0: User ID when successfully login
-    0: Missing information
-    -1: Database error
-    -2: Incorrect username/password
-    */
 }
 ?>

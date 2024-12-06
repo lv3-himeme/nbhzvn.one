@@ -10,23 +10,28 @@ if (post("submit")) {
     else if (strlen($username) < 6 || special_chars($username)) $error = "Tên đăng nhập không hơp lệ.";
     else if (strlen($password) < 8) $error = "Mật khẩu phải trên 8 kí tự.";
     else {
-        $result = register($username, $email, $password);
-        switch ($result) {
-            case 1: {
-                $error = "Đăng ký thành công.";
-                break;
-            }
-            case -1: {
-                $error = "Đã có lỗi máy chủ xảy ra, vui lòng thử lại.";
-                break;
-            }
-            case -2: {
-                $error = "Tên đăng nhập này đã tồn tại.";
-                break;
-            }
-            case -3: {
-                $error = "Địa chỉ email này đã tồn tại.";
-                break;
+        try {
+            $result = register($username, $email, $password);
+            $error = "Đăng ký thành công.";
+        }
+        catch (Exception $ex) {
+            switch ($ex->getMessage()) {
+                case DB_CONNECTION_ERROR: {
+                    $error = "Lỗi kết nối tới máy chủ. Vui lòng thử lại.";
+                    break;
+                }
+                case MISSING_INFORMATION: {
+                    $error = "Vui lòng nhập đầy đủ thông tin.";
+                    break;
+                }
+                case USERNAME_ALREADY_EXISTS: {
+                    $error = "Tên đăng nhập đã tồn tại.";
+                    break;
+                }
+                case EMAIL_ALREADY_EXISTS: {
+                    $error = "Email này đã tồn tại.";
+                    break;
+                }
             }
         }
     }
