@@ -16,6 +16,7 @@ if (post("submit")) {
                 $user = new Nbhzvn_User($username);
                 $user->apply_cookie();
                 header("Location: /");
+                die();
             }
         }
         catch (Exception $ex) {
