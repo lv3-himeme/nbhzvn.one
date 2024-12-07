@@ -2,7 +2,7 @@
 require "api/functions.php";
 require "api/users/functions.php";
 require "api/users/cookies.php";
-if (!$user && !(get("username") && get("code"))) {
+if ((!$user || !$user->verification_required) && !(get("username") && get("code"))) {
     header("Location: /");
     die();
 }
@@ -114,7 +114,7 @@ refresh_csrf();
                 <p>Hãy kiểm tra email của bạn (cả hộp thư đến và thư rác) được gửi từ <b><?php echo $_ENV["EMAIL_FROM"] ?></b> và nhập mã, hoặc nhấn vào liên kết đã được đính kèm trong email để tiếp tục.</p>
                 <p>• Bạn chưa nhận được email? <a href="/verify?resend=1">Gửi lại</a></p>
                 <p>• Bạn muốn thay đổi địa chỉ email? <a href="/change_info">Thay đổi tại đây</a></p>
-                <form action="" method="POST">
+                <form action="/verify" method="POST">
                     <div class="input__item" style="width: 100%">
                         <input type="code" name="verification_code" placeholder="Mã Xác Minh" required>
                         <span class="icon_lock"></span>
