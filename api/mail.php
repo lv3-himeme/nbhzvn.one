@@ -7,13 +7,13 @@ use Soundasleep\Html2Text;
 $http = (empty($_SERVER["HTTPS"]) ? "http" : "https");
 $host = $_SERVER["HTTP_HOST"];
 $email_header = '
-    <p><img src="' . $http . '//' . $host . '/img/logo.png" style="width: auto; height: 200px" /></p>
+    <p><img src="' . $http . '://' . $host . '/img/logo.png" style="width: auto; height: 200px" /></p>
     <br>
 ';
 $email_footer = '
     <br>
     <p>Nobihaza Vietnam Community Collection</p>
-    <p><a href="' . $http . '//' . $host . '">' . $host . '</a></p>
+    <p><a href="' . $http . '://' . $host . '">' . $host . '</a></p>
     <p style="color: #333"><b><i><small>Đây là email được gửi tự động. Vui lòng không trả lời email này.</small></i></b></p>
 ';
 

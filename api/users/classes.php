@@ -35,7 +35,7 @@ class Nbhzvn_User {
     }
 
     function verify_account($code) {
-        return password_verify($code, $this->verification_code, PASSWORD_BCRYPT);
+        return password_verify($code, $this->verification_code);
     }
 
     function verify_account_hash($hash) {
@@ -72,6 +72,10 @@ class Nbhzvn_User {
         setcookie("nbhzvn_login_token", $login_token, time() + 2592000);
     }
 
+    function first_verification() {
+        return !$this->verification_code;
+    }
+
     function send_verification_email() {
         global $http;
         global $host;
@@ -85,10 +89,29 @@ class Nbhzvn_User {
                 <p>Email của bạn đã được sử dụng để xác minh cho tài khoản trên ở trang web <b>Nobihaza Vietnam Community Collection</b>.</p>
                 <p>Nếu bạn không thực hiện hành động này thì hãy vui lòng bỏ qua email này. Còn nếu bạn là người gửi yêu cầu xác minh tài khoản tới email này thì hãy nhập mã xác minh sau vào ô trong trang web đó:</p>
                 <h2>' . $verification_code . '</h2>
-                <p>Hoặc bạn cũng có thể <a href="' . $http . '//' . $host . '/verify?username=' . $this->username . '&code=' . urlencode($hash) . '">nhấn vào đây</a> để xác nhận.</p>
+                <p>Hoặc bạn cũng có thể <a href="' . $http . '://' . $host . '/verify?username=' . $this->username . '&code=' . urlencode($hash) . '">nhấn vào đây</a> để xác nhận.</p>
                 <p>Cảm ơn bạn đã quan tâm tới Nobihaza Vietnam Community Collection của bọn mình, chúc bạn chơi game vui vẻ!</p>
             '
         )) throw new Exception(SEND_MAIL_FAILED);
+        return SUCCESS;
+    }
+
+    function check_timeout($prop) {
+        global $conn;
+        $result = db_query('SELECT `timestamp` FROM `nbhzvn_timeouts` WHERE `id` = ? AND `property` = ?', $this->id, $prop);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        while ($row = $result->fetch_object()) {
+            return (time() < $row->timestamp);
+        }
+        return false;
+    }
+
+    function update_timeout($prop, $time) {
+        global $conn;
+        $result = db_query('SELECT `timestamp` FROM `nbhzvn_timeouts` WHERE `id` = ? AND `property` = ?', $this->id, $prop);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        if ($result->num_rows > 0) db_query('UPDATE `nbhzvn_timeouts` SET `timestamp` = ? WHERE `id` = ? AND `property` = ?', $time, $this->id, $prop);
+        else db_query('INSERT INTO `nbhzvn_timeouts` (`user_id`, `property`, `timestamp`) VALUES (?, ?, ?)', $this->id, $prop, $time);
         return SUCCESS;
     }
 }
