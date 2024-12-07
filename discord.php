@@ -159,7 +159,7 @@ refresh_csrf();
                 <p>Tài khoản Discord của bạn chưa liên kết với tài khoản nào của trang web. Tuy nhiên thì bạn có thể đăng ký một tài khoản mới bằng biểu mẫu ở bên dưới, và liên kết với tài khoản Discord của bạn ngay sau đó.</p>
                 <form action="" method="POST">
                     <p><input type="radio" name="type" value="1" id="radio1" onclick="updateRadio()"> <label>Đặt theo tên đăng nhập trên Discord của bạn (<b><?php echo $discord_user->username ?></b>)</label></input></p>
-                    <p><input type="radio" name="type" value="2" id="radio2" onclick="updateRadio()"> <label>Chọn tên đăng nhập khác:</label></input></p>
+                    <p><input type="radio" name="type" value="2" id="radio2" onclick="updateRadio()" checked> <label>Chọn tên đăng nhập khác:</label></input></p>
                     <div class="input__item" style="width: 100%">
                         <input type="username" name="username" placeholder="Tên Đăng Nhập" id="username" onclick="setRadio()">
                         <span class="icon_profile"></span>
