@@ -37,6 +37,6 @@ function login($username, $passphrase) {
     }
     if (!$passphrase_hash || !$user_id) throw new Exception(INCORRECT_CREDENTIALS);
     if (!password_verify($passphrase, $passphrase_hash)) throw new Exception(INCORRECT_CREDENTIALS);
-    return $user_id;
+    return SUCCESS;
 }
 ?>
