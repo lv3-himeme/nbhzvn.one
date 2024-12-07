@@ -4,8 +4,6 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 use Soundasleep\Html2Text;
 
-$http = (empty($_SERVER["HTTPS"]) ? "http" : "https");
-$host = $_SERVER["HTTP_HOST"];
 $email_header = '
     <p><img src="' . $http . '://' . $host . '/img/logo.png" style="width: auto; height: 200px" /></p>
     <br>

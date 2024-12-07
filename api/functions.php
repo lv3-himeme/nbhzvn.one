@@ -5,6 +5,9 @@ require __DIR__ . "/csrf.php";
 require __DIR__ . "/mail.php";
 require __DIR__ . "/classes.php";
 
+$http = (empty($_SERVER["HTTPS"]) ? "http" : "https");
+$host = $_SERVER["HTTP_HOST"];
+
 function check_email_validity($email) {
     return filter_var($email, FILTER_VALIDATE_EMAIL) &&
            (str_ends_with($email, "@gmail.com") || str_ends_with($email, "@yahoo.com") || str_ends_with($email, "@outlook.com"));
@@ -35,4 +38,35 @@ function api_response($data, $message = "", $status_code = 200) {
     $res->data = $data;
     http_response_code($status_code);
     die(json_encode($res));
+}
+
+function http_get_request($url, $headers = []) {
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => $url,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_UNRESTRICTED_AUTH => true,
+        CURLOPT_HTTPHEADER => $headers
+    ));
+    $result = curl_exec($curl);
+    curl_close($curl);
+    return $result;
+}
+
+function http_post_request($url, $body = array(), $headers = []) {
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_VERBOSE => true,
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => $url,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_UNRESTRICTED_AUTH => true,
+        CURLOPT_POST => 1,
+        CURLOPT_HTTPHEADER => $headers,
+        CURLOPT_POSTFIELDS => $body
+    ));
+    $result = curl_exec($curl);
+    curl_close($curl);
+    return $result;
 }

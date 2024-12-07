@@ -112,7 +112,7 @@ refresh_csrf();
                     <div class="login__social__links">
                         <h3>Đăng Ký Bằng Mạng Xã Hội</h3>
                         <ul>
-                            <li><a href="#" class="discord">Đăng Ký Bằng Discord</a></li>
+                            <li><a href="/discord" class="discord">Đăng Ký Bằng Discord</a></li>
                         </ul>
                     </div>
                 </div>

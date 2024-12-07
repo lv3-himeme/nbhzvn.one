@@ -57,6 +57,6 @@ function random_string(
 }
 
 function special_chars($str) {
-    return preg_match('/[^a-zA-Z0-9]/', $str) > 0;
+    return preg_match('/[^a-zA-Z0-9_]/', $str) > 0;
 }
 ?>

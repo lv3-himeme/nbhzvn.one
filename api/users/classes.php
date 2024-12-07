@@ -23,7 +23,7 @@ class Nbhzvn_User {
             $this->passphrase = decrypt_string($row->passphrase);
             $this->display_name = $row->display_name;
             $this->description = $row->description;
-            $this->discord_id = decrypt_string($row->discord_id);
+            $this->discord_id = $row->discord_id;
             $this->verification_required = $row->verification_required;
             $this->verification_code = decrypt_string($row->verification_code);
             $this->login_token = decrypt_string($row->login_token);
