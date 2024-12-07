@@ -20,7 +20,7 @@ function register($username, $email, $passphrase, $verification = 1, $discord_id
     if (email_exists($email)) throw new Exception(EMAIL_ALREADY_EXISTS);
     $email = encrypt_string($email);
     $passphrase = encrypt_string(password_hash($passphrase, PASSWORD_DEFAULT));
-    db_query('INSERT INTO `nbhzvn_users` (`username`, `email`, `passphrase`, `type`, `verification_required`, `discord_id`) VALUES (?, ?, ?, 1, ?, ?)', $username, $email, $passphrase, $verification, $discord_id);
+    db_query('INSERT INTO `nbhzvn_users` (`timestamp`, `username`, `email`, `passphrase`, `type`, `verification_required`, `discord_id`) VALUES (?, ?, ?, ?, 1, ?, ?)', time(), $username, $email, $passphrase, $verification, $discord_id);
     if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     return SUCCESS;
 }
