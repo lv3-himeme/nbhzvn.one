@@ -573,7 +573,7 @@ require "api/users/cookies.php";
         </div>
         <div class="product__sidebar__comment__item">
             <div class="product__sidebar__comment__item__pic">
-                <img src="img/sidebar/comment-1.jpg" alt="">
+                <img src="/img/sidebar/comment-1.jpg" alt="">
             </div>
             <div class="product__sidebar__comment__item__text">
                 <ul>
@@ -586,7 +586,7 @@ require "api/users/cookies.php";
         </div>
         <div class="product__sidebar__comment__item">
             <div class="product__sidebar__comment__item__pic">
-                <img src="img/sidebar/comment-2.jpg" alt="">
+                <img src="/img/sidebar/comment-2.jpg" alt="">
             </div>
             <div class="product__sidebar__comment__item__text">
                 <ul>
@@ -599,7 +599,7 @@ require "api/users/cookies.php";
         </div>
         <div class="product__sidebar__comment__item">
             <div class="product__sidebar__comment__item__pic">
-                <img src="img/sidebar/comment-3.jpg" alt="">
+                <img src="/img/sidebar/comment-3.jpg" alt="">
             </div>
             <div class="product__sidebar__comment__item__text">
                 <ul>
@@ -612,7 +612,7 @@ require "api/users/cookies.php";
         </div>
         <div class="product__sidebar__comment__item">
             <div class="product__sidebar__comment__item__pic">
-                <img src="img/sidebar/comment-4.jpg" alt="">
+                <img src="/img/sidebar/comment-4.jpg" alt="">
             </div>
             <div class="product__sidebar__comment__item__text">
                 <ul>
@@ -649,14 +649,14 @@ require "api/users/cookies.php";
 <!-- Search model end -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/player.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/player.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 </body>
