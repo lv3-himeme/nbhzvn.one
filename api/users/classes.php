@@ -42,6 +42,14 @@ class Nbhzvn_User {
         return ($hash == $this->verification_code);
     }
 
+    function change_passphrase($passphrase) {
+        global $conn;
+        $hash = password_hash($passphrase, PASSWORD_BCRYPT);
+        db_query('UPDATE `nbhzvn_users` SET `passphrase` = ? WHERE `id` = ?', encrypt_string($hash), $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->passphrase = $hash;
+    }
+
     function update_verification_code($code) {
         global $conn;
         $hash = password_hash($code, PASSWORD_BCRYPT);
@@ -89,7 +97,27 @@ class Nbhzvn_User {
                 <p>Email của bạn đã được sử dụng để xác minh cho tài khoản trên ở trang web <b>Nobihaza Vietnam Community Collection</b>.</p>
                 <p>Nếu bạn không thực hiện hành động này thì hãy vui lòng bỏ qua email này. Còn nếu bạn là người gửi yêu cầu xác minh tài khoản tới email này thì hãy nhập mã xác minh sau vào ô trong trang web đó:</p>
                 <h2>' . $verification_code . '</h2>
-                <p>Hoặc bạn cũng có thể <a href="' . $http . '://' . $host . '/verify?username=' . $this->username . '&code=' . urlencode($hash) . '">nhấn vào đây</a> để xác nhận.</p>
+                <p>Hoặc bạn cũng có thể <a href="' . $http . '://' . $host . '/verify?username=' . $this->username . '&code=' . urlencode($hash) . '">nhấn vào đây</a> để xác nhận, hoặc sao chép liên kết sau vào thanh địa chỉ:</p>
+                <p>' . $http . '://' . $host . '/verify?username=' . $this->username . '&code=' . urlencode($hash) . '</p>
+                <p>Cảm ơn bạn đã quan tâm tới Nobihaza Vietnam Community Collection của bọn mình, chúc bạn chơi game vui vẻ!</p>
+            '
+        )) throw new Exception(SEND_MAIL_FAILED);
+        return SUCCESS;
+    }
+
+    function send_forgot_password_email() {
+        global $http;
+        global $host;
+        $verification_code = sprintf("%08d", rand(0, 99999999));
+        $hash = $this->update_verification_code($verification_code);
+        if (!send_mail(
+            $this->email,
+            'Yêu cầu đặt lại mật khẩu tại Nobihaza Vietnam Community Collection',
+            '
+                <p>Xin chào <b>' . $this->username . '</b>,</p>
+                <p>Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản này ở trang web <b>Nobihaza Vietnam Community Collection</b>.</p>
+                <p>Nếu bạn không thực hiện hành động này thì hãy vui lòng bỏ qua email này. Còn nếu bạn là người gửi yêu cầu đặt lại mật khẩu thì hãy <a href="' . $http . '://' . $host . '/forgot_password?username=' . $this->username . '&code=' . urlencode($hash) . '">nhấn vào đây</a> để xác nhận, hoặc sao chép liên kết sau vào thanh địa chỉ:</p>
+                <p>' . $http . '://' . $host . '/forgot_password?username=' . $this->username . '&code=' . urlencode($hash) . '</p>
                 <p>Cảm ơn bạn đã quan tâm tới Nobihaza Vietnam Community Collection của bọn mình, chúc bạn chơi game vui vẻ!</p>
             '
         )) throw new Exception(SEND_MAIL_FAILED);
