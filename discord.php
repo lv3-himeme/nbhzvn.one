@@ -3,19 +3,19 @@ require "api/functions.php";
 require "api/users/functions.php";
 require "api/users/cookies.php";
 require "api/users/discord.php";
-if ($user) {
-    header("Location: /");
-    die();
-}
 $error = "";
 $fatal_error = "";
 if (post("submit")) {
+    if ($user) {
+        header("Location: /");
+        die();
+    }
     $discord_user = get_discord_info($_SESSION["discord_token_type"], $_SESSION["discord_access_token"]);
     if (!$discord_user->id) $error = "Có lỗi xảy ra khi yêu cầu thông tin từ Discord. Vui lòng đăng nhập lại.";
     else {
-        $user = get_user_from_discord_id($discord_user->id);
-        if ($user) {
-            $user->apply_cookie();
+        $temp_user = get_user_from_discord_id($discord_user->id);
+        if ($temp_user) {
+            $temp_user->apply_cookie();
             header("Location: /");
             die();
         }
@@ -29,8 +29,8 @@ if (post("submit")) {
                 try {
                     $result = register($username, $discord_user->email, $password, 0, $discord_user->id);
                     if ($result == SUCCESS) {
-                        $user = new Nbhzvn_User($username);
-                        $user->apply_cookie();
+                        $temp_user = new Nbhzvn_User($username);
+                        $temp_user->apply_cookie();
                         header("Location: /");   
                         die();
                     }
@@ -83,11 +83,21 @@ else if (get("code")) {
             $discord_user = get_discord_info($result->token_type, $result->access_token);
             if (!$discord_user->id) $fatal_error = "Có lỗi xảy ra khi yêu cầu thông tin từ Discord. Vui lòng đăng nhập lại.";
             else {
-                $user = get_user_from_discord_id($discord_user->id);
-                if ($user) {
-                    $user->apply_cookie();
-                    header("Location: /");
-                    die();
+                $temp_user = get_user_from_discord_id($discord_user->id);
+                if ($temp_user) {
+                    if (!$user || !$user->id) {
+                        $temp_user->apply_cookie();
+                        header("Location: /");
+                        die();
+                    }
+                    else $fatal_error = "Tài khoản Discord này đã được liên kết với một tài khoản khác rồi.";
+                }
+                else if ($user && $user->id) {
+                    if ($user->discord_id) $fatal_error = "Tài khoản này đã được liên kết với một tài khoản Discord rồi. Hãy bỏ liên kết tài khoản hiện tại trước khi liên kết lại.";
+                    else {
+                        $user->update_discord_id($discord_user->id);
+                        $fatal_error = "Đã liên kết tài khoản Discord <b>" . $discord_user->username . "</b> với tài khoản hiện tại của bạn (<b>" . $user->username . "</b>).";
+                    }
                 }
                 else {
                     $_SESSION["discord_token_type"] = $result->token_type;
@@ -172,7 +182,7 @@ refresh_csrf();
                     <p style="color: #e36666"><i><?php echo $error ?></i></p>
                     <button type="submit" name="submit" class="site-btn" value="Submit">Đăng Ký</button>
                 </form><br>
-                <p><i>Để liên kết tài khoản Discord này với tài khoản có sẵn, hãy đăng nhập vào tài khoản đó trước và vào phần <b>Thông tin tài khoản -> Liên kết tài khoản Discord</b>.</i></p>
+                <p><i>Để liên kết tài khoản Discord này với tài khoản có sẵn, hãy đăng nhập vào tài khoản đó trước và vào phần <b>Thay đổi thông tin -> Liên kết tài khoản Discord</b>.</i></p>
                 <?php endif ?>
             </div>
         </div>

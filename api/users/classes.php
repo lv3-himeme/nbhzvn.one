@@ -1,6 +1,7 @@
 <?php
 class Nbhzvn_User {
     public $id;
+    public $timestamp;
     public $username;
     public $email;
     public $type;
@@ -18,8 +19,10 @@ class Nbhzvn_User {
         $this->id = null;
         while ($row = $result->fetch_object()) {
             $this->id = $row->id;
+            $this->timestamp = $row->timestamp;
             $this->username = $row->username;
             $this->email = decrypt_string($row->email);
+            $this->type = $row->type;
             $this->passphrase = decrypt_string($row->passphrase);
             $this->display_name = $row->display_name;
             $this->description = $row->description;
@@ -50,6 +53,27 @@ class Nbhzvn_User {
         $this->passphrase = $hash;
     }
 
+    function change_display_name($value) {
+        global $conn;
+        db_query('UPDATE `nbhzvn_users` SET `display_name` = ? WHERE `id` = ?', $value, $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->display_name = $value;
+    }
+
+    function change_email($value) {
+        global $conn;
+        db_query('UPDATE `nbhzvn_users` SET `email` = ?, `verification_required` = 1 WHERE `id` = ?', encrypt_string($value), $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->email = $value;
+    }
+
+    function change_description($value) {
+        global $conn;
+        db_query('UPDATE `nbhzvn_users` SET `description` = ? WHERE `id` = ?',  $value, $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->description = $value;
+    }
+
     function update_verification_code($code) {
         global $conn;
         $hash = password_hash($code, PASSWORD_BCRYPT);
@@ -68,6 +92,14 @@ class Nbhzvn_User {
         if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->login_token = $hash;
         return $login_token;
+    }
+
+    function update_discord_id($id) {
+        global $conn;
+        db_query('UPDATE `nbhzvn_users` SET `discord_id` = ? WHERE `id` = ?', $id, $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->discord_id = $id;
+        return SUCCESS;
     }
 
     function check_login_token($token) {
@@ -141,6 +173,24 @@ class Nbhzvn_User {
         if ($result->num_rows > 0) db_query('UPDATE `nbhzvn_timeouts` SET `timestamp` = ? WHERE `id` = ? AND `property` = ?', $time, $this->id, $prop);
         else db_query('INSERT INTO `nbhzvn_timeouts` (`user_id`, `property`, `timestamp`) VALUES (?, ?, ?)', $this->id, $prop, $time);
         return SUCCESS;
+    }
+
+    function get_followed_games() {
+        $games = [];
+        $result = db_query('SELECT `id` FROM `nbhzvn_gamefollows` WHERE `author` = ?', $this->id);
+        while ($row = $result->fetch_object()) {
+            array_push($games, $row->id);
+        }
+        return $games;
+    }
+
+    function get_comments() {
+        $comments = [];
+        $result = db_query('SELECT `id` FROM `nbhzvn_comments` WHERE `author` = ?', $this->id);
+        while ($row = $result->fetch_object()) {
+            array_push($comments, $row->id);
+        }
+        return $comments;
     }
 }
 ?>

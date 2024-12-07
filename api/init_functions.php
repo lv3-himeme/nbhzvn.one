@@ -59,4 +59,12 @@ function random_string(
 function special_chars($str) {
     return preg_match('/[^a-zA-Z0-9_]/', $str) > 0;
 }
+
+function timestamp_to_string($timestamp) {
+    $utcPlus7 = new DateTimeZone('Asia/Ho_Chi_Minh');
+    $dateTime = new DateTime();
+    $dateTime->setTimestamp($timestamp);
+    $dateTime->setTimezone($utcPlus7);
+    return $dateTime->format("d/m/Y H:i:s");
+}
 ?>

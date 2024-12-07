@@ -1,6 +1,6 @@
 RewriteEngine on
+RewriteRule ^profile/([0-9]+)$ profile.php?id=$1 [L,QSA]
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule !.*\.php$ %{REQUEST_FILENAME}.php [QSA,L]
 Options All -Indexes
 
-RewriteRule ^profile/(0-9)$ profile.php?id=$1

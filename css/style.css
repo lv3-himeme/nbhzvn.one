@@ -46,9 +46,10 @@ h4,
 h5,
 h6 {
 	margin: 0;
-	color: #111111;
+	color: #fff;
 	font-weight: 400;
 	font-family: "Mulish", sans-serif;
+	margin-bottom: 10px;
 }
 
 h1 {
@@ -1057,7 +1058,7 @@ ol {
 
 .anime__details__widget ul li span {
 	color: #b7b7b7;
-	width: 115px;
+	width: 150px;
 	display: inline-block;
 }
 
@@ -1763,6 +1764,10 @@ ol {
 	content: "";
 }
 
+.input__item__textarea:before {
+	height: 180px!important;
+}
+
 .login__form form .input__item input {
 	height: 50px;
 	width: 100%;
@@ -1790,6 +1795,37 @@ ol {
 }
 
 .login__form form .input__item input::placeholder {
+	color: #b7b7b7;
+}
+
+.login__form form .input__item textarea {
+	padding-top: 14px;
+	height: 200px;
+	width: 100%;
+	font-size: 15px;
+	color: #b7b7b7;
+	background: #ffffff;
+	border: none;
+	padding-left: 76px;
+}
+
+.login__form form .input__item textarea::-webkit-input-placeholder {
+	color: #b7b7b7;
+}
+
+.login__form form .input__item textarea::-moz-placeholder {
+	color: #b7b7b7;
+}
+
+.login__form form .input__item textarea:-ms-input-placeholder {
+	color: #b7b7b7;
+}
+
+.login__form form .input__item textarea::-ms-input-placeholder {
+	color: #b7b7b7;
+}
+
+.login__form form .input__item textarea::placeholder {
 	color: #b7b7b7;
 }
 
@@ -2395,4 +2431,17 @@ ol {
 	font-size: 15px;
 	color: #b7b7b7;
 	font-weight: 700;
+}
+
+.nbhzvn_btn {
+	font-size: 13px;
+	color: #ffffff;
+	background: #af1932;
+	display: inline-block;
+	font-weight: 700;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	padding: 14px 20px;
+	border-radius: 4px;
+	margin-right: 1px;
 }
