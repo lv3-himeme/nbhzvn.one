@@ -23,12 +23,12 @@ try {
         }
     }
     else if (get("username") && get("code")) {
-        $verify_user = new Nbhzvn_User(get("username"));
-        if (!$verify_user->id) $fatal_error = INCORRECT_INFORMATION;
+        $temp_user = new Nbhzvn_User(get("username"));
+        if (!$temp_user->id) $fatal_error = INCORRECT_INFORMATION;
         else {
-            if (!$verify_user->verify_account_hash(get("code"))) $fatal_error = INCORRECT_INFORMATION;
+            if (!$temp_user->verify_account_hash(get("code"))) $fatal_error = INCORRECT_INFORMATION;
             else {
-                db_query('UPDATE `nbhzvn_users` SET `verification_required` = 0, `verification_code` = "" WHERE `id` = ?', $verify_user->id);
+                db_query('UPDATE `nbhzvn_users` SET `verification_required` = 0, `verification_code` = "" WHERE `id` = ?', $temp_user->id);
                 $fatal_error = "Xác minh tài khoản thành công. Bạn đã có thể tiếp tục dùng trang web này!";
             }
         }
