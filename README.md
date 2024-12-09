@@ -58,7 +58,9 @@ Therefore, you should see their respective licenses for details.
 
 ### Front-end template
 
-This project also uses [a front-end template](https://colorlib.com/wp/template/anime) provided by [**Colorlib**](https://colorlib.com), licensed under the Creative Commons Attribution 3.0 (CC BY 3.0) license. You can find more information about their license at: https://colorlib.com/wp/licence
+This project also uses [a front-end template](https://colorlib.com/wp/template/anime) provided by [**Colorlib**](https://colorlib.com), licensed under the Creative Commons Attribution 3.0 (CC BY 3.0) license.
+
+You can find more information about their license at: https://colorlib.com/wp/licence
 
 ## Contact
 
