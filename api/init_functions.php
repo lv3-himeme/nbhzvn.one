@@ -67,4 +67,9 @@ function timestamp_to_string($timestamp) {
     $dateTime->setTimezone($utcPlus7);
     return $dateTime->format("d/m/Y H:i:s");
 }
+
+function redirect_to_home() {
+    header("Location: /");
+    die();
+}
 ?>

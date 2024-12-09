@@ -2,10 +2,7 @@
 require "api/functions.php";
 require "api/users/functions.php";
 require "api/users/cookies.php";
-if ($user) {
-    header("Location: /");
-    die();
-}
+if ($user) redirect_to_home();
 $error = "";
 if (post("submit")) {
     $username = post("username"); $password = post("password"); $email = post("email");
@@ -75,7 +72,7 @@ refresh_csrf();
     <!-- Header End -->
 
     <!-- Normal Breadcrumb Begin -->
-    <section class="normal-breadcrumb set-bg" data-setbg="img/normal-breadcrumb.jpg">
+    <section class="normal-breadcrumb set-bg" data-setbg="/img/normal-breadcrumb.jpg">
     </section>
     <!-- Normal Breadcrumb End -->
 

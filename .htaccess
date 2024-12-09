@@ -1,4 +1,7 @@
 RewriteEngine on
+RewriteRule ^ban/([0-9]+)$ ban.php?id=$1 [L,QSA]
+RewriteRule ^unban/([0-9]+)$ unban.php?id=$1 [L,QSA]
+RewriteRule ^assign/([0-9]+)$ assign.php?id=$1 [L,QSA]
 RewriteRule ^profile/([0-9]+)$ profile.php?id=$1 [L,QSA]
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule !.*\.php$ %{REQUEST_FILENAME}.php [QSA,L]

@@ -12,6 +12,7 @@ class Nbhzvn_User {
     public $verification_required;
     private $verification_code;
     private $login_token;
+    public $ban_information;
 
     function __construct($id) {
         if (gettype($id) == "string") $result = db_query('SELECT * FROM `nbhzvn_users` WHERE username = ?', $id);
@@ -30,6 +31,7 @@ class Nbhzvn_User {
             $this->verification_required = $row->verification_required;
             $this->verification_code = decrypt_string($row->verification_code);
             $this->login_token = decrypt_string($row->login_token);
+            $this->ban_information = json_decode($row->ban_information);
         }
     }
 
@@ -100,6 +102,33 @@ class Nbhzvn_User {
         if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->discord_id = $id;
         return SUCCESS;
+    }
+
+    function ban($reason) {
+        global $conn;
+        $ban_info = new stdClass();
+        $ban_info->timestamp = time();
+        $ban_info->reason = $reason;
+        db_query('UPDATE `nbhzvn_users` SET `ban_information` = ? WHERE `id` = ?', json_encode($ban_info), $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->ban_information = $ban_info;
+        return SUCCESS;
+    }
+
+    function unban() {
+        global $conn;
+        db_query('UPDATE `nbhzvn_users` SET `ban_information` = NULL WHERE `id` = ?', $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->ban_information = null;
+        return SUCCESS;
+    }
+
+    function change_type($type) {
+        global $conn;
+        if ($type < 1 || $type > 3) throw new Exception(DISALLOWED_TYPE);
+        db_query('UPDATE `nbhzvn_users` SET `type` = ? WHERE `id` = ?', $type, $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->type = $type;
     }
 
     function check_login_token($token) {

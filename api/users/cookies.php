@@ -20,4 +20,9 @@ if ($user->verification_required
     header("Location: /verify");
     die();
 }
+if ($user->ban_information
+    && !str_contains($_SERVER["REQUEST_URI"], "banned")) {
+    header("Location: /banned");
+    die();
+}
 ?>

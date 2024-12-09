@@ -2,10 +2,7 @@
 require "api/functions.php";
 require "api/users/functions.php";
 require "api/users/cookies.php";
-if ((!$user || !$user->verification_required) && !(get("username") && get("code"))) {
-    header("Location: /");
-    die();
-}
+if ((!$user || !$user->verification_required) && !(get("username") && get("code"))) redirect_to_home();
 
 const INCORRECT_INFORMATION = "Thông tin xác nhận không đúng. Vui lòng kiểm tra lại email của bạn.";
 
@@ -97,7 +94,7 @@ refresh_csrf();
     <!-- Header End -->
 
     <!-- Normal Breadcrumb Begin -->
-    <section class="normal-breadcrumb set-bg" data-setbg="img/normal-breadcrumb.jpg">
+    <section class="normal-breadcrumb set-bg" data-setbg="/img/normal-breadcrumb.jpg">
     </section>
     <!-- Normal Breadcrumb End -->
 

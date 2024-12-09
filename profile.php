@@ -5,12 +5,10 @@ require "api/users/cookies.php";
 $parsedown = new Parsedown();
 $parsedown->setSafeMode(true);
 $parsedown->setMarkupEscaped(true);
-if (!$user && !get("id")) {
-    header("Location: /");
-    die();
-}
+if (!$user && !get("id")) redirect_to_home();
 $profile_user = $user;
 if (get("id") && is_numeric(get("id"))) $profile_user = new Nbhzvn_User(intval(get("id")));
+if (!$profile_user->id) redirect_to_home();
 $followed_games = $profile_user->get_followed_games();
 $comments = $profile_user->get_comments();
 if ($profile_user->id == $user->id) {
@@ -103,6 +101,14 @@ if ($profile_user->id == $user->id) {
                         <?php if ($profile_user->id == $user->id): ?>
                         <a href="/change_info" class="nbhzvn_btn"><span><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp;Thay đổi thông tin</span></a>
                         <?php else: ?>
+                        <?php if ($user->type == 3 && $profile_user->type < 3): ?>
+                            <a href="/assign/<?php echo $profile_user->id ?>" class="nbhzvn_btn"><span>Thay đổi chức vụ</span></a>
+                            <?php if ($profile_user->ban_information): ?>
+                            <a href="/unban/<?php echo $profile_user->id ?>" class="nbhzvn_btn"><span>Bỏ cấm thành viên này</span></a>
+                            <?php else: ?>
+                            <a href="/ban/<?php echo $profile_user->id ?>" class="nbhzvn_btn"><span>Cấm thành viên này</span></a>
+                            <?php endif ?>
+                        <?php endif ?>
                         <?php endif ?>
                     </p></div><br>
                 </div>

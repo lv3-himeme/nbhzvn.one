@@ -2,20 +2,22 @@
 require "api/functions.php";
 require "api/users/functions.php";
 require "api/users/cookies.php";
-if (!$user || !$user->discord_id) redirect_to_home();
+if (!$user || $user->type < 3 || !get("id")) redirect_to_home();
 
 $error = "";
 $fatal_error = "";
-$notice = "";
 
 try {
-    if (post("submit")) {
+    $assign_user = new Nbhzvn_User(intval(get("id")));
+    if (!$assign_user->id || $assign_user->id == $user->id || $assign_user->type == 3) redirect_to_home();
+    else if (post("submit")) {
+        $role = intval(post("role"));
         if (!check_csrf(post("csrf_token"))) $error = "Mã xác thực CSRF không đúng.";
-        else if (!post("password")) $error = "Vui lòng nhập mật khẩu.";
-        else if (!$user->verify_passphrase(post("password"))) $error = "Mật khẩu không đúng.";
+        else if (!$user->verify_passphrase(post("password"))) $error = "Mật khẩu hiện tại không đúng.";
+        else if (!$role) $error = "Vui lòng chọn chức vụ bạn muốn thay đổi.";
         else {
-            db_query('UPDATE `nbhzvn_users` SET `discord_id` = "" WHERE `id` = ?', $user->id);
-            $fatal_error = "Bỏ liên kết tài khoản Discord thành công.";
+            $assign_user->change_type($role);
+            $fatal_error = "Đã đổi vai trò cho <b>" . htmlentities($assign_user->username) . "</b> thành công.";
         }
     }
 }
@@ -25,8 +27,8 @@ catch (Exception $ex) {
             $error = "Lỗi kết nối tới máy chủ. Vui lòng thử lại.";
             break;
         }
-        case MISSING_INFORMATION: {
-            $error = "Vui lòng nhập đầy đủ thông tin.";
+        case DISALLOWED_TYPE: {
+            $error = "Chức vụ này không được chấp nhận.";
             break;
         }
         default: {
@@ -42,7 +44,7 @@ refresh_csrf();
 
 <head>
     <?php
-        $title = "Bỏ Liên Kết Discord";
+        $title = "Cấm Thành Viên";
         require __DIR__ . "/head.php";
     ?>
 </head>
@@ -68,20 +70,29 @@ refresh_csrf();
     <section class="signup spad">
         <div class="container">
             <div class="login__form">
-                <h3>Bỏ Liên Kết Discord</h3>
+                <h3>Cấm Thành Viên</h3>
                 <?php if ($fatal_error): ?>
                 <p><?php echo $fatal_error ?></p>
                 <p><a href="/"><button class="site-btn">Về Trang Chủ</button></p>
                 <?php else: ?>
-                <p>Nhập mật khẩu để tiến hành bỏ liên kết với tài khoản Discord của bạn.</p>
+                <p>Chọn vai trò mới của thành viên <b><?php echo $assign_user->username ?></b> (ID: <?php echo $assign_user->id ?>):</p>
                 <form action="" method="POST">
                     <div class="input__item" style="width: 100%">
-                        <input type="password" name="password" placeholder="Mật Khẩu" required>
+                        <input type="password" name="password" placeholder="Mật Khẩu Hiện Tại" required>
                         <span class="icon_lock"></span>
                     </div>
+                    <div class="input__item" style="width: 100%">
+                        <select name="role" placeholder="Chức Vụ" required id="role">
+                            <option value="1">Tài khoản thường<?php if ($assign_user->type == 1) echo " (Hiện tại)" ?></option>
+                            <option value="2">Uploader<?php if ($assign_user->type == 2) echo " (Hiện tại)" ?></option>
+                            <option value="3">Quản trị viên<?php if ($assign_user->type == 3) echo " (Hiện tại)" ?></option>
+                        </select>
+                        <span class="icon_pencil"></span>
+                    </div>
+                    <p><i><b>CẢNH BÁO!</b> Nếu bạn gán chức vụ Quản trị viên cho thành viên này, bạn sẽ không thể thay đổi chức vụ của thành viên này xuống thấp hơn được nữa.</i></p>
                     <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
                     <p style="color: #e36666"><i><?php echo $error ?></i></p>
-                    <button type="submit" name="submit" class="site-btn" value="Submit">Xác Nhận</button>
+                    <button type="submit" name="submit" class="site-btn" value="Submit">Thay Đổi</button>
                 </form>
                 <?php endif ?>
             </div>
@@ -110,11 +121,14 @@ refresh_csrf();
     <script src="/js/jquery-3.3.1.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/player.js"></script>
-    <script src="/js/jquery.nice-select.min.js"></script>
     <script src="/js/mixitup.min.js"></script>
     <script src="/js/jquery.slicknav.js"></script>
     <script src="/js/owl.carousel.min.js"></script>
     <script src="/js/main.js"></script>
+
+    <script>
+        document.getElementById("role").value = "<?php echo $assign_user->type ?>";
+    </script>
 
 </body>
 

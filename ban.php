@@ -2,20 +2,23 @@
 require "api/functions.php";
 require "api/users/functions.php";
 require "api/users/cookies.php";
-if (!$user || !$user->discord_id) redirect_to_home();
+if (!$user || $user->type < 3 || !get("id")) redirect_to_home();
 
 $error = "";
 $fatal_error = "";
-$notice = "";
 
 try {
-    if (post("submit")) {
+    $ban_user = new Nbhzvn_User(intval(get("id")));
+    if (!$ban_user->id || $ban_user->id == $user->id || $ban_user->type == 3) redirect_to_home();
+    else if ($ban_user->ban_information) $fatal_error = "Thành viên <b>" . htmlentities($ban_user->username) . "</b> đang bị cấm rồi.";
+    else if (post("submit")) {
+        $reason = post("reason");
         if (!check_csrf(post("csrf_token"))) $error = "Mã xác thực CSRF không đúng.";
-        else if (!post("password")) $error = "Vui lòng nhập mật khẩu.";
-        else if (!$user->verify_passphrase(post("password"))) $error = "Mật khẩu không đúng.";
+        else if (!$user->verify_passphrase(post("password"))) $error = "Mật khẩu hiện tại không đúng.";
+        else if (!$reason) $error = "Vui lòng nhập lý do bạn muốn cấm thành viên này.";
         else {
-            db_query('UPDATE `nbhzvn_users` SET `discord_id` = "" WHERE `id` = ?', $user->id);
-            $fatal_error = "Bỏ liên kết tài khoản Discord thành công.";
+            $ban_user->ban($reason);
+            $fatal_error = "Đã cấm thành viên <b>" . htmlentities($ban_user->username) . "</b> thành công.";
         }
     }
 }
@@ -23,10 +26,6 @@ catch (Exception $ex) {
     switch ($ex->getMessage()) {
         case DB_CONNECTION_ERROR: {
             $error = "Lỗi kết nối tới máy chủ. Vui lòng thử lại.";
-            break;
-        }
-        case MISSING_INFORMATION: {
-            $error = "Vui lòng nhập đầy đủ thông tin.";
             break;
         }
         default: {
@@ -42,7 +41,7 @@ refresh_csrf();
 
 <head>
     <?php
-        $title = "Bỏ Liên Kết Discord";
+        $title = "Cấm Thành Viên";
         require __DIR__ . "/head.php";
     ?>
 </head>
@@ -68,20 +67,25 @@ refresh_csrf();
     <section class="signup spad">
         <div class="container">
             <div class="login__form">
-                <h3>Bỏ Liên Kết Discord</h3>
+                <h3>Cấm Thành Viên</h3>
                 <?php if ($fatal_error): ?>
                 <p><?php echo $fatal_error ?></p>
                 <p><a href="/"><button class="site-btn">Về Trang Chủ</button></p>
                 <?php else: ?>
-                <p>Nhập mật khẩu để tiến hành bỏ liên kết với tài khoản Discord của bạn.</p>
+                <p>Bạn đang chuẩn bị cấm thành viên <b><?php echo $ban_user->username ?></b> (ID: <?php echo $ban_user->id ?>).</p>
+                <p>Hãy nhập lý do bạn muốn cấm thành viên này để tiếp tục:</p>
                 <form action="" method="POST">
                     <div class="input__item" style="width: 100%">
-                        <input type="password" name="password" placeholder="Mật Khẩu" required>
+                        <input type="password" name="password" placeholder="Mật Khẩu Hiện Tại" required>
                         <span class="icon_lock"></span>
+                    </div>
+                    <div class="input__item" style="width: 100%">
+                        <input type="text" name="reason" placeholder="Lý Do" required>
+                        <span class="icon_pencil"></span>
                     </div>
                     <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
                     <p style="color: #e36666"><i><?php echo $error ?></i></p>
-                    <button type="submit" name="submit" class="site-btn" value="Submit">Xác Nhận</button>
+                    <button type="submit" name="submit" class="site-btn" value="Submit">Tiến Hành Cấm</button>
                 </form>
                 <?php endif ?>
             </div>
