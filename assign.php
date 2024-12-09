@@ -44,7 +44,7 @@ refresh_csrf();
 
 <head>
     <?php
-        $title = "Cấm Thành Viên";
+        $title = "Thay Đổi Chức Vụ";
         require __DIR__ . "/head.php";
     ?>
 </head>
@@ -70,7 +70,7 @@ refresh_csrf();
     <section class="signup spad">
         <div class="container">
             <div class="login__form">
-                <h3>Cấm Thành Viên</h3>
+                <h3>Thay Đổi Chức Vụ</h3>
                 <?php if ($fatal_error): ?>
                 <p><?php echo $fatal_error ?></p>
                 <p><a href="/"><button class="site-btn">Về Trang Chủ</button></p>

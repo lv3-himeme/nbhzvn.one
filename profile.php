@@ -9,8 +9,9 @@ if (!$user && !get("id")) redirect_to_home();
 $profile_user = $user;
 if (get("id") && is_numeric(get("id"))) $profile_user = new Nbhzvn_User(intval(get("id")));
 if (!$profile_user->id) redirect_to_home();
-$followed_games = $profile_user->get_followed_games();
-$comments = $profile_user->get_comments();
+$followed_games = $profile_user->followed_games();
+$comments = $profile_user->comments();
+if ($profile_user->type >= 2) $uploaded_games = $profile_user->uploaded_games();
 if ($profile_user->id == $user->id) {
     $email_end_pos = strpos($user->email, "@");
     $censored_email = substr($user->email, 0, 2) . "••••••" . substr($user->email, $email_end_pos - 2, strlen($user->email) - $email_end_pos + 2);
@@ -79,7 +80,11 @@ if ($profile_user->id == $user->id) {
                                         );
                                         echo $account_type[$profile_user->type]
                                     ?></li>
+                                    <?php if ($profile_user->type >= 2): ?>
+                                    <li><span>Game đã tải lên:</span> <?php echo count($uploaded_games) ?></li>
+                                    <?php else: ?>
                                     <li><span>Game đã theo dõi:</span> <?php echo count($followed_games) ?></li>
+                                    <?php endif ?>
                                     <?php if ($profile_user->id == $user->id): ?>
                                         <li><span>Email:</span> <?php echo $censored_email ?></li>
                                     <?php endif ?>
@@ -114,6 +119,20 @@ if ($profile_user->id == $user->id) {
                 </div>
                 <div class="row">
                     <div class="col-lg-8 col-md-8">
+                        <?php if ($profile_user->type >= 2): ?>
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="section-title">
+                                    <h4>Game Đã Tải Lên</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="btn__all">
+                                    <a href="/follows" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif ?>
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="section-title">

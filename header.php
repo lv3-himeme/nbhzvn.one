@@ -24,7 +24,10 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                        <a href="#" title="Tìm kiếm" class="search-switch"><span class="icon_search"></span></a>
+                        <?php if ($user && $user->type >= 2): ?>
+                        <a href="/upload" title="Thêm game mới"><span class="icon_upload"></span></a>
+                        <?php endif ?>
                         <?php if ($user): ?>
                             <a href="/profile"><span class="icon_profile"></span> <span class="nbhzvn_username"><?php echo $user->display_name ? $user->display_name : $user->username; ?></span></a>
                         <?php else: ?>
