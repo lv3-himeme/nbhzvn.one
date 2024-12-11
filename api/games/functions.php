@@ -8,4 +8,92 @@ function add_game(stdClass $data, bool $pre_approved = false) {
     if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     return SUCCESS;
 }
+
+function random_games($current_id = 0, $limit = 5) {
+    global $conn;
+    $games = [];
+    $result = db_query('SELECT `id` FROM `nbhzvn_games` WHERE `id` != ? ORDER BY rand() LIMIT ?', $current_id, $limit);
+    while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row->id));
+    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+    return $games;
+}
+
+function featured_games() {
+    global $conn;
+    $games = [];
+    $result = db_query('SELECT `id` FROM `nbhzvn_games` WHERE `is_featured` = 1');
+    while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row->id));
+    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+    return $games;
+}
+
+function trending_games($limit) {
+    global $conn;
+    $games = []; $limit_query = ""; $limit_args = [];
+    if ($limit) {
+        $limit_query = " LIMIT ?";
+        $limit_args = [$limit];
+    }
+    $result = db_query('SELECT `id` FROM `nbhzvn_games` ORDER BY `views_today` DESC' . $limit_query, ...$limit_args);
+    while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row->id));
+    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+    return $games;
+}
+
+function popular_games($limit) {
+    global $conn;
+    $games = []; $limit_query = ""; $limit_args = [];
+    if ($limit) {
+        $limit_query = " LIMIT ?";
+        $limit_args = [$limit];
+    }
+    $result = db_query('SELECT `id` FROM `nbhzvn_games` ORDER BY `downloads` DESC' . $limit_query, ...$limit_args);
+    while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row->id));
+    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+    return $games;
+}
+
+function most_followed_games($limit) {
+    global $conn;
+    $games = []; $limit_query = ""; $limit_args = [];
+    if ($limit) {
+        $limit_query = " LIMIT ?";
+        $limit_args = [$limit];
+    }
+    $result = db_query('SELECT g.`id`, COUNT(f.`game_id`) AS follow_count FROM `nbhzvn_gamefollows` f LEFT JOIN `nbhzvn_games` g ON f.`game_id` = g.`id` GROUP BY g.`id` ORDER BY follow_count DESC' . $limit_query, ...$limit_args);
+    while ($row = $result->fetch_object()) {
+        $game = new stdClass();
+        $game->data = new Nbhzvn_Game($row->id);
+        $game->follow_count = $row->follow_count;
+        array_push($games, $game);
+    }
+    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+    return $games;
+}
+
+function recent_games($limit) {
+    global $conn;
+    $games = []; $limit_query = ""; $limit_args = [];
+    if ($limit) {
+        $limit_query = " LIMIT ?";
+        $limit_args = [$limit];
+    }
+    $result = db_query('SELECT `id` FROM `nbhzvn_games` ORDER BY `timestamp` DESC' . $limit_query, ...$limit_args);
+    while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row->id));
+    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+    return $games;
+}
+
+function mobile_games($limit) {
+    global $conn;
+    $games = []; $limit_query = ""; $limit_args = [];
+    if ($limit) {
+        $limit_query = " LIMIT ?";
+        $limit_args = [$limit];
+    }
+    $result = db_query('SELECT `id` FROM `nbhzvn_games` WHERE `supported_os` LIKE "%android%" OR `supported_os` LIKE "%ios%" ORDER BY `downloads` DESC' . $limit_query, ...$limit_args);
+    while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row->id));
+    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+    return $games;
+}
 ?>

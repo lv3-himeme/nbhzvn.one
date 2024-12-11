@@ -97,7 +97,9 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                                             <li><span>Phần mềm làm game:</span> <a href="/search?engine=<?php echo $game->engine ?>"><?php echo $engine_vocab[$game->engine] ?></a></li>
                                             <li><span>Năm ra mắt:</span> <a href="/search?release_year=<?php echo $game->release_year ?>"><?php echo $game->release_year ?></a></li>
                                             <li><span>Nhà phát triển:</span> <a href="/search?author=<?php echo urlencode($game->author) ?>"><?php echo $game->author ?></a></li>
+                                            <?php if ($game->translator): ?>
                                             <li><span>Dịch giả:</span> <a href="/search?translator=<?php echo urlencode($game->translator) ?>"><?php echo $game->translator ?></a></li>
+                                            <?php endif ?>
                                             <li><span>Trạng thái:</span> <a href="/search?status=<?php echo $game->status ?>"><?php echo $status_vocab[$game->status] ?></a></li>
                                         </ul>
                                     </div>
@@ -110,11 +112,13 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                                                 foreach ($oses as $os) array_push($elements, '<a href="/search?os=' . $os . '">' . $os_vocab[$os] . '</a>');
                                                 echo implode(", ", $elements);
                                             ?></li>
+                                            <?php if ($game->tags): ?>
                                             <li><span>Thẻ:</span> <?php
                                                 $tags = explode(",", $game->tags); $elements = [];
                                                 foreach ($tags as $tag) array_push($elements, '<a href="/search?tag=' . $tag . '">' . $tag . '</a>');
                                                 echo implode(", ", $elements);
                                             ?></li>
+                                            <?php endif ?>
                                             <li><span>Lượt tải xuống:</span> <?php echo number_format($game->downloads, 0, ",", ".") ?></li>
                                         </ul>
                                     </div>
@@ -129,6 +133,9 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                                 <?php endif ?>
                                 <?php if ($user->id == $game->uploader): ?>
                                 <a href="/edit_game/<?php echo $game->id ?>" class="download-btn" style="margin-left: 12px"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Chỉnh sửa</a>
+                                <?php endif ?>
+                                <?php if ($user->type == 3): ?>
+                                <a href="/feature/<?php echo $game->id ?>" class="download-btn"><?php if (!$game->is_featured) echo 'Thêm vào'; else echo "Loại bỏ khỏi" ?> mục Tiêu Điểm</a>
                                 <?php endif ?>
                                 <?php if ($user->id == $game->uploader || $user->type == 3): ?>
                                 <a href="/delete_game/<?php echo $game->id ?>" class="download-btn"><i class="fa fa-trash"></i>&nbsp;&nbsp;Xoá</a>
@@ -253,28 +260,19 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                     <div class="col-lg-4 col-md-4">
                         <div class="anime__details__sidebar">
                             <div class="section-title">
-                                <h5>you might like...</h5>
+                                <h5>Các game khác</h5>
                             </div>
-                            <div class="product__sidebar__view__item set-bg" data-setbg="/img/sidebar/tv-1.jpg">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Boruto: Naruto next generations</a></h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg" data-setbg="/img/sidebar/tv-2.jpg">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg" data-setbg="/img/sidebar/tv-3.jpg">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Sword art online alicization war of underworld</a></h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg" data-setbg="/img/sidebar/tv-4.jpg">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Fate/stay night: Heaven's Feel I. presage flower</a></h5>
-                            </div>
+                            <?php
+                                foreach (random_games($game->id) as $tmp_game) {
+                                    echo '
+                                        <div class="product__sidebar__view__item set-bg" data-setbg="/uploads/' . $tmp_game->image . '">
+                                            <div class="ep">' . $status_vocab[$tmp_game->status] . '</div>
+                                            <div class="view"><i class="fa fa-eye"></i> ' . number_format($tmp_game->views, 0, ",", ".") . '</div>
+                                            <h5><a href="/games/' . $tmp_game->id . '">' . htmlentities($tmp_game->name) . '</a></h5>
+                                        </div>
+                                    ';
+                                }
+                            ?>
                         </div>
                     </div>
                 </div>

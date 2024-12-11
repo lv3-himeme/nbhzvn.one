@@ -830,6 +830,12 @@ ol {
 	margin-right: 15px;
 }
 
+.product__sidebar__comment__item__pic > img {
+	width: 90px!important;
+	height: 130px!important;
+	object-fit: cover;
+}
+
 .product__sidebar__comment__item__text {
 	overflow: hidden;
 }

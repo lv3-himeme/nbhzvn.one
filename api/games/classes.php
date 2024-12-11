@@ -131,6 +131,15 @@ class Nbhzvn_Game {
         return ACTION_FOLLOW;
     }
 
+    function toggle_featured() {
+        global $conn;
+        $new_value = ($this->is_featured ? 0 : 1);
+        db_query('UPDATE `nbhzvn_games` SET `is_featured` = ? WHERE `id` = ?', $new_value, $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->is_featured = ($new_value == 1);
+        return $new_value;
+    }
+
     function add_rating($user_id, $rating) {
         global $conn;
         $result = db_query('SELECT `rating` FROM `nbhzvn_gameratings` WHERE `game_id` = ? AND `author` = ?', $this->id, $user_id);
