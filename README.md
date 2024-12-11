@@ -22,9 +22,9 @@ This website uses PHP for backend, and MySQL for database management.
 
 ## Features to-do list
 
-- [ ] Games management
+- [X] Games management
 - [X] Accounts management
-- [ ] Game following/rating/commenting
+- [X] Game following/rating/commenting
 - [ ] Advanced search
 - [ ] Discord webhook integration
 - [ ] Games API documentation for chatbots/applications
