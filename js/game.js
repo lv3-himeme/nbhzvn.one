@@ -101,6 +101,42 @@ async function toggleFollow(id) {
 
 /*
 ===========================================================
+Comment function
+===========================================================
+*/
+
+async function comment() {
+    try {
+        var content = $("#commentContent").val(), button = $("#commentBtn");
+        if (!content) return toastr.error("Vui lòng nhập nội dung bình luận.", "Thông báo");
+        button.prop("disabled", true);
+        var response = await apiRequest({
+            url: "/api/games/comments/",
+            type: "PUT",
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: JSON.stringify({
+                id: gameId,
+                content
+            }),
+            json: true
+        });
+        button.prop("disabled", false);
+        if (response?.success) {
+            $("#comments").prepend(response.data);
+            $("#commentContent").val("");
+            document.location.href = "#comments";
+        }
+    }
+    catch (err) {
+        console.error(err);
+        button.prop("disabled", false);
+    }
+}
+
+/*
+===========================================================
 View replies command
 ===========================================================
 */
@@ -116,5 +152,112 @@ async function viewReplies(id) {
     });
     if (response?.success) {
         $(`#comment-${id}-replies`).html(response.data);
+        delete replying[id];
     }
+}
+
+/*
+===========================================================
+Comment managing function
+===========================================================
+*/
+
+async function deleteComment(id) {
+    if (!confirm("Xác nhận xoá bình luận này?")) return;
+    var response = await apiRequest({
+        url: "/api/games/comments/",
+        type: "DELETE",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: JSON.stringify({
+            comment_id: id
+        }),
+        json: true
+    });
+    if (response?.success) {
+        toastr.success(response.message, "Thông báo");
+        $(`#comment-${id}`).remove();
+    }
+}
+
+var originalContent = {};
+
+function editComment(id) {
+    originalContent[id] = {
+        content: $(`#comment-${id}-content`).text(),
+        options: $(`#comment-${id}-options`).html()
+    };
+    $(`#comment-${id}-content`).html(`<textarea class="comment_edit_box" id="comment-${id}-editbox">${originalContent[id].content}</textarea>`);
+    $(`#comment-${id}-options`).html(`<a href="javascript:void(0)" onclick="processCommentEdit(${id})">Chỉnh sửa</a> • <a href="javascript:void(0)" onclick="cancelCommentEdit(${id})">Huỷ</a>`);
+}
+
+function cancelCommentEdit(id) {
+    if (!originalContent[id]) return;
+    $(`#comment-${id}-content`).html(originalContent[id].content);
+    $(`#comment-${id}-options`).html(originalContent[id].options);
+    delete originalContent[id];
+}
+
+async function processCommentEdit(id) {
+    var content = $(`#comment-${id}-editbox`).val();
+    if (!content) return toastr.error("Vui lòng nhập nội dung bình luận.", "Thông báo");
+    var response = await apiRequest({
+        url: "/api/games/comments/",
+        type: "POST",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: JSON.stringify({
+            comment_id: id,
+            content
+        }),
+        json: true
+    });
+    if (response?.success) {
+        toastr.success(response.message, "Thông báo");
+        var dummy = document.createElement("div");
+        dummy.innerHTML = response.data;
+        $(`#comment-${id}`).html(dummy.getElementsByClassName("comment_container")[0].innerHTML);
+        dummy.remove();
+    }
+}
+
+var replying = {};
+
+function replyComment(id, mention) {
+    if (replying[id]) return $(`#comment-${id}-reply-box`).val(mention ? `@${mention} ` : "");
+    replying[id] = true;
+    var div = document.createElement("div");
+    div.id = `comment-${id}-reply-container`;
+    div.innerHTML = `
+        <textarea id="comment-${id}-reply-box" class="comment_reply_box">${mention ? `@${mention} ` : ""}</textarea>
+        <button onclick="processCommentReply(${id})" class="comment_reply_btn"><i class="fa fa-location-arrow"></i> Trả lời</button> <button onclick="cancelCommentReply(${id})" class="comment_reply_btn cancel"><i class="fa fa-times"></i> Huỷ</button> 
+    `;
+    document.getElementById(`comment-${id}-replies`).appendChild(div);
+}
+
+function cancelCommentReply(id) {
+    $(`#comment-${id}-reply-container`).remove();
+    delete replying[id];
+}
+
+async function processCommentReply(id) {
+    var content = $(`#comment-${id}-reply-box`).val();
+    if (!content) return toastr.error("Vui lòng nhập nội dung bình luận.", "Thông báo");
+    cancelCommentReply(id);
+    var response = await apiRequest({
+        url: "/api/games/comments/",
+        type: "PUT",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: JSON.stringify({
+            id: gameId,
+            content,
+            replied_to: id
+        }),
+        json: true
+    });
+    if (response?.success) $(`#comment-${id}-replies`).append(response.data);
 }

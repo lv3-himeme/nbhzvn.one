@@ -192,7 +192,7 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                             </div>
                             <div id="comments">
                                 <?php
-                                    foreach ($comments as $comment) echo echo_comment($comment, !!$comment->replied_to);
+                                    foreach ($comments as $comment) echo echo_comment($comment, !!$comment->replied_to, $user);
                                 ?>
                             </div>
                         </div>
@@ -200,8 +200,8 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                             <div class="section-title">
                                 <h5>Viết bình luận mới</h5>
                             </div>
-                            <textarea id="comment-main" placeholder="Nội dung bình luận"></textarea>
-                            <button onclick="comment()"><i class="fa fa-location-arrow"></i> Bình luận</button>
+                            <textarea id="commentContent" placeholder="Nội dung bình luận" required></textarea>
+                            <button id="commentBtn" onclick="comment()"><i class="fa fa-location-arrow"></i> Bình luận</button>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
@@ -245,6 +245,7 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
         <!-- Search model end -->
 
         <!-- Js Plugins -->
+        <script>gameId = <?php echo $game->id ?></script>
         <script src="/js/jquery-3.3.1.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/player.js"></script>

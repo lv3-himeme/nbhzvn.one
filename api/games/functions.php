@@ -97,9 +97,38 @@ function mobile_games($limit) {
     return $games;
 }
 
-function echo_comment($comment, $is_reply) {
+function process_mentions($content) {
+    $content = htmlentities($content); $new_content = [];
+    foreach (explode(" ", $content) as $part) {
+        if (str_starts_with($part, "@")) {
+            $username = substr($part, 1);
+            $mention_user = new Nbhzvn_User($username);
+            if ($mention_user->id) $part = '<a href="/profile/' . $mention_user->id . '">@' . ($mention_user->display_name ? $mention_user->display_name : $mention_user->username) . '</a>';
+        }
+        array_push($new_content, $part);
+    }
+    return implode(" ", $new_content);
+}
+
+function get_mention_users($content) {
+    $content = htmlentities($content); $users = [];
+    foreach (explode(" ", $content) as $part) {
+        if (str_starts_with($part, "@")) {
+            $username = substr($part, 1);
+            $mention_user = new Nbhzvn_User($username);
+            if ($mention_user->id) array_push($users, $mention_user);
+        }
+    }
+    return $users;
+}
+
+function echo_comment($comment, $is_reply, $user = new Nbhzvn_User(0)) {
     $comment_author = new Nbhzvn_User($comment->author);
     $replies = $comment->reply_count();
-    return '<div id="comment-' . $comment->id . '"><div class="anime__review__item"><div class="anime__review__item__text' . ($is_reply ? " reply" : "") . '"><h6><a href="/profile/' . $comment->author . '">' . ($comment_author->display_name ? $comment_author->display_name : $comment_author->username) . '</a> • <a href="#comment-' . $comment->id . '"><span>' . comment_time($comment->timestamp) . ($comment->edited ? " (đã chỉnh sửa)" : "") . '</span></a></h6><p>' . htmlentities($comment->content) . '</p></div><div id="comment-' . $comment->id . '-replies" class="comment_replies"></div>' . (($replies > 0) ? '<div class="view_replies_btn" id="comment-' . $comment->id . '-repliesbtn"><a href="javascript:void(0)" onclick="viewReplies(' . $comment->id . ')">Xem ' . $replies . ' câu trả lời...</a>' : "") . '</div></div>';
+    $options = [];
+    if ($user->id == $comment->author) array_push($options, '<a href="javascript:void(0)" onclick="editComment(' . $comment->id . ')">Chỉnh sửa</a>');
+    if ($user->id == $comment->author || $user->type == 3) array_push($options, '<a href="javascript:void(0)" onclick="deleteComment(' . $comment->id . ')">Xoá</a>');
+    if ($user->id) array_push($options, '<a href="javascript:void(0)" onclick="replyComment(' . ($comment->replied_to ? $comment->replied_to : $comment->id) . ', ' . ($comment->replied_to ? ('\'' . $comment_author->username . '\'') : "null") . ')">Trả lời</a>');
+    return '<div id="comment-' . $comment->id . '" class="comment_container"><div class="anime__review__item"><div class="anime__review__item__text' . ($is_reply ? " reply" : "") . '"><h6><a href="/profile/' . $comment->author . '">' . ($comment_author->display_name ? $comment_author->display_name : $comment_author->username) . '</a> • <a href="#comment-' . $comment->id . '"><span>' . comment_time($comment->timestamp) . ($comment->edited ? " (đã chỉnh sửa)" : "") . '</span></a></h6><p id="comment-' . $comment->id . '-content">' . process_mentions($comment->content) . '</p>' . (count($options) ? ('<p id="comment-' . $comment->id . '-options" class="comment_options">' . implode(" • ", $options) . '</p>') : "") . '</div><div id="comment-' . $comment->id . '-replies" class="comment_replies"></div>' . (($replies > 0) ? '<div class="view_replies_btn" id="comment-' . $comment->id . '-repliesbtn"><a href="javascript:void(0)" onclick="viewReplies(' . $comment->id . ')">Xem ' . $replies . ' câu trả lời...</a></div>' : "") . '</div></div>';
 }
 ?>

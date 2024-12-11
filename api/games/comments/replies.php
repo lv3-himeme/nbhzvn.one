@@ -14,7 +14,7 @@ try {
             $result = $comment->fetch_replies();
             if (get("html")) {
                 $html = "";
-                foreach ($result as $comment) $html .= echo_comment($comment, !!$comment->replied_to);
+                foreach ($result as $comment) $html .= echo_comment($comment, !!$comment->replied_to, $user);
                 $result = $html;
             }
             api_response($result, "Thực hiện thành công.");

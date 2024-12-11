@@ -14,7 +14,7 @@ try {
             $result = $game->comments();
             if (get("html")) {
                 $html = "";
-                foreach ($result as $comment) $html .= echo_comment($comment, !!$comment->replied_to);
+                foreach ($result as $comment) $html .= echo_comment($comment, !!$comment->replied_to, $user);
                 $result = $html;
             }
             api_response($result, "Thực hiện thành công.");
@@ -30,7 +30,7 @@ try {
                 if (!$reply_comment->id) api_response(null, "Không tìm thấy bình luận có ID là " . $json->replied_to . " để trả lời.", 404);
             }
             $result = $game->add_comment($user->id, $json->content, $json->replied_to);
-            api_response(echo_comment($result, !!$json->replied_to), "Thực hiện thành công.");
+            api_response(echo_comment($result, !!$json->replied_to, $user), "Thực hiện thành công.");
             break;
         }
         case "POST": {
@@ -41,13 +41,13 @@ try {
             if (!$comment->id) api_response(null, "Không tìm thấy bình luận có ID này.", 404);
             if ($comment->author != $user->id) api_response(null, "Không thể chỉnh sửa bình luận này.", 403);
             $comment->edit($json->content);
-            api_response(echo_comment($comment, !!$comment->replied_to), "Thực hiện thành công.");
+            api_response(echo_comment($comment, !!$comment->replied_to, $user), "Thực hiện thành công.");
             break;
         }
         case "DELETE": {
             if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập để có thể bình luận.", 401);
             $json = json_decode(file_get_contents("php://input"));
-            if (!$json->comment_id || !$json->content) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
+            if (!$json->comment_id) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
             $comment = new Nbhzvn_Comment($json->comment_id);
             if (!$comment->id) api_response(null, "Không tìm thấy bình luận có ID này.", 404);
             if ($comment->author != $user->id && $user->type < 3) api_response(null, "Không thể xoá bình luận này.", 403);
