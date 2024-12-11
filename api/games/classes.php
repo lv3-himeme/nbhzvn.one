@@ -207,7 +207,7 @@ class Nbhzvn_Comment {
     function fetch_replies() {
         $replies = [];
         if (!$this->replied_to) {
-            $result = db_query('SELECT * FROM `nbhzvn_comments` WHERE `replied_to` = ?', $this->id);
+            $result = db_query('SELECT * FROM `nbhzvn_comments` WHERE `replied_to` = ? ORDER BY `timestamp` ASC', $this->id);
             while ($row = $result->fetch_object()) array_push($replies, new Nbhzvn_Comment($row));
         }
         return $replies;
