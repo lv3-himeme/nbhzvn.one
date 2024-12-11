@@ -11,7 +11,7 @@ if (!get("id")) redirect_to_home();
 
 $game = new Nbhzvn_Game(intval(get("id")));
 if (!$game->id) redirect_to_home();
-if (!$game->approved && $game->uploader != $user->id && $user->type < 3) return_to_home();
+if (!$game->approved && $game->uploader != $user->id && $user->type < 3) redirect_to_home();
 $game->add_views();
 $comments = $game->comments();
 $follows = $game->follows();
@@ -122,12 +122,16 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                             </div>
                             <div class="anime__details__btn">
                                 <a href="#downloadSection" class="download-btn"><i class="fa fa-download"></i>&nbsp;&nbsp;Tải xuống</a>
+                                <?php if ($game->approved): ?>
                                 <a href="#" onclick="toggleFollow(<?php echo $game->id ?>)" class="follow-btn"><span id="followText"><?php echo ($user && $user->id && $game->check_follow($user->id)) ? "Bỏ theo dõi" : "Theo dõi" ?></span> <label id="followCount"><?php echo number_format($follows, 0, ",", ".") ?></label></a>
+                                <?php elseif ($user->type == 3): ?>
+                                <a href="/approve/<?php echo $game->id ?>" class="download-btn"><i class="fa fa-check"></i>&nbsp;&nbsp;Phê duyệt</a>
+                                <?php endif ?>
                                 <?php if ($user->id == $game->uploader): ?>
-                                    <a href="/edit_game/<?php echo $game->id ?>" class="download-btn" style="margin-left: 12px"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Chỉnh sửa</a>
+                                <a href="/edit_game/<?php echo $game->id ?>" class="download-btn" style="margin-left: 12px"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Chỉnh sửa</a>
                                 <?php endif ?>
                                 <?php if ($user->id == $game->uploader || $user->type == 3): ?>
-                                    <a href="/delete_game/<?php echo $game->id ?>" class="download-btn"><i class="fa fa-trash"></i>&nbsp;&nbsp;Xoá</a>
+                                <a href="/delete_game/<?php echo $game->id ?>" class="download-btn"><i class="fa fa-trash"></i>&nbsp;&nbsp;Xoá</a>
                                 <?php endif ?>
                             </div>
                             </div>

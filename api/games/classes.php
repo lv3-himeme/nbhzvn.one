@@ -46,7 +46,7 @@ class Nbhzvn_Game {
             $this->downloads = $row->downloads;
             $this->supported_os = $row->supported_os;
             $this->is_featured = $row->is_featured;
-            $this->approved = $row->is_approved;
+            $this->approved = $row->approved;
         }
     }
 
@@ -64,6 +64,25 @@ class Nbhzvn_Game {
         $this->downloads = intval($this->downloads) + 1;
         db_query('UPDATE `nbhzvn_games` SET `downloads` = ? WHERE `id` = ?', $this->downloads, $this->id);
         if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        return SUCCESS;
+    }
+
+    function approve() {
+        global $conn;
+        db_query('UPDATE `nbhzvn_games` SET `approved` = 1 WHERE `id` = ?', $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->approved = true;
+        return SUCCESS;
+    }
+
+    function delete() {
+        global $conn;
+        db_query('DELETE FROM `nbhzvn_comments` WHERE `game_id` = ?', $this->id);
+        db_query('DELETE FROM `nbhzvn_gamefollows` WHERE `game_id` = ?', $this->id);
+        db_query('DELETE FROM `nbhzvn_gameratings` WHERE `game_id` = ?', $this->id);
+        db_query('DELETE FROM `nbhzvn_games` WHERE `id` = ?', $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->id = null;
         return SUCCESS;
     }
 

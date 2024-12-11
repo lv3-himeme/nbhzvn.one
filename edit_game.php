@@ -11,7 +11,7 @@ if (!$game->id || $game->uploader != $user->id) redirect_to_home();
 $error = "";
 $notice = "";
 
-function clean_files($thumbnail = "", $links = [], $screenshots = []) {
+function clean_files($thumbnail = "none", $links = [], $screenshots = []) {
     $new_thumbnail = post("image"); $new_links = json_decode(post("links")); $new_screenshots = json_decode(post("screenshots"));
     if ($new_thumbnail != $thumbnail) unlink("./uploads/" . $thumbnail);
     foreach ($links as $link) {
