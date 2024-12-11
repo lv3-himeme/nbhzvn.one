@@ -188,10 +188,12 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                         </div><br>
                         <div class="anime__details__review">
                             <div class="section-title">
-                                <h5>Bình luận</h5>
+                                <h5>Bình luận (<?php echo count($comments) ?>)</h5>
                             </div>
                             <div id="comments">
-                                
+                                <?php
+                                    foreach ($comments as $comment) echo echo_comment($comment, !!$comment->replied_to);
+                                ?>
                             </div>
                         </div>
                         <div class="anime__details__form">

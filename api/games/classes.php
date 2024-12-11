@@ -213,6 +213,14 @@ class Nbhzvn_Comment {
         return $replies;
     }
 
+    function reply_count() {
+        if (!$this->replied_to) {
+            $result = db_query('SELECT * FROM `nbhzvn_comments` WHERE `replied_to` = ?', $this->id);
+            return $result->num_rows;
+        }
+        return 0;
+    }
+
     function delete() {
         global $conn;
         db_query('DELETE FROM `nbhzvn_comments` WHERE `id` = ?', $this->id);

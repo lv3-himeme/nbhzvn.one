@@ -2622,3 +2622,13 @@ input.hidden {
 .game_file_size {
 	text-align: right;
 }
+
+.comment_replies > :first-child {
+	margin-top: 15px;
+}
+
+.view_replies_btn {
+	margin: 15px 0px 10px 30px;
+	font-size: 11pt;
+	font-weight: bold;
+}
