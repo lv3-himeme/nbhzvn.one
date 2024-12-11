@@ -10,14 +10,18 @@ function uploadThumbnail() {
     $("#thumbnailFile").click();
 }
 
+function showThumbnailImage(path) {
+    $("#thumbnailImage").prop("src", `/uploads/${path}`);
+    $("#thumbnailImage").css("display", "inline");
+}
+
 $("#thumbnailFile").change(async function() {
     try {
         var file = document.getElementById("thumbnailFile").files[0];
         if (!file) return toastr.error("Vui lòng chọn một tệp tin.", "Lỗi");
         const path = await uploadFile(file, document.getElementById("thumbnailProgressBar"));
         $("#thumbnail").val(path);
-        $("#thumbnailImage").prop("src", `/uploads/${path}`);
-        $("#thumbnailImage").css("display", "inline");
+        showThumbnailImage(path);
     }
     catch (err) {
         console.error(err);
@@ -101,7 +105,7 @@ function createGameFileElement(id, file) {
  * 
  * @param {string} id 
  */
-function deleteGameFile(id) {
+function deleteGameFile(id, permanent = true) {
     cancelling[id] = true;
     var path = gameFiles[id]?.path;
     if (!gameFiles[id]?.path && requests[id]) {
@@ -110,19 +114,21 @@ function deleteGameFile(id) {
     }
     delete cancelling[id];
     delete gameFiles[id];
-    try {
-        if (path) apiRequest({
-            url: "/api/delete_file",
-            type: "POST",
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: JSON.stringify({file: path}),
-            json: true
-        })
-    }
-    catch (err) {
-        console.error(err);
+    if (permanent) {
+        try {
+            if (path) apiRequest({
+                url: "/api/delete_file",
+                type: "POST",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: JSON.stringify({file: path}),
+                json: true
+            })
+        }
+        catch (err) {
+            console.error(err);
+        }
     }
     document.getElementById(`gameFileContainer-${id}`).remove();
 }
@@ -199,7 +205,7 @@ function createScreenshotElement(id) {
  * 
  * @param {string} id 
  */
-function deleteScreenshot(id) {
+function deleteScreenshot(id, permanent = true) {
     cancelling[id] = true;
     var path = screenshots[id]?.path;
     if (!screenshots[id]?.path && requests[id]) {
@@ -208,19 +214,21 @@ function deleteScreenshot(id) {
     }
     delete cancelling[id];
     delete screenshots[id];
-    try {
-        if (path) apiRequest({
-            url: "/api/delete_file",
-            type: "POST",
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: JSON.stringify({file: path}),
-            json: true
-        })
-    }
-    catch (err) {
-        console.error(err);
+    if (permanent) {
+        try {
+            if (path) apiRequest({
+                url: "/api/delete_file",
+                type: "POST",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: JSON.stringify({file: path}),
+                json: true
+            })
+        }
+        catch (err) {
+            console.error(err);
+        }
     }
     document.getElementById(`screenshotContainer-${id}`).remove();
 }
@@ -232,4 +240,60 @@ function processSubmit() {
     for (var i = 0; i < checkboxes.length; i++) if (checkboxes[i].checked) supportedOS.push(checkboxes[i].value);
     $("#supportedOSInput").val(supportedOS.join(","));
     return true;
+}
+
+/*
+===========================================================
+Uploaded data preload
+===========================================================
+*/
+
+function createGameFileElementPreload(id, file) {
+    var div = document.createElement("div");
+    div.classList.add("upload_game_file");
+    div.id = `gameFileContainer-${id}`;
+    div.innerHTML = `
+        <div class="row" style="color: #fff!important">
+            <div class="col-md-8 col-lg-8">
+                <div style="text-overflow: elipsis"><b>${file.name}</b></div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <div id="gameFileDisplay-${id}" style="text-align: right">
+                    <button type="button" onclick="deleteGameFile('${id}', false)" class="upload_close_btn">X</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.getElementById("gameFiles").appendChild(div);
+}
+
+function createScreenshotElementPreload(id, path) {
+    var div = document.createElement("div");
+    div.classList.add("upload_screenshot");
+    div.id = `screenshotContainer-${id}`;
+    div.innerHTML = `
+        <div style="text-align: right"><button type="button" onclick="deleteScreenshot('${id}', false)" class="upload_close_btn">X</button></div>
+        <div id="screenshotContent-${id}" style="margin-top: 5px">
+            <img src="/uploads/${path}" class="upload_screenshot_image" />
+        </div>
+    `;
+    document.getElementById("screenshots").appendChild(div);
+}
+
+if ($(`#thumbnail`).val()) showThumbnailImage($(`#thumbnail`).val());
+if ($(`#linksInput`).val()) {
+    var items = JSON.parse($(`#linksInput`).val());
+    for (var item of items) {
+        var id = Math.floor(Math.random() * 16777216).toString();
+        gameFiles[id] = item;
+        createGameFileElementPreload(id, gameFiles[id]);
+    }
+}
+if ($(`#screenshotsInput`).val()) {
+    var items = JSON.parse($(`#screenshotsInput`).val());
+    for (var item of items) {
+        var id = Math.floor(Math.random() * 16777216).toString();
+        screenshots[id] = {path: item};
+        createScreenshotElementPreload(id, item);
+    }
 }

@@ -91,12 +91,12 @@ refresh_csrf();
                 <form action="" method="POST" onsubmit="processSubmit()">
                     <p style="font-size: 16pt"><b>Tên Game</b></p>
                     <div class="input__item" style="width: 100%">
-                        <input type="name" name="name" placeholder="Tên Game" required>
+                        <input type="name" name="name" placeholder="Tên Game" required value="<?php echo post("name") ?>">
                         <span class="icon_document"></span>
                     </div>
                     <p style="font-size: 16pt"><b>Ảnh Đại Diện</b></p>
                     <div class="input__item" style="width: 100%">
-                        <input readonly class="readonly" name="image" placeholder="Nhấn vào đây để tải ảnh đại diện" required onclick="uploadThumbnail()" id="thumbnail">
+                        <input readonly class="readonly" name="image" placeholder="Nhấn vào đây để tải ảnh đại diện" required onclick="uploadThumbnail()" id="thumbnail" value="<?php echo post("thumbnail") ?>">
                         <span class="icon_image"></span>
                     </div>
                     <div><img class="thumbnail_image" id="thumbnailImage" /></div>
@@ -115,7 +115,7 @@ refresh_csrf();
                     <div id="screenshots" class="upload_screenshots"></div>
                     <p style="font-size: 16pt"><b>Mô Tả</b></p>
                     <div class="input__item input__item__textarea" style="width: 100%">
-                        <textarea name="description" placeholder="Mô tả có hỗ trợ Markdown." required></textarea>
+                        <textarea name="description" placeholder="Mô tả có hỗ trợ Markdown." required><?php echo post("description") ?></textarea>
                         <span class="icon_pencil"></span>
                     </div>
                     <p style="font-size: 16pt"><b>Phần Mềm Làm Game</b></p>
@@ -123,7 +123,7 @@ refresh_csrf();
                         <select name="engine" required placeholder="Phần Mềm Làm Game">
                             <?php
                                 foreach ($engine_vocab as $value => $vocab) {
-                                    echo '<option value="' . $value . '">' . $vocab . '</option>';
+                                    echo '<option value="' . $value . '"' . ((intval(post("engine")) == $value) ? " selected" : "") . '>' . $vocab . '</option>';
                                 }
                             ?>
                         </select>
@@ -131,17 +131,17 @@ refresh_csrf();
                     </div>
                     <p style="font-size: 16pt"><b>Thẻ</b></p>
                     <div class="input__item" style="width: 100%">
-                        <input type="text" name="tags" placeholder="Các thẻ cách nhau bằng dấu phẩy viết liền. Không bắt buộc.">
+                        <input type="text" name="tags" placeholder="Các thẻ cách nhau bằng dấu phẩy viết liền. Không bắt buộc." value="<?php echo post("tags") ?>">
                         <span class="icon_tag"></span>
                     </div>
                     <p style="font-size: 16pt"><b>Năm Phát Hành</b></p>
                     <div class="input__item" style="width: 100%">
-                        <input type="number" name="release_year" placeholder="Năm Phát Hành">
+                        <input type="number" name="release_year" placeholder="Năm Phát Hành" value="<?php echo post("release_year") ?>">
                         <span class="icon_calendar"></span>
                     </div>
                     <p style="font-size: 16pt"><b>Tác Giả Gốc</b></p>
                     <div class="input__item" style="width: 100%">
-                        <input type="text" name="author" placeholder="Nhà phát triển của game gốc (chưa được dịch)." required>
+                        <input type="text" name="author" placeholder="Nhà phát triển của game gốc (chưa được dịch)." required value="<?php echo post("author") ?>">
                         <span class="icon_profile"></span>
                     </div>
                     <p style="font-size: 16pt"><b>Ngôn Ngữ</b></p>
@@ -149,7 +149,7 @@ refresh_csrf();
                         <select name="language" required placeholder="Ngôn Ngữ">
                             <?php
                                 foreach ($language_vocab as $value => $vocab) {
-                                    echo '<option value="' . $value . '">' . $vocab . '</option>';
+                                    echo '<option value="' . $value . '"' . ((intval(post("language")) == $value) ? " selected" : "") . '>' . $vocab . '</option>';
                                 }
                             ?>
                         </select>
@@ -157,7 +157,7 @@ refresh_csrf();
                     </div>
                     <p style="font-size: 16pt"><b>Dịch Giả</b></p>
                     <div class="input__item" style="width: 100%">
-                        <input type="text" name="translator" placeholder="Bỏ trống nếu game chưa được dịch sang ngôn ngữ nào khác.">
+                        <input type="text" name="translator" placeholder="Bỏ trống nếu game chưa được dịch sang ngôn ngữ nào khác." value="<?php echo post("translator") ?>">
                         <span class="icon_profile"></span>
                     </div>
                     <p style="font-size: 16pt"><b>Trạng Thái</b></p>
@@ -165,7 +165,7 @@ refresh_csrf();
                         <select name="status" required placeholder="Trạng Thái">
                             <?php
                                 foreach ($status_vocab as $value => $vocab) {
-                                    echo '<option value="' . $value . '">' . $vocab . '</option>';
+                                    echo '<option value="' . $value . '"' . ((intval(post("status")) == $value) ? " selected" : "") . '>' . $vocab . '</option>';
                                 }
                             ?>
                         </select>
@@ -173,13 +173,14 @@ refresh_csrf();
                     </div>
                     <p style="font-size: 16pt"><b>Nền Tảng Được Hỗ Trợ</b></p>
                         <?php
+                            $supported_oses = explode(",", post("supported_os"));
                             foreach ($os_vocab as $value => $vocab) {
-                                echo '<div><input type="checkbox" class="supported_os_checkbox" value="' . $value . '"> <label style="color: #fff; margin-left: 10px">' . $vocab . '</label></input></div>';
+                                echo '<div><input type="checkbox" class="supported_os_checkbox" value="' . $value . '"' . (in_array($value, $supported_oses) ? " checked" : "") . '> <label style="color: #fff; margin-left: 10px">' . $vocab . '</label></input></div>';
                             }
                         ?>
-                    <input type="hidden" name="links" value="" id="linksInput" />
-                    <input type="hidden" name="screenshots" value="" id="screenshotsInput" />
-                    <input type="hidden" name="supported_os" value="" id="supportedOSInput" />
+                    <input type="hidden" name="links" value="<?php echo post("links") ?>" id="linksInput" />
+                    <input type="hidden" name="screenshots" value="<?php echo post("screenshots") ?>" id="screenshotsInput" />
+                    <input type="hidden" name="supported_os" value="<?php echo post("supported_os") ?>" id="supportedOSInput" />
                     <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
                     <p style="color: #e36666"><i><?php echo $error ?></i></p>
                     <button type="submit" name="submit" class="site-btn" value="Submit">Thêm Game Mới</button>

@@ -11,10 +11,25 @@ if (!$game->id || $game->uploader != $user->id) redirect_to_home();
 $error = "";
 $notice = "";
 
+function clean_files($thumbnail = "", $links = [], $screenshots = []) {
+    $new_thumbnail = post("image"); $new_links = json_decode(post("links")); $new_screenshots = json_decode(post("screenshots"));
+    if ($new_thumbnail != $thumbnail) unlink("./uploads/" . $thumbnail);
+    foreach ($links as $link) {
+        $path = $link->path;
+        if (!in_array($link->path, array_map(function($v) {
+            return $v->path;
+        }, $new_links))) unlink("./uploads/" . $path);
+    }
+    foreach ($screenshots as $screenshot) {
+        if (!in_array($screenshot, $new_screenshots)) unlink("./uploads/" . $screenshot);
+    }
+}
+
 function process() {
     global $error;
     global $notice;
     global $user;
+    global $game;
     if (!check_csrf(post("csrf_token"))) return $error = "Mã xác thực CSRF không đúng.";
     $inputs = ["name", "image", "links", "screenshots", "description", "engine", "release_year", "author", "language", "status", "supported_os"];
     $data = array();
@@ -22,12 +37,14 @@ function process() {
         if (!post($input)) return $error = "Vui lòng nhập đầy đủ thông tin.";
         $data[$input] = post($input);
     }
-    $data["tags"] = post("tags");
-    $data["translator"] = post("translator");
-    $data["uploader"] = $user->id;
-    $data = json_decode(json_encode($data));
-    $result = add_game($data, ($user->type == 3));
-    if ($result == SUCCESS) $notice = "Đã tải lên game thành công" . ($user->type < 3 ? ", game của bạn sẽ được hiển thị trên trang web sau khi Quản Trị Viên đã duyệt game của bạn." : ".");
+    if (post("tags")) $data["tags"] = post("tags");
+    if (post("translator")) $data["translator"] = post("translator");
+    $thumbnail = $game->image; $links = $game->links; $screenshots = $game->screenshots;
+    $result = $game->edit($data);
+    if ($result == SUCCESS) {
+        clean_files($thumbnail, $links, $screenshots);
+        $notice = "Đã chỉnh sửa game thành công.";
+    }
 }
 
 try {
@@ -222,7 +239,7 @@ refresh_csrf();
     <script src="/js/main.js"></script>
     <script src="/js/toastr.js"></script>
     <script src="/js/api.js"></script>
-    <script src="/js/uploader.js"></script>
+    <script src="/js/uploader.js?time=<?php echo time() ?>"></script>
 
 </body>
 

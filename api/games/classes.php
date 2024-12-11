@@ -129,5 +129,18 @@ class Nbhzvn_Game {
         if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         return $comments;
     }
+
+    function edit($data) {
+        global $conn;
+        $query = []; $values = [];
+        foreach ($data as $key => $value) {
+            array_push($query, '`' . $key . '` = ?');
+            array_push($values, $value);
+        }
+        array_push($values, $this->id);
+        db_query('UPDATE `nbhzvn_games` SET ' . implode(", ", $query) . ' WHERE `id` = ?', ...$values);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        return SUCCESS;
+    }
 }
 ?>
