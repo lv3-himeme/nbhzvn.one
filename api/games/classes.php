@@ -152,7 +152,7 @@ class Nbhzvn_Game {
     function comments() {
         global $conn;
         $comments = [];
-        $result = db_query('SELECT * FROM `nbhzvn_comments` WHERE `game_id` = ? ORDER BY `timestamp` DESC', $this->id);
+        $result = db_query('SELECT * FROM `nbhzvn_comments` WHERE `game_id` = ? AND `replied_to` IS NULL ORDER BY `timestamp` DESC', $this->id);
         while ($row = $result->fetch_object()) array_push($comments, new Nbhzvn_Comment($row));
         if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         return $comments;

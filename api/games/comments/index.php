@@ -12,6 +12,11 @@ try {
             $game = new Nbhzvn_Game(intval(get("id")));
             if (!$game->id) api_response(null, "Không tìm thấy game có ID này.", 404);
             $result = $game->comments();
+            if (get("html")) {
+                $html = "";
+                foreach ($result as $comment) $html .= echo_comment($comment, !!$comment->replied_to);
+                $result = $html;
+            }
             api_response($result, "Thực hiện thành công.");
         }
         case "PUT": {

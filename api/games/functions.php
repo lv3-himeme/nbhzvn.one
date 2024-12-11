@@ -98,6 +98,7 @@ function mobile_games($limit) {
 }
 
 function echo_comment($comment, $is_reply) {
-    return '<div class="anime__review__item"><div class="anime__review__item__text' . ($is_reply ? " reply" : "") . '"><h6><a href="/profile/' . $comment->author . '"> - <a href="#comment-' . $comment->id . '"><span>' . comment_time($comment->timestamp) . ($comment->edited ? " (đã chỉnh sửa)" : "") . '</span></h6><p>' . htmlentities($comment->content) . '</p></div></div>';
+    $comment_author = new Nbhzvn_User($comment->author);
+    return '<div class="anime__review__item"><div class="anime__review__item__text' . ($is_reply ? " reply" : "") . '"><h6><a href="/profile/' . $comment->author . '">' . ($comment_author->display_name ? $comment_author->display_name : $comment_author->username) . '</a> - <a href="#comment-' . $comment->id . '"><span>' . comment_time($comment->timestamp) . ($comment->edited ? " (đã chỉnh sửa)" : "") . '</span></h6><p>' . htmlentities($comment->content) . '</p></div></div>';
 }
 ?>
