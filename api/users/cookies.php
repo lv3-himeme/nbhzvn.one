@@ -17,12 +17,22 @@ if ($user->verification_required
     && !str_contains($_SERVER["REQUEST_URI"], "verify")
     && !str_contains($_SERVER["REQUEST_URI"], "change_info")
     && !str_contains($_SERVER["REQUEST_URI"], "profile")) {
-    header("Location: /verify");
-    die();
+    if (!$is_api) {
+        header("Location: /verify");
+        die();
+    }
+    else {
+        api_response(null, "Bạn cần xác minh tài khoản trước khi thực hiện hành động này.", 403);
+    }
 }
 if ($user->ban_information
     && !str_contains($_SERVER["REQUEST_URI"], "banned")) {
-    header("Location: /banned");
-    die();
+    if (!$is_api) {
+        header("Location: /banned");
+        die();
+    }
+    else {
+        api_response(null, "Tài khoản của bạn đã bị vô hiệu hoá.", 403);
+    }
 }
 ?>

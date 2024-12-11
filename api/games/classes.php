@@ -9,7 +9,7 @@ class Nbhzvn_Game {
     public $description;
     public $engine;
     public $tags;
-    public $release_date;
+    public $release_year;
     public $author;
     public $language;
     public $translator;
@@ -35,7 +35,7 @@ class Nbhzvn_Game {
             $this->description = $row->description;
             $this->engine = $row->engine;
             $this->tags = $row->tags;
-            $this->release_date = $row->release_date;
+            $this->release_year = $row->release_year;
             $this->author = $row->author;
             $this->translator = $row->translator;
             $this->uploader = $row->uploader;
@@ -48,6 +48,86 @@ class Nbhzvn_Game {
             $this->is_featured = $row->is_featured;
             $this->approved = $row->is_approved;
         }
+    }
+
+    function add_views() {
+        global $conn;
+        $this->views = intval($this->views) + 1;
+        $this->views_today = intval($this->views_today) + 1;
+        db_query('UPDATE `nbhzvn_games` SET `views` = ?, `views_today` = ? WHERE `id` = ?', $this->views, $this->views_today, $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        return SUCCESS;
+    }
+
+    function add_downloads_count() {
+        global $conn;
+        $this->downloads = intval($this->downloads) + 1;
+        db_query('UPDATE `nbhzvn_games` SET `downloads` = ? WHERE `id` = ?', $this->downloads, $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        return SUCCESS;
+    }
+
+    function ratings() {
+        global $conn;
+        $total = 0;
+        $result = db_query('SELECT `rating` FROM `nbhzvn_gameratings` WHERE `game_id` = ?', $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        while ($row = $result->fetch_object()) $total += intval($row->rating);
+        $response = new stdClass();
+        $response->count = $result->num_rows;
+        $response->average = $total / (($result->num_rows > 0) ? $result->num_rows : 1);
+        return $response;
+    }
+
+    function follows() {
+        global $conn;
+        $result = db_query('SELECT `author` FROM `nbhzvn_gamefollows` WHERE `game_id` = ?', $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        return $result->num_rows;
+    }
+
+    function check_follow($user_id) {
+        global $conn;
+        $result = db_query('SELECT `author` FROM `nbhzvn_gamefollows` WHERE `game_id` = ? AND `author` = ?', $this->id, $user_id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        return !!$result->num_rows;
+    }
+
+    function check_rating($user_id) {
+        global $conn;
+        $result = db_query('SELECT `author` FROM `nbhzvn_gameratings` WHERE `game_id` = ? AND `author` = ?', $this->id, $user_id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        return !!$result->num_rows;
+    }
+
+    function toggle_follow($user_id) {
+        global $conn;
+        $result = db_query('SELECT `author` FROM `nbhzvn_gamefollows` WHERE `game_id` = ? AND `author` = ?', $this->id, $user_id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        if ($result->num_rows > 0) {
+            db_query('DELETE FROM `nbhzvn_gamefollows` WHERE `game_id` = ? AND `author` = ?', $this->id, $user_id);
+            return ACTION_UNFOLLOW;
+        }
+        db_query('INSERT INTO `nbhzvn_gamefollows` (`author`, `game_id`) VALUES (?, ?)', $user_id, $this->id);
+        return ACTION_FOLLOW;
+    }
+
+    function add_rating($user_id, $rating) {
+        global $conn;
+        $result = db_query('SELECT `rating` FROM `nbhzvn_gameratings` WHERE `game_id` = ? AND `author` = ?', $this->id, $user_id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        if ($result->num_rows > 0) throw new Exception(ALREADY_RATED);
+        db_query('INSERT INTO `nbhzvn_gameratings` (`author`, `timestamp`, `game_id`, `rating`) VALUES (?, ?, ?, ?)', $user_id, time(), $this->id, $rating);
+        return $this->ratings();
+    }
+
+    function comments() {
+        global $conn;
+        $comments = [];
+        $result = db_query('SELECT * FROM `nbhzvn_comments` WHERE `game_id` = ?', $this->id);
+        while ($row = $result->fetch_object()) array_push($comments, $row);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        return $comments;
     }
 }
 ?>

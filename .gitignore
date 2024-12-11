@@ -27,3 +27,6 @@
 **/._*
 
 .env
+
+# Ignore upload folder
+uploads/

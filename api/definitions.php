@@ -13,6 +13,8 @@ const SEND_MAIL_FAILED = "-301";
 
 const DISALLOWED_TYPE = "-401";
 
+const ALREADY_RATED = "-501";
+
 const NORMAL_USER_TYPE = 1;
 const UPLOADER_TYPE = 2;
 const ADMINISTRATOR_TYPE = 3;
@@ -32,4 +34,43 @@ const LANGUAGE_MULTIPLE = 6;
 const STATUS_DEVELOPING = 1;
 const STATUS_FINISHED = 2;
 const STATUS_ABANDONED = 3;
+
+const OS_WINDOWS = "windows";
+const OS_MACOS = "mac";
+const OS_LINUX = "linux";
+const OS_ANDROID = "android";
+const OS_IOS = "ios";
+
+const ACTION_FOLLOW = 2;
+const ACTION_UNFOLLOW = 1;
+
+$engine_vocab = array(
+    ENGINE_RPG2K => "RPG Maker 2000/2003",
+    ENGINE_RGSS => "RPG Maker XP/VX/VX Ace",
+    ENGINE_RPGMV => "RPG Maker MV",
+    ENGINE_OTHER => "Phần Mềm Làm Game Khác"
+);
+
+$language_vocab = array(
+    LANGUAGE_VIETNAMESE => "Tiếng Việt",
+    LANGUAGE_ENGLISH => "Tiếng Anh",
+    LANGUAGE_JAPANESE => "Tiếng Nhật",
+    LANGUAGE_CHINESE => "Tiếng Trung",
+    LANGUAGE_OTHER => "Ngôn Ngữ Khác",
+    LANGUAGE_MULTIPLE => "Đa Ngôn Ngữ"
+);
+
+$status_vocab = array(
+    STATUS_DEVELOPING => "Đang phát triển",
+    STATUS_FINISHED => "Đã hoàn thành",
+    STATUS_ABANDONED => "Đã tạm ngưng"
+);
+
+$os_vocab = array(
+    OS_WINDOWS => "Windows",
+    OS_MACOS => "macOS",
+    OS_LINUX => "Linux",
+    OS_ANDROID => "Android",
+    OS_IOS => "iOS"
+)
 ?>

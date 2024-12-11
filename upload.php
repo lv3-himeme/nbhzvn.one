@@ -1,0 +1,225 @@
+<?php
+require "api/functions.php";
+require "api/users/functions.php";
+require "api/users/cookies.php";
+require "api/games/functions.php";
+if (!$user || $user->type < 2) redirect_to_home();
+
+$error = "";
+$notice = "";
+
+function process() {
+    global $error;
+    global $notice;
+    global $user;
+    if (!check_csrf(post("csrf_token"))) return $error = "Mã xác thực CSRF không đúng.";
+    $inputs = ["name", "image", "links", "screenshots", "description", "engine", "release_year", "author", "language", "status", "supported_os"];
+    $data = array();
+    foreach ($inputs as $input) {
+        if (!post($input)) return $error = "Vui lòng nhập đầy đủ thông tin.";
+        $data[$input] = post($input);
+    }
+    $data["tags"] = post("tags");
+    $data["translator"] = post("translator");
+    $data["uploader"] = $user->id;
+    $data = json_decode(json_encode($data));
+    $result = add_game($data, ($user->type == 3));
+    if ($result == SUCCESS) $notice = "Đã tải lên game thành công" . ($user->type < 3 ? ", game của bạn sẽ được hiển thị trên trang web sau khi Quản Trị Viên đã duyệt game của bạn." : ".");
+}
+
+try {
+    if (post("submit")) process();
+}
+catch (Exception $ex) {
+    switch ($ex->getMessage()) {
+        case DB_CONNECTION_ERROR: {
+            $error = "Lỗi kết nối tới máy chủ. Vui lòng thử lại.";
+            break;
+        }
+        case MISSING_INFORMATION: {
+            $error = "Vui lòng nhập đầy đủ thông tin.";
+            break;
+        }
+        default: {
+            $error = "Có lỗi không xác định xảy ra. Vui lòng báo cáo cho nhà phát triển của website.<br>" . htmlentities($ex->getMessage());
+            break;
+        }
+    }
+}
+if ($notice) die('
+    <script>
+        alert("' . $notice . '");
+        document.location.href = "/";
+    </script>
+    <p>' . $notice . ' <a href="/">Tiếp tục</a></p>
+');
+refresh_csrf();
+?>
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <?php
+        $title = "Thêm Game Mới";
+        require __DIR__ . "/head.php";
+    ?>
+    <link rel="stylesheet" href="/css/toastr.css" />
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <?php require "header.php"; ?>
+    </header>
+    <!-- Header End -->
+
+    <!-- Normal Breadcrumb Begin -->
+    <section class="normal-breadcrumb set-bg" data-setbg="/img/normal-breadcrumb.jpg">
+    </section>
+    <!-- Normal Breadcrumb End -->
+
+    <!-- Signup Section Begin -->
+    <section class="signup spad">
+        <div class="container">
+            <div class="login__form page">
+                <h3>Thêm Game Mới</h3>
+                <form action="" method="POST" onsubmit="processSubmit()">
+                    <p style="font-size: 16pt"><b>Tên Game</b></p>
+                    <div class="input__item" style="width: 100%">
+                        <input type="name" name="name" placeholder="Tên Game" required>
+                        <span class="icon_document"></span>
+                    </div>
+                    <p style="font-size: 16pt"><b>Ảnh Đại Diện</b></p>
+                    <div class="input__item" style="width: 100%">
+                        <input readonly class="readonly" name="image" placeholder="Nhấn vào đây để tải ảnh đại diện" required onclick="uploadThumbnail()" id="thumbnail">
+                        <span class="icon_image"></span>
+                    </div>
+                    <div><img class="thumbnail_image" id="thumbnailImage" /></div>
+                    <div class="progressbar_container" id="thumbnailProgressBar">
+                        <div class="progressbar"></div>
+                    </div><br>
+                    <p style="font-size: 16pt"><b>Danh Sách Tệp Tin Game</b></p>
+                    <p style="text-align: right">
+                        <button type="button" onclick="addGameFile()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm tệp tin</span></button>
+                    </p>
+                    <div id="gameFiles"></div><br>
+                    <p style="font-size: 16pt"><b>Ảnh Chụp Màn Hình Game</b></p>
+                    <p style="text-align: right">
+                        <button type="button" onclick="addScreenshot()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm ảnh</span></button>
+                    </p>
+                    <div id="screenshots" class="upload_screenshots"></div>
+                    <p style="font-size: 16pt"><b>Mô Tả</b></p>
+                    <div class="input__item input__item__textarea" style="width: 100%">
+                        <textarea name="description" placeholder="Mô tả có hỗ trợ Markdown." required></textarea>
+                        <span class="icon_pencil"></span>
+                    </div>
+                    <p style="font-size: 16pt"><b>Phần Mềm Làm Game</b></p>
+                    <div class="input__item" style="width: 100%">
+                        <select name="engine" required placeholder="Phần Mềm Làm Game">
+                            <?php
+                                foreach ($engine_vocab as $value => $vocab) {
+                                    echo '<option value="' . $value . '">' . $vocab . '</option>';
+                                }
+                            ?>
+                        </select>
+                        <span class="icon_tool"></span>
+                    </div>
+                    <p style="font-size: 16pt"><b>Thẻ</b></p>
+                    <div class="input__item" style="width: 100%">
+                        <input type="text" name="tags" placeholder="Các thẻ cách nhau bằng dấu phẩy viết liền. Không bắt buộc.">
+                        <span class="icon_tag"></span>
+                    </div>
+                    <p style="font-size: 16pt"><b>Năm Phát Hành</b></p>
+                    <div class="input__item" style="width: 100%">
+                        <input type="number" name="release_year" placeholder="Năm Phát Hành">
+                        <span class="icon_calendar"></span>
+                    </div>
+                    <p style="font-size: 16pt"><b>Tác Giả Gốc</b></p>
+                    <div class="input__item" style="width: 100%">
+                        <input type="text" name="author" placeholder="Nhà phát triển của game gốc (chưa được dịch)." required>
+                        <span class="icon_profile"></span>
+                    </div>
+                    <p style="font-size: 16pt"><b>Ngôn Ngữ</b></p>
+                    <div class="input__item" style="width: 100%">
+                        <select name="language" required placeholder="Ngôn Ngữ">
+                            <?php
+                                foreach ($language_vocab as $value => $vocab) {
+                                    echo '<option value="' . $value . '">' . $vocab . '</option>';
+                                }
+                            ?>
+                        </select>
+                        <span class="icon_globe-2"></span>
+                    </div>
+                    <p style="font-size: 16pt"><b>Dịch Giả</b></p>
+                    <div class="input__item" style="width: 100%">
+                        <input type="text" name="translator" placeholder="Bỏ trống nếu game chưa được dịch sang ngôn ngữ nào khác.">
+                        <span class="icon_profile"></span>
+                    </div>
+                    <p style="font-size: 16pt"><b>Trạng Thái</b></p>
+                    <div class="input__item" style="width: 100%">
+                        <select name="status" required placeholder="Trạng Thái">
+                            <?php
+                                foreach ($status_vocab as $value => $vocab) {
+                                    echo '<option value="' . $value . '">' . $vocab . '</option>';
+                                }
+                            ?>
+                        </select>
+                        <span class="icon_datareport_alt"></span>
+                    </div>
+                    <p style="font-size: 16pt"><b>Nền Tảng Được Hỗ Trợ</b></p>
+                        <?php
+                            foreach ($os_vocab as $value => $vocab) {
+                                echo '<div><input type="checkbox" class="supported_os_checkbox" value="' . $value . '"> <label style="color: #fff; margin-left: 10px">' . $vocab . '</label></input></div>';
+                            }
+                        ?>
+                    <input type="hidden" name="links" value="" id="linksInput" />
+                    <input type="hidden" name="screenshots" value="" id="screenshotsInput" />
+                    <input type="hidden" name="supported_os" value="" id="supportedOSInput" />
+                    <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
+                    <p style="color: #e36666"><i><?php echo $error ?></i></p>
+                    <button type="submit" name="submit" class="site-btn" value="Submit">Thêm Game Mới</button>
+                </form>
+            </div>
+        </div>
+        <input type="file" id="thumbnailFile" class="hidden" accept=".jpg, .png, .jpeg, .webp|image/*" />
+        <div id="files"></div>
+    </section>
+    <!-- Signup Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+        <?php require "footer.php" ?>
+      </footer>
+      <!-- Footer Section End -->
+
+      <!-- Search model Begin -->
+      <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch"><i class="icon_close"></i></div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search model end -->
+
+    <!-- Js Plugins -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/player.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/toastr.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/uploader.js"></script>
+
+</body>
+
+</html>

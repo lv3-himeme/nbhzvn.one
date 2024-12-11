@@ -101,7 +101,7 @@ refresh_csrf();
     <!-- Signup Section Begin -->
     <section class="signup spad">
         <div class="container">
-            <div class="login__form">
+            <div class="login__form page">
                 <h3>Xác Minh Tài Khoản</h3>
                 <?php if ($fatal_error): ?>
                 <p><?php echo $fatal_error ?></p>

@@ -86,11 +86,6 @@
     });
 
     /*------------------
-        Niceselect
-    --------------------*/
-    $('select').niceSelect();
-
-    /*------------------
         Scroll To Top
     --------------------*/
     $("#scrollToTopButton").click(function() {
