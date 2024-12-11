@@ -70,3 +70,4 @@ function http_post_request($url, $body = array(), $headers = []) {
     curl_close($curl);
     return $result;
 }
+?>

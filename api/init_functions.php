@@ -82,4 +82,14 @@ function bytes_to_string($bytes, $precision = 2) {
 
     return round($bytes, $precision) . ' ' . $units[$pow];
 }
+
+function comment_time($timestamp) {
+    $diff = time() - $timestamp;
+    $time_diff = [315360000, 2592000, 604800, 86400, 3600, 60];
+    $time_diff_text = ["năm", "tháng", "tuần", "ngày", "giờ", "phút"];
+    for ($i = 0; $i < count($time_diff); $i++) {
+        if ($diff > $time_diff[$i]) return strval(floor($diff / $time_diff[$i])) . " " . $time_diff_text[$i] . " trước";
+    }
+    return $diff . " giây trước";
+}
 ?>

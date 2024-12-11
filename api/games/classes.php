@@ -46,7 +46,7 @@ class Nbhzvn_Game {
             $this->downloads = $row->downloads;
             $this->supported_os = $row->supported_os;
             $this->is_featured = $row->is_featured;
-            $this->approved = $row->approved;
+            $this->approved = ($row->approved == 1);
         }
     }
 
@@ -152,8 +152,8 @@ class Nbhzvn_Game {
     function comments() {
         global $conn;
         $comments = [];
-        $result = db_query('SELECT * FROM `nbhzvn_comments` WHERE `game_id` = ?', $this->id);
-        while ($row = $result->fetch_object()) array_push($comments, $row);
+        $result = db_query('SELECT * FROM `nbhzvn_comments` WHERE `game_id` = ? ORDER BY `timestamp` DESC', $this->id);
+        while ($row = $result->fetch_object()) array_push($comments, new Nbhzvn_Comment($row));
         if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         return $comments;
     }
@@ -168,6 +168,65 @@ class Nbhzvn_Game {
         array_push($values, $this->id);
         db_query('UPDATE `nbhzvn_games` SET ' . implode(", ", $query) . ' WHERE `id` = ?', ...$values);
         if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        return SUCCESS;
+    }
+
+    function add_comment($user_id, $content, $replied_to) {
+        global $conn;
+        db_query('INSERT INTO `nbhzvn_comments` (`author`, `timestamp`, `game_id`, `content`, `replied_to`, `edited`) VALUES (?, ?, ?, ?, ?, 0)', $user_id, time(), $this->id, $content, $replied_to);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        if ($conn->insert_id) return new Nbhzvn_Comment($conn->insert_id);
+        return FAILED;
+    }
+}
+
+class Nbhzvn_Comment {
+    public $id;
+    public $author;
+    public $timestamp;
+    public $game_id;
+    public $content;
+    public $replied_to;
+    public $edited;
+
+    function __construct($id) {
+        if (is_object($id)) $data = $id;
+        else {
+            $result = db_query('SELECT * FROM `nbhzvn_comments` WHERE id = ?', $id);
+            while ($row = $result->fetch_object()) $data = $row;
+        }
+        $this->id = $data->id;
+        $this->author = $data->author;
+        $this->timestamp = $data->timestamp;
+        $this->game_id = $data->game_id;
+        $this->content = $data->content;
+        $this->replied_to = $data->replied_to;
+        $this->edited = ($data->edited == 1);
+    }
+
+    function fetch_replies() {
+        $replies = [];
+        if (!$this->replied_to) {
+            $result = db_query('SELECT * FROM `nbhzvn_comments` WHERE `replied_to` = ?', $this->id);
+            while ($row = $result->fetch_object()) array_push($replies, new Nbhzvn_Comment($row));
+        }
+        return $replies;
+    }
+
+    function delete() {
+        global $conn;
+        db_query('DELETE FROM `nbhzvn_comments` WHERE `id` = ?', $this->id);
+        db_query('DELETE FROM `nbhzvn_comments` WHERE `replied_to` = ?', $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        return SUCCESS;
+    }
+
+    function edit($content) {
+        global $conn;
+        db_query('UPDATE `nbhzvn_comments` SET `content` = ?, `edited` = 1 WHERE `id` = ?', $content, $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->content = $content;
+        $this->edited = true;
         return SUCCESS;
     }
 }
