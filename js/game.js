@@ -59,15 +59,15 @@ async function rate(id, rating) {
             full = Math.floor(average), remain = average - full, index = 0, ostar = 4 - full, html = "";
         for (var i = 0; i < full; i++) {
             index++;
-            html += `<a href="#"><i data-rated="true" id="star-${i}" class="fa fa-star"></i></a> `;
+            html += `<a href="javascript:void(0)"><i data-rated="true" id="star-${i}" class="fa fa-star"></i></a> `;
         }
         if (index < 5) {
             index++;
-            html += `<a href="#"><i data-rated="true" id="star-${i}" class="fa fa-star${(remain >= 0.5) ? "-half" : ""}-o"></i></a> `;
+            html += `<a href="javascript:void(0)"><i data-rated="true" id="star-${i}" class="fa fa-star${(remain >= 0.5) ? "-half" : ""}-o"></i></a> `;
         }
         for (var i = 0; i < ostar; i++) {
             index++;
-            html += `<a href="#"><i data-rated="true" id="star-${i}" class="fa fa-star-o"></i></a> `;
+            html += `<a href="javascript:void(0)"><i data-rated="true" id="star-${i}" class="fa fa-star-o"></i></a> `;
         }
         $("#rating").html(html);
         $(`#ratingText`).text(`${response.data.count} lượt đánh giá`);

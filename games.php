@@ -76,15 +76,15 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                                         $full = floor($average); $remain = $average - $full; $index = 0; $ostar = 4 - $full;
                                         for ($i = 0; $i < $full; $i++) {
                                             $index++;
-                                            echo '<a href="#" onclick="rate(' . $game->id . ', ' . $index . ')"><i ' . ($rated ? 'data-rated="true"' : '') . ' id="star-' . $index . '" class="fa fa-star"></i></a> ';
+                                            echo '<a href="javascript:void(0)" onclick="rate(' . $game->id . ', ' . $index . ')"><i ' . ($rated ? 'data-rated="true"' : '') . ' id="star-' . $index . '" class="fa fa-star"></i></a> ';
                                         }
                                         if ($index < 5) {
                                             $index++;
-                                            echo '<a href="#" onclick="rate(' . $game->id . ', ' . $index . ')"><i ' . ($rated ? 'data-rated="true"' : '') . ' id="star-' . $index . '" class="fa fa-star' . (($remain >= 0.5) ? '-half' : '') . '-o"></i></a> ';
+                                            echo '<a href="javascript:void(0)" onclick="rate(' . $game->id . ', ' . $index . ')"><i ' . ($rated ? 'data-rated="true"' : '') . ' id="star-' . $index . '" class="fa fa-star' . (($remain >= 0.5) ? '-half' : '') . '-o"></i></a> ';
                                         }
                                         for ($i = 0; $i < $ostar; $i++) {
                                             $index++;
-                                            echo '<a href="#" onclick="rate(' . $game->id . ', ' . $index . ')"><i ' . ($rated ? 'data-rated="true"' : '') . ' id="star-' . $index . '" class="fa fa-star-o"></i></a> ';
+                                            echo '<a href="javascript:void(0)" onclick="rate(' . $game->id . ', ' . $index . ')"><i ' . ($rated ? 'data-rated="true"' : '') . ' id="star-' . $index . '" class="fa fa-star-o"></i></a> ';
                                         }
                                     ?>
                                 </div>
@@ -127,7 +127,7 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                             <div class="anime__details__btn">
                                 <a href="#downloadSection" class="download-btn"><i class="fa fa-download"></i>&nbsp;&nbsp;Tải xuống</a>
                                 <?php if ($game->approved): ?>
-                                <a href="#" onclick="toggleFollow(<?php echo $game->id ?>)" class="follow-btn"><span id="followText"><?php echo ($user && $user->id && $game->check_follow($user->id)) ? "Bỏ theo dõi" : "Theo dõi" ?></span> <label id="followCount"><?php echo number_format($follows, 0, ",", ".") ?></label></a>
+                                <a href="javascript:void(0)" onclick="toggleFollow(<?php echo $game->id ?>)" class="follow-btn"><span id="followText"><?php echo ($user && $user->id && $game->check_follow($user->id)) ? "Bỏ theo dõi" : "Theo dõi" ?></span> <label id="followCount"><?php echo number_format($follows, 0, ",", ".") ?></label></a>
                                 <?php elseif ($user->type == 3): ?>
                                 <a href="/approve/<?php echo $game->id ?>" class="download-btn"><i class="fa fa-check"></i>&nbsp;&nbsp;Phê duyệt</a>
                                 <?php endif ?>

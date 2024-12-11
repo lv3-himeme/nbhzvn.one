@@ -95,7 +95,7 @@ function echo_game($tmp_game) {
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="#" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
+                                    <a href="javascript:void(0)" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -114,7 +114,7 @@ function echo_game($tmp_game) {
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="#" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
+                                    <a href="javascript:void(0)" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +133,7 @@ function echo_game($tmp_game) {
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="#" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
+                                    <a href="javascript:void(0)" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -152,7 +152,7 @@ function echo_game($tmp_game) {
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="#" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
+                                    <a href="javascript:void(0)" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>

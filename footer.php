@@ -1,5 +1,5 @@
     <div class="page-up">
-        <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
+        <a href="javascript:void(0)" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
     </div>
     <div class="container">
         <div class="row">

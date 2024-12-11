@@ -14,7 +14,7 @@
                                 <li class="active"><a href="/">Trang Chủ</a></li>
                                 <li><a href="/games">Danh Sách Game <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
-                                        <li><a href="#">Sample Text</a></li>
+                                        <li><a href="javascript:void(0)">Sample Text</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="/contact">Liên Hệ</a></li>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="header__right">
-                        <a href="#" title="Tìm kiếm" class="search-switch"><span class="icon_search"></span></a>
+                        <a href="javascript:void(0)" title="Tìm kiếm" class="search-switch"><span class="icon_search"></span></a>
                         <?php if ($user && $user->type >= 2): ?>
                         <a href="/upload" title="Thêm game mới"><span class="icon_upload"></span></a>
                         <?php endif ?>
