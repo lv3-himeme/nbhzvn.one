@@ -15,11 +15,11 @@ function echo_game($tmp_game) {
     echo '
         <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product__item">
-                <div class="product__item__pic set-bg" data-setbg="/uploads/' . $tmp_game->image . '">
+                <a href="/games/' . $tmp_game->id . '"><div class="product__item__pic set-bg" data-setbg="/uploads/' . $tmp_game->image . '">
                     <div class="ep">' . $status_vocab[$tmp_game->status] . '</div>
                     <div class="comment"><i class="fa fa-comments"></i> ' . number_format($tmp_game->comments, 0, ",", ".") . '</div>
                     <div class="view"><i class="fa fa-eye"></i> ' . number_format($tmp_game->views, 0, ",", ".") . '</div>
-                </div>
+                </div></a>
                 <div class="product__item__text">
                     <ul>
                         <li>' . $engine_vocab[$tmp_game->engine] . '</li>
@@ -192,9 +192,9 @@ function echo_game($tmp_game) {
             foreach (random_games(0, 10) as $tmp_game) {
                 echo '
                     <div class="product__sidebar__comment__item">
-                        <div class="product__sidebar__comment__item__pic">
+                        <a href="/games/' . $tmp_game->id . '"><div class="product__sidebar__comment__item__pic">
                             <img src="/uploads/' . $tmp_game->image . '" alt="">
-                        </div>
+                        </div></a>
                         <div class="product__sidebar__comment__item__text">
                             <ul>
                                 <li>' . $engine_vocab[$tmp_game->engine] . '</li>
