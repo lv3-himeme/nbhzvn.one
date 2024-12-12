@@ -39,17 +39,6 @@
         $(this).css('background-image', 'url(' + bg + ')');
     });
 
-    // Search model
-    $('.search-switch').on('click', function () {
-        $('.search-model').fadeIn(400);
-    });
-
-    $('.search-close-switch').on('click', function () {
-        $('.search-model').fadeOut(400, function () {
-            $('#search-input').val('');
-        });
-    });
-
     /*------------------
 		Navigation
 	--------------------*/
@@ -75,14 +64,6 @@
         autoHeight: false,
         autoplay: true,
         mouseDrag: false
-    });
-
-    /*------------------
-        Video Player
-    --------------------*/
-    const player = new Plyr('#player', {
-        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'captions', 'settings', 'fullscreen'],
-        seekTime: 25
     });
 
     /*------------------
