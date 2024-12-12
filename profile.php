@@ -280,7 +280,7 @@ else {
         <script src="/js/owl.carousel.min.js"></script>
         <script src="/js/main.js"></script>
         <?php if ($repo): ?>
-        <script>var userId = <?php echo $profile_user->id ?>, repo = "<?php if (get("repo") != "unapproved") echo "users"; else echo "games" ?>/<?php echo get("repo") ?>";</script>
+        <script>var userId = <?php echo $profile_user->id ?>, repo = "<?php if (get("repo") != "unapproved") echo "users"; else echo "games" ?>/<?php echo addslashes(get("repo")) ?>";</script>
         <script src="/js/api.js"></script>
         <script src="/js/profile.js?time=<?php echo time() ?>"></script>
         <?php endif ?>
