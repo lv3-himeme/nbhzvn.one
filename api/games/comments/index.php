@@ -12,8 +12,9 @@ try {
             $game = new Nbhzvn_Game(intval(get("id")));
             if (!$game->id) api_response(null, "Không tìm thấy game có ID này.", 404);
             $result = $game->comments(); $comments = [];
-            $page = get("page") ? intval(get("page")) : 1;
-            for ($i = ($page - 1) * 20; $i < min(count($result), $page * 20); $i++) {
+            $page = is_numeric(get("page")) ? intval(get("page")) : 1;
+            $limit = is_numeric(get("limit")) ? intval(get("limit")) : 20;
+            for ($i = ($page - 1) * $limit; $i < min(count($result), $page * $limit); $i++) {
                 if ($result[$i]) array_push($comments, $result[$i]);
             }
             if (get("html")) {
