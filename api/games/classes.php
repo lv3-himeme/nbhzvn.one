@@ -88,21 +88,22 @@ class Nbhzvn_Game {
 
     function ratings() {
         global $conn;
-        $total = 0;
-        $result = db_query('SELECT `rating` FROM `nbhzvn_gameratings` WHERE `game_id` = ?', $this->id);
+        $result = db_query('SELECT g.`id`, COUNT(r.`game_id`) AS total, AVG(r.`rating`) AS average FROM `nbhzvn_gameratings` r LEFT JOIN `nbhzvn_games` g ON r.`game_id` = g.`id` WHERE g.`id` = ?', $this->id);
         if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
-        while ($row = $result->fetch_object()) $total += intval($row->rating);
-        $response = new stdClass();
-        $response->count = $result->num_rows;
-        $response->average = $total / (($result->num_rows > 0) ? $result->num_rows : 1);
-        return $response;
+        while ($row = $result->fetch_object()) {
+            if (!$row->average) $row->average = 0;
+            $row->average = floatval($row->average);
+            return $row;
+        }
+        return new stdClass();
     }
 
     function follows() {
         global $conn;
-        $result = db_query('SELECT `author` FROM `nbhzvn_gamefollows` WHERE `game_id` = ?', $this->id);
+        $result = db_query('SELECT g.`id`, COUNT(f.`game_id`) AS follow_count FROM `nbhzvn_gamefollows` f LEFT JOIN `nbhzvn_games` g ON f.`game_id` = g.`id` WHERE g.`id` = ?', $this->id);
         if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
-        return $result->num_rows;
+        while ($row = $result->fetch_object()) return $row->follow_count;
+        return 0;
     }
 
     function check_follow($user_id) {
@@ -156,6 +157,14 @@ class Nbhzvn_Game {
         while ($row = $result->fetch_object()) array_push($comments, new Nbhzvn_Comment($row));
         if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         return $comments;
+    }
+
+    function comment_count() {
+        global $conn;
+        $result = db_query('SELECT COUNT(*) AS item_count FROM `nbhzvn_comments` WHERE `game_id` = ? AND `replied_to` IS NULL ORDER BY `timestamp` DESC', $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        while ($row = $result->fetch_object()) return $row->item_count;
+        return null;
     }
 
     function edit($data) {
@@ -215,8 +224,8 @@ class Nbhzvn_Comment {
 
     function reply_count() {
         if (!$this->replied_to) {
-            $result = db_query('SELECT * FROM `nbhzvn_comments` WHERE `replied_to` = ?', $this->id);
-            return $result->num_rows;
+            $result = db_query('SELECT COUNT(*) AS item_count FROM `nbhzvn_comments` WHERE `replied_to` = ?', $this->id);
+            while ($row = $result->fetch_object()) return $row->item_count;
         }
         return 0;
     }

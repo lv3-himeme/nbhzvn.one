@@ -11,13 +11,17 @@ try {
             if (!get("id")) api_response(null, "Vui lòng nhập ID của game.", 400);
             $game = new Nbhzvn_Game(intval(get("id")));
             if (!$game->id) api_response(null, "Không tìm thấy game có ID này.", 404);
-            $result = $game->comments();
+            $result = $game->comments(); $comments = [];
+            $page = get("page") ? intval(get("page")) : 1;
+            for ($i = ($page - 1) * 20; $i < min(count($result), $page * 20); $i++) {
+                if ($result[$i]) array_push($comments, $result[$i]);
+            }
             if (get("html")) {
                 $html = "";
-                foreach ($result as $comment) $html .= echo_comment($comment, !!$comment->replied_to, $user);
-                $result = $html;
+                foreach ($comments as $comment) $html .= echo_comment($comment, !!$comment->replied_to, $user);
+                $comments = $html;
             }
-            api_response($result, "Thực hiện thành công.");
+            api_response($comments, "Thực hiện thành công.");
         }
         case "PUT": {
             if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập để có thể bình luận.", 401);

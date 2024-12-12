@@ -88,7 +88,7 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                                         }
                                     ?>
                                 </div>
-                                <span id="ratingText"><?php echo number_format($ratings->count, 0, ",", ".") ?> lượt đánh giá</span>
+                                <span id="ratingText"><?php echo number_format($ratings->total, 0, ",", ".") ?> lượt đánh giá</span>
                             </div>
                             <div class="anime__details__widget">
                                 <div class="row">
@@ -106,7 +106,7 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                                     <div class="col-lg-6 col-md-6">
                                         <ul>
                                             <li><span>Người tải lên:</span> <a href="/profile/<?php echo $game->uploader ?>"><?php $uploader = new Nbhzvn_User($game->uploader); echo $uploader->display_name ? $uploader->display_name : $uploader->username ?></a></li>
-                                            <li><span>Đánh giá trung bình:</span> <span id="ratingText2"><?php echo number_format($ratings->average, 1, ",", ".") ?> / <?php echo number_format($ratings->count, 0, ",", ".") ?> lượt đánh giá</span></li>
+                                            <li><span>Đánh giá trung bình:</span> <span id="ratingText2"><?php echo number_format($ratings->average, 1, ",", ".") ?> / <?php echo number_format($ratings->total, 0, ",", ".") ?> lượt đánh giá</span></li>
                                             <li><span>Hỗ trợ:</span> <?php
                                                 $oses = explode(",", $game->supported_os); $elements = [];
                                                 foreach ($oses as $os) array_push($elements, '<a href="/search?os=' . $os . '">' . $os_vocab[$os] . '</a>');

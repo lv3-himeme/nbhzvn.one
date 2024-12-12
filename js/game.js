@@ -70,8 +70,8 @@ async function rate(id, rating) {
             html += `<a href="javascript:void(0)"><i data-rated="true" id="star-${i}" class="fa fa-star-o"></i></a> `;
         }
         $("#rating").html(html);
-        $(`#ratingText`).text(`${response.data.count} lượt đánh giá`);
-        $(`#ratingText2`).text(`${response.data.average.toFixed(1).toLocaleString()} / ${response.data.count} lượt đánh giá`);
+        $(`#ratingText`).text(`${response.data.total} lượt đánh giá`);
+        $(`#ratingText2`).text(`${response.data.average.toFixed(1).toLocaleString()} / ${response.data.total} lượt đánh giá`);
     }
 }
 
