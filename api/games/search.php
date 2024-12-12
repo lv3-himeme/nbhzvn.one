@@ -1,0 +1,52 @@
+<?php
+$is_api = true;
+require __DIR__ . "/../functions.php";
+require __DIR__ . "/../users/functions.php";
+require __DIR__ . "/../users/cookies.php";
+require __DIR__ . "/functions.php";
+
+try {
+    switch ($_SERVER["REQUEST_METHOD"]) {
+        case "GET": {
+            $supported_queries = ["name", "engine", "tags", "release_year", "author", "language", "translator", "status", "views", "downloads", "supported_os"]; $queries = array();
+            foreach ($supported_queries as $query) {
+                if (get($query)) $queries[$query] = get($query);
+            }
+            if (!count($queries)) api_response(null, "Vui lòng nhập một tiêu chí để tìm kiếm.", 400);
+            $result = search_games($queries); $games = [];
+            $page = is_numeric(get("page")) ? intval(get("page")) : 1;
+            $limit = is_numeric(get("limit")) ? intval(get("limit")) : 20;
+            for ($i = ($page - 1) * $limit; $i < min(count($result), $page * $limit); $i++) {
+                if ($result[$i]) array_push($games, $result[$i]);
+            }
+            if (get("html")) {
+                $html = "";
+                foreach ($games as $game) $html .= echo_search_game($game, true);
+                $games = $html;
+            }
+            api_response($games, "Thực hiện thành công.");
+        }
+        default: {
+            api_response(null, "Yêu cầu HTTP không hợp lệ.", 405);
+            break;
+        }
+    }
+}
+catch (Exception $ex) {
+    switch ($ex->getMessage()) {
+        case DB_CONNECTION_ERROR: {
+            $error = "Lỗi kết nối tới máy chủ. Vui lòng thử lại.";
+            break;
+        }
+        case ALREADY_RATED: {
+            $error = "Bạn đã đánh giá cho game này rồi.";
+            break;
+        }
+        default: {
+            $error = "Có lỗi không xác định xảy ra. Vui lòng báo cáo cho nhà phát triển của website.";
+            break;
+        }
+    }
+    api_response($ex->getMessage(), $error, 500);
+}
+?>

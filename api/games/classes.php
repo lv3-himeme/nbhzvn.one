@@ -24,31 +24,33 @@ class Nbhzvn_Game {
     public $approved;
 
     function __construct($id) {
-        $result = db_query('SELECT * FROM `nbhzvn_games` WHERE id = ?', $id);
-        while ($row = $result->fetch_object()) {
-            $this->id = $row->id;
-            $this->timestamp = $row->timestamp;
-            $this->name = $row->name;
-            $this->links = json_decode($row->links);
-            $this->image = $row->image;
-            $this->screenshots = json_decode($row->screenshots);
-            $this->description = $row->description;
-            $this->engine = $row->engine;
-            $this->tags = $row->tags;
-            $this->release_year = $row->release_year;
-            $this->author = $row->author;
-            $this->language = $row->language;
-            $this->translator = $row->translator;
-            $this->uploader = $row->uploader;
-            $this->status = $row->status;
-            $this->views = $row->views;
-            $this->views_today = $row->views_today;
-            $this->updated_date = $row->updated_date;
-            $this->downloads = $row->downloads;
-            $this->supported_os = $row->supported_os;
-            $this->is_featured = $row->is_featured;
-            $this->approved = ($row->approved == 1);
+        if (is_object($id)) $data = $id;
+        else {
+            $result = db_query('SELECT * FROM `nbhzvn_games` WHERE id = ?', $id);
+            while ($row = $result->fetch_object()) $data = $row;
         }
+        $this->id = $data->id;
+        $this->timestamp = $data->timestamp;
+        $this->name = $data->name;
+        $this->links = json_decode($data->links);
+        $this->image = $data->image;
+        $this->screenshots = json_decode($data->screenshots);
+        $this->description = $data->description;
+        $this->engine = $data->engine;
+        $this->tags = $data->tags;
+        $this->release_year = $data->release_year;
+        $this->author = $data->author;
+        $this->language = $data->language;
+        $this->translator = $data->translator;
+        $this->uploader = $data->uploader;
+        $this->status = $data->status;
+        $this->views = $data->views;
+        $this->views_today = $data->views_today;
+        $this->updated_date = $data->updated_date;
+        $this->downloads = $data->downloads;
+        $this->supported_os = $data->supported_os;
+        $this->is_featured = $data->is_featured;
+        $this->approved = ($data->approved == 1);
     }
 
     function add_views() {
