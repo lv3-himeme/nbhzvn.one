@@ -291,7 +291,7 @@ class Nbhzvn_Notification {
         <div id="notification-' . $this->id . '" class="comment_container"><a href="' . $this->link . '">
             <div class="anime__review__item">
                 <div class="anime__review__item__text' . ($this->is_unread ? " notification_unread" : "") . '">
-                    <h6><span>' . comment_time($this->timestamp) . '</span></h6>
+                    <h6><span style="font-size: 10pt">' . comment_time($this->timestamp) . '</span></h6>
                     <p>' . $parsedown->text($this->content) . '</p>
                     <p class="comment_options">
                         <a href="javascript:void(0)" onclick="deleteNotification(' . $this->id . ')">Xoá thông báo này</a>
