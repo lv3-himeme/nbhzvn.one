@@ -14,7 +14,12 @@
                                 <li class="active"><a href="/">Trang Chủ</a></li>
                                 <li><a href="/games">Danh Sách Game <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
-                                        <li><a href="javascript:void(0)">Sample Text</a></li>
+                                        <li><a href="/games?category=popular">Game Phổ Biến</a></li>
+                                        <li><a href="/games?category=mobile">Game Dành Cho Điện Thoại</a></li>
+                                        <li><a href="/search?language=1">Game Tiếng Việt</a></li>
+                                        <li><a href="/search?engine=1">Game RPG Maker 2000/2003</a></li>
+                                        <li><a href="/search?engine=2">Game RPG Maker XP/VX/VX Ace</a></li>
+                                        <li><a href="/search?engine=3">Game RPG Maker MV/MZ</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="/contact">Liên Hệ</a></li>
@@ -24,7 +29,7 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="header__right">
-                        <a href="javascript:void(0)" title="Tìm kiếm" class="search-switch"><span class="icon_search"></span></a>
+                        <a href="/search" title="Tìm kiếm" class="search-switch"><span class="icon_search"></span></a>
                         <?php if ($user && $user->type >= 2): ?>
                         <a href="/upload" title="Thêm game mới"><span class="icon_upload"></span></a>
                         <?php endif ?>
