@@ -2,6 +2,7 @@
 require "api/functions.php";
 require "api/users/functions.php";
 require "api/users/cookies.php";
+require "api/games/functions.php";
 $parsedown = new Parsedown();
 $parsedown->setSafeMode(true);
 $parsedown->setMarkupEscaped(true);
@@ -128,10 +129,15 @@ if ($profile_user->id == $user->id) {
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="/follows" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
+                                    <a href="/uploads/<?php echo $user->id ?>" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <?php
+                                foreach ($uploaded_games as $tmp_game) echo echo_search_game($tmp_game, true);
+                            ?>
+                        </div><br>
                         <?php endif ?>
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
@@ -141,9 +147,14 @@ if ($profile_user->id == $user->id) {
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="/follows" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
+                                    <a href="/follows/<?php echo $user->id ?>" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <?php
+                                foreach ($followed_games as $tmp_game) echo echo_search_game($tmp_game, true);
+                            ?>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
@@ -151,6 +162,9 @@ if ($profile_user->id == $user->id) {
                             <div class="section-title">
                                 <h5>Bình luận gần đây</h5>
                             </div>
+                            <?php
+                                foreach ($comments as $comment) echo echo_comment($comment, false, $user, true);
+                            ?>
                         </div>
                     </div>
                 </div>

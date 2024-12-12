@@ -2682,6 +2682,13 @@ input.hidden {
 	margin-left: 10px;
 }
 
+.highlighted_comment {
+	padding: 5px;
+	margin-left: 5px;
+	font-size: 9pt;
+	background-color: #424242;
+}
+
 .nbhzvn_pagination {
 	text-align: center;
 }

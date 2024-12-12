@@ -8,28 +8,6 @@ $parsedown->setMarkupEscaped(true);
 use Soundasleep\Html2Text;
 
 $featured_games = featured_games();
-
-function echo_game($tmp_game) {
-    global $status_vocab;
-    global $engine_vocab;
-    echo '
-        <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="product__item">
-                <a href="/games/' . $tmp_game->id . '"><div class="product__item__pic set-bg" data-setbg="/uploads/' . $tmp_game->image . '">
-                    <div class="ep">' . $status_vocab[$tmp_game->status] . '</div>
-                    <div class="comment"><i class="fa fa-comments"></i> ' . number_format($tmp_game->comments, 0, ",", ".") . '</div>
-                    <div class="view"><i class="fa fa-eye"></i> ' . number_format($tmp_game->views, 0, ",", ".") . '</div>
-                </div></a>
-                <div class="product__item__text">
-                    <ul>
-                        <li>' . $engine_vocab[$tmp_game->engine] . '</li>
-                    </ul>
-                    <h5><a href="/games/' . $tmp_game->id . '">' . htmlentities($tmp_game->name) . '</a></h5>
-                </div>
-            </div>
-        </div>
-    ';
-}
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -101,7 +79,7 @@ function echo_game($tmp_game) {
                         </div>
                         <div class="row">
                             <?php
-                                foreach (trending_games(6) as $tmp_game) echo_game($tmp_game);
+                                foreach (trending_games(6) as $tmp_game) echo echo_homepage_game($tmp_game);
                             ?>
                         </div>
                     </div>
@@ -120,7 +98,7 @@ function echo_game($tmp_game) {
                         </div>
                         <div class="row">
                             <?php
-                                foreach (popular_games(6) as $tmp_game) echo_game($tmp_game);
+                                foreach (popular_games(6) as $tmp_game) echo echo_homepage_game($tmp_game);
                             ?>
                         </div>
                     </div>
@@ -139,7 +117,7 @@ function echo_game($tmp_game) {
                         </div>
                         <div class="row">
                             <?php
-                                foreach (recent_games(6) as $tmp_game) echo_game($tmp_game);
+                                foreach (recent_games(6) as $tmp_game) echo echo_homepage_game($tmp_game);
                             ?>
                         </div>
                     </div>
@@ -158,7 +136,7 @@ function echo_game($tmp_game) {
                         </div>
                         <div class="row">
                             <?php
-                                foreach (mobile_games(6) as $tmp_game) echo_game($tmp_game);
+                                foreach (mobile_games(6) as $tmp_game) echo echo_homepage_game($tmp_game);
                             ?>
                         </div>
                     </div>
@@ -189,22 +167,7 @@ function echo_game($tmp_game) {
             <h5>Game Ngẫu Nhiên</h5>
         </div>
         <?php
-            foreach (random_games(0, 10) as $tmp_game) {
-                echo '
-                    <div class="product__sidebar__comment__item">
-                        <a href="/games/' . $tmp_game->id . '"><div class="product__sidebar__comment__item__pic">
-                            <img src="/uploads/' . $tmp_game->image . '" alt="">
-                        </div></a>
-                        <div class="product__sidebar__comment__item__text">
-                            <ul>
-                                <li>' . $engine_vocab[$tmp_game->engine] . '</li>
-                            </ul>
-                            <h5><a href="/games/' . $tmp_game->id . '">' . htmlentities($tmp_game->name) . '</a></h5>
-                            <span><i class="fa fa-eye"></i> ' . number_format($tmp_game->views, 0, ",", ".") . ' lượt xem</span>
-                        </div>
-                    </div>
-                ';
-            }
+            foreach (random_games(0, 10) as $tmp_game) echo echo_search_game($tmp_game);
         ?>
     </div>
 </div>

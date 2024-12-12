@@ -192,7 +192,12 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                             </div>
                             <div id="comments">
                                 <?php
-                                    foreach ($comments as $comment) echo echo_comment($comment, !!$comment->replied_to, $user);
+                                    $highlighted_comment_id = is_numeric(get("highlighted_comment")) ? intval(get("highlighted_comment")) : 0;
+                                    if ($highlighted_comment_id) {
+                                        $highlighted_comment = new Nbhzvn_Comment($highlighted_comment_id);
+                                        if ($highlighted_comment->id) echo echo_comment($highlighted_comment, !!$highlighted_comment->replied_to, $user, false, is_numeric(get("reply_comment")) ? intval(get("reply_comment")) : $highlighted_comment_id);
+                                    }
+                                    foreach ($comments as $comment) if ($comment->id != $highlighted_comment_id) echo echo_comment($comment, !!$comment->replied_to, $user);
                                 ?>
                             </div>
                             <?php echo pagination(count($comments)); ?>
@@ -211,15 +216,7 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                                 <h5>Các game khác</h5>
                             </div>
                             <?php
-                                foreach (random_games($game->id) as $tmp_game) {
-                                    echo '
-                                        <div class="product__sidebar__view__item set-bg" data-setbg="/uploads/' . $tmp_game->image . '">
-                                            <div class="ep">' . $status_vocab[$tmp_game->status] . '</div>
-                                            <div class="view"><i class="fa fa-eye"></i> ' . number_format($tmp_game->views, 0, ",", ".") . '</div>
-                                            <h5><a href="/games/' . $tmp_game->id . '">' . htmlentities($tmp_game->name) . '</a></h5>
-                                        </div>
-                                    ';
-                                }
+                                foreach (random_games($game->id) as $tmp_game) echo echo_tiled_game($tmp_game);
                             ?>
                         </div>
                     </div>

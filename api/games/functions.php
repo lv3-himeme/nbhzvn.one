@@ -122,13 +122,72 @@ function get_mention_users($content) {
     return $users;
 }
 
-function echo_comment($comment, $is_reply, $user = new Nbhzvn_User(0)) {
+function echo_homepage_game($tmp_game) {
+    global $status_vocab;
+    global $engine_vocab;
+    return '
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="product__item">
+                <a href="/games/' . $tmp_game->id . '"><div class="product__item__pic set-bg" data-setbg="/uploads/' . $tmp_game->image . '">
+                    <div class="ep">' . $status_vocab[$tmp_game->status] . '</div>
+                    <div class="comment"><i class="fa fa-comments"></i> ' . number_format($tmp_game->comments, 0, ",", ".") . '</div>
+                    <div class="view"><i class="fa fa-eye"></i> ' . number_format($tmp_game->views, 0, ",", ".") . '</div>
+                </div></a>
+                <div class="product__item__text">
+                    <ul>
+                        <li>' . $engine_vocab[$tmp_game->engine] . '</li>
+                    </ul>
+                    <h5><a href="/games/' . $tmp_game->id . '">' . htmlentities($tmp_game->name) . '</a></h5>
+                </div>
+            </div>
+        </div>
+    ';
+}
+
+function echo_tiled_game($tmp_game, $col = false) {
+    global $status_vocab;
+    return ($col ? '<div class="col-lg-4 col-md-6 col-sm-6">' : "") . '
+        <div class="product__sidebar__view__item set-bg" data-setbg="/uploads/' . $tmp_game->image . '">
+            <div class="ep">' . $status_vocab[$tmp_game->status] . '</div>
+            <div class="view"><i class="fa fa-eye"></i> ' . number_format($tmp_game->views, 0, ",", ".") . '</div>
+            <h5><a href="/games/' . $tmp_game->id . '">' . htmlentities($tmp_game->name) . '</a></h5>
+        </div>
+    ' . ($col ? '</div>' : "");
+}
+
+function echo_search_game($tmp_game, $col = false) {
+    global $engine_vocab;
+    return ($col ? '<div class="col-lg-4 col-md-6 col-sm-6">' : "") . '
+    <div class="product__sidebar__comment__item">
+        <a href="/games/' . $tmp_game->id . '"><div class="product__sidebar__comment__item__pic">
+            <img src="/uploads/' . $tmp_game->image . '" alt="">
+        </div></a>
+        <div class="product__sidebar__comment__item__text">
+            <ul>
+                <li>' . $engine_vocab[$tmp_game->engine] . '</li>
+            </ul>
+            <h5><a href="/games/' . $tmp_game->id . '">' . htmlentities($tmp_game->name) . '</a></h5>
+            <span><i class="fa fa-eye"></i> ' . number_format($tmp_game->views, 0, ",", ".") . ' lượt xem</span>
+        </div>
+    </div>
+    ' . ($col ? '</div>' : "");
+}
+
+function echo_comment($comment, $is_reply, $user = new Nbhzvn_User(0), $hide_options = false, $highlighted = 0) {
     $comment_author = new Nbhzvn_User($comment->author);
     $replies = $comment->reply_count();
+    $pre_reply_html = "";
+    if ($highlighted && $replies > 0) {
+        $replies_list = $comment->fetch_replies();
+        foreach ($replies_list as $reply) $pre_reply_html .= echo_comment($reply, true, $user, $hide_options, $reply->id == $highlighted);
+        $replies = 0;
+    }
     $options = [];
-    if ($user->id == $comment->author) array_push($options, '<a href="javascript:void(0)" onclick="editComment(' . $comment->id . ')">Chỉnh sửa</a>');
-    if ($user->id == $comment->author || $user->type == 3) array_push($options, '<a href="javascript:void(0)" onclick="deleteComment(' . $comment->id . ')">Xoá</a>');
-    if ($user->id) array_push($options, '<a href="javascript:void(0)" onclick="replyComment(' . ($comment->replied_to ? $comment->replied_to : $comment->id) . ', ' . ($comment->replied_to ? ('\'' . $comment_author->username . '\'') : "null") . ')">Trả lời</a>');
-    return '<div id="comment-' . $comment->id . '" class="comment_container"><div class="anime__review__item"><div class="anime__review__item__text' . ($is_reply ? " reply" : "") . '"><h6><a href="/profile/' . $comment->author . '">' . ($comment_author->display_name ? $comment_author->display_name : $comment_author->username) . '</a> • <a href="#comment-' . $comment->id . '"><span>' . comment_time($comment->timestamp) . ($comment->edited ? " (đã chỉnh sửa)" : "") . '</span></a></h6><p id="comment-' . $comment->id . '-content">' . process_mentions($comment->content) . '</p>' . (count($options) ? ('<p id="comment-' . $comment->id . '-options" class="comment_options">' . implode(" • ", $options) . '</p>') : "") . '</div><div id="comment-' . $comment->id . '-replies" class="comment_replies"></div>' . (($replies > 0) ? '<div class="view_replies_btn" id="comment-' . $comment->id . '-repliesbtn"><a href="javascript:void(0)" onclick="viewReplies(' . $comment->id . ')">Xem ' . $replies . ' câu trả lời...</a></div>' : "") . '</div></div>';
+    if (!$hide_options) {
+        if ($user->id == $comment->author) array_push($options, '<a href="javascript:void(0)" onclick="editComment(' . $comment->id . ')">Chỉnh sửa</a>');
+        if ($user->id == $comment->author || $user->type == 3) array_push($options, '<a href="javascript:void(0)" onclick="deleteComment(' . $comment->id . ')">Xoá</a>');
+        if ($user->id) array_push($options, '<a href="javascript:void(0)" onclick="replyComment(' . ($comment->replied_to ? $comment->replied_to : $comment->id) . ', ' . ($comment->replied_to ? ('\'' . $comment_author->username . '\'') : "null") . ')">Trả lời</a>');
+    }
+    return '<div id="comment-' . $comment->id . '" class="comment_container"><div class="anime__review__item"><div class="anime__review__item__text' . ($is_reply ? " reply" : "") . '"><h6><a href="/profile/' . $comment->author . '">' . ($comment_author->display_name ? $comment_author->display_name : $comment_author->username) . '</a> • <a href="/games/' . $comment->game_id . ($comment->replied_to ? ('?highlighted_comment=' . $comment->replied_to . '&reply_comment=' . $comment->id . '#comment-' . $comment->id) : ('?highlighted_comment=' . $comment->id . '#comment-' . $comment->id)) . '"><span>' . comment_time($comment->timestamp) . ($comment->edited ? " (đã chỉnh sửa)" : "") . (($highlighted == $comment->id) ? '<span class="highlighted_comment">Bình luận nổi bật</span>' : "") . '</span></a></h6><p id="comment-' . $comment->id . '-content">' . process_mentions($comment->content) . '</p>' . (count($options) ? ('<p id="comment-' . $comment->id . '-options" class="comment_options">' . implode(" • ", $options) . '</p>') : "") . '</div><div id="comment-' . $comment->id . '-replies" class="comment_replies">' . $pre_reply_html . '</div>' . (($replies > 0 && !$hide_options) ? '<div class="view_replies_btn" id="comment-' . $comment->id . '-repliesbtn"><a href="javascript:void(0)" onclick="viewReplies(' . $comment->id . ')">Xem ' . $replies . ' câu trả lời...</a></div>' : "") . '</div></div>';
 }
 ?>
