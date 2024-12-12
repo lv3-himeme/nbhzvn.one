@@ -37,6 +37,7 @@ class Nbhzvn_Game {
             $this->tags = $row->tags;
             $this->release_year = $row->release_year;
             $this->author = $row->author;
+            $this->language = $row->language;
             $this->translator = $row->translator;
             $this->uploader = $row->uploader;
             $this->status = $row->status;

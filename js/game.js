@@ -71,7 +71,6 @@ async function rate(id, rating) {
         }
         $("#rating").html(html);
         $(`#ratingText`).text(`${response.data.total} lượt đánh giá`);
-        $(`#ratingText2`).text(`${response.data.average.toFixed(1).toLocaleString()} / ${response.data.total} lượt đánh giá`);
     }
 }
 
