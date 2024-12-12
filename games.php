@@ -139,7 +139,7 @@ else $repo = all_games(20);
                                             <li><span>Ngôn ngữ:</span> <a href="/search?language=<?php echo $game->language ?>"><?php echo $language_vocab[$game->language] ?></a></li>
                                             <li><span>Hỗ trợ:</span> <?php
                                                 $oses = explode(",", $game->supported_os); $elements = [];
-                                                foreach ($oses as $os) array_push($elements, '<a href="/search?os=' . $os . '">' . $os_vocab[$os] . '</a>');
+                                                foreach ($oses as $os) array_push($elements, '<a href="/search?supported_os=' . $os . '">' . $os_vocab[$os] . '</a>');
                                                 echo implode(", ", $elements);
                                             ?></li>
                                             <?php if ($game->tags): ?>
