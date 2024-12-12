@@ -10,12 +10,39 @@ if (!$user && !get("id")) redirect_to_home();
 $profile_user = $user;
 if (get("id") && is_numeric(get("id"))) $profile_user = new Nbhzvn_User(intval(get("id")));
 if (!$profile_user->id) redirect_to_home();
-$followed_games = $profile_user->followed_games();
-$comments = $profile_user->comments();
-if ($profile_user->type >= 2) $uploaded_games = $profile_user->uploaded_games();
-if ($profile_user->id == $user->id) {
-    $email_end_pos = strpos($user->email, "@");
-    $censored_email = substr($user->email, 0, 2) . "••••••" . substr($user->email, $email_end_pos - 2, strlen($user->email) - $email_end_pos + 2);
+if (!get("repo")) {
+    $followed_games = $profile_user->followed_games();
+    $comments = $profile_user->comments();
+    if ($profile_user->type >= 2) $uploaded_games = $profile_user->uploaded_games();
+    if ($profile_user->id == $user->id) {
+        $email_end_pos = strpos($user->email, "@");
+        $censored_email = substr($user->email, 0, 2) . "••••••" . substr($user->email, $email_end_pos - 2, strlen($user->email) - $email_end_pos + 2);
+    }
+}
+else {
+    switch (get("repo")) {
+        case "uploads": {
+            if ($profile_user->type < 2) redirect_to_home();
+            $repo = $profile_user->uploaded_games();
+            $overwrite_title = "Game Đã Tải Lên";
+            break;
+        }
+        case "follows": {
+            $repo = $profile_user->followed_games();
+            $overwrite_title = "Danh Sách Theo Dõi";
+            break;
+        }
+        case "unapproved": {
+            if ($profile_user->type < 3) redirect_to_home();
+            $repo = unapproved_games();
+            $overwrite_title = "Game Đang Chờ Duyệt";
+            break;
+        }
+        default: {
+            redirect_to_home();
+            break;
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -23,7 +50,7 @@ if ($profile_user->id == $user->id) {
 
 <head>
     <?php
-        $title = "Thông Tin Tài Khoản";
+        $title = $overwrite_title ? $overwrite_title : "Thông Tin Tài Khoản";
         require __DIR__ . "/head.php";
     ?>
 </head>
@@ -47,7 +74,12 @@ if ($profile_user->id == $user->id) {
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
                         <a href="/"><i class="fa fa-home"></i> Trang Chủ</a>
+                        <?php if ($overwrite_title): ?>
+                        <a href="/profile/<?php echo $profile_user->id ?>">Thông Tin Tài Khoản</a>
+                        <span><?php echo $overwrite_title ?></span>
+                        <?php else: ?>
                         <span>Thông Tin Tài Khoản</span>
+                        <?php endif ?>
                     </div>
                 </div>
             </div>
@@ -58,6 +90,20 @@ if ($profile_user->id == $user->id) {
     <!-- Anime Section Begin -->
     <section class="anime-details spad">
         <div class="container">
+            <?php if ($repo): ?>
+                <h3 class="nbhzvn_title"><b><?php echo $overwrite_title ?> <?php if (get("repo") != "unapproved") echo ' Của ' . ($profile_user->display_name ? $profile_user->display_name : $profile_user->username) ?></b></h3>
+                <div class="row" id="games">
+                    <?php
+                        $limit = 0;
+                        foreach ($repo as $game) {
+                            echo echo_search_game($game, true);
+                            $limit++;
+                            if ($limit == 20) break;
+                        }
+                    ?>
+                </div>
+                <?php echo pagination(count($repo)) ?>
+            <?php else: ?>
             <?php if ($user->id == $profile_user->id): ?>
             <div style="text-align: right">
                 <a href="/logout" class="nbhzvn_btn"><span>Đăng Xuất</span></a>
@@ -120,6 +166,25 @@ if ($profile_user->id == $user->id) {
                 </div>
                 <div class="row">
                     <div class="col-lg-8 col-md-8">
+                        <?php if ($profile_user->type == 3): ?>
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="section-title">
+                                    <h4>Game Đang Chờ Duyệt</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="btn__all">
+                                    <a href="/unapproved/<?php echo $user->id ?>" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <?php
+                                foreach (unapproved_games() as $tmp_game) echo echo_search_game($tmp_game, true);
+                            ?>
+                        </div><br>
+                        <?php endif ?>
                         <?php if ($profile_user->type >= 2): ?>
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
@@ -135,7 +200,12 @@ if ($profile_user->id == $user->id) {
                         </div>
                         <div class="row">
                             <?php
-                                foreach ($uploaded_games as $tmp_game) echo echo_search_game($tmp_game, true);
+                                $limit = 0;
+                                foreach ($uploaded_games as $tmp_game) {
+                                    echo echo_search_game($tmp_game, true);
+                                    $limit++;
+                                    if ($limit == 6) break;
+                                }
                             ?>
                         </div><br>
                         <?php endif ?>
@@ -153,7 +223,12 @@ if ($profile_user->id == $user->id) {
                         </div>
                         <div class="row">
                             <?php
-                                foreach ($followed_games as $tmp_game) echo echo_search_game($tmp_game, true);
+                                $limit = 0;
+                                foreach ($followed_games as $tmp_game) {
+                                    echo echo_search_game($tmp_game, true);
+                                    $limit++;
+                                    if ($limit == 6) break;
+                                }
                             ?>
                         </div>
                     </div>
@@ -163,11 +238,17 @@ if ($profile_user->id == $user->id) {
                                 <h5>Bình luận gần đây</h5>
                             </div>
                             <?php
-                                foreach ($comments as $comment) echo echo_comment($comment, false, $user, true);
+                                $lmit = 0;
+                                foreach ($comments as $comment) {
+                                    echo echo_comment($comment, false, $user, true);
+                                    $limit++;
+                                    if ($limit == 6) break;
+                                }
                             ?>
                         </div>
                     </div>
                 </div>
+                <?php endif ?>
             </div>
         </section>
         <!-- Anime Section End -->
@@ -198,6 +279,11 @@ if ($profile_user->id == $user->id) {
         <script src="/js/jquery.slicknav.js"></script>
         <script src="/js/owl.carousel.min.js"></script>
         <script src="/js/main.js"></script>
+        <?php if ($repo): ?>
+        <script>var userId = <?php echo $profile_user->id ?>, repo = "<?php if (get("repo") != "unapproved") echo "users"; else echo "games" ?>/<?php echo get("repo") ?>";</script>
+        <script src="/js/api.js"></script>
+        <script src="/js/profile.js?time=<?php echo time() ?>"></script>
+        <?php endif ?>
 
     </body>
 

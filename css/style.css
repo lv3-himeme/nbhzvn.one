@@ -2721,3 +2721,8 @@ input.hidden {
 .nbhzvn_pagination > .pages_count {
 	color: #fff;
 }
+
+.nbhzvn_title {
+	font-weight: bold;
+	margin-bottom: 30px;
+}

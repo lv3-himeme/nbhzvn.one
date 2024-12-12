@@ -208,7 +208,8 @@ class Nbhzvn_User {
         $games = [];
         $result = db_query('SELECT `game_id` FROM `nbhzvn_gamefollows` WHERE `author` = ?', $this->id);
         while ($row = $result->fetch_object()) {
-            array_push($games, new Nbhzvn_Game($row->game_id));
+            $game = new Nbhzvn_Game($row->game_id);
+            if ($game->approved) array_push($games, $game);
         }
         return $games;
     }
@@ -224,7 +225,7 @@ class Nbhzvn_User {
 
     function uploaded_games() {
         $games = [];
-        $result = db_query('SELECT `id` FROM `nbhzvn_games` WHERE `uploader` = ?', $this->id);
+        $result = db_query('SELECT `id` FROM `nbhzvn_games` WHERE `uploader` = ? AND `approved` = 1', $this->id);
         while ($row = $result->fetch_object()) {
             array_push($games, new Nbhzvn_Game($row->id));
         }
