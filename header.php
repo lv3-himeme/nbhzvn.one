@@ -22,7 +22,7 @@
                                         <li><a href="/search?engine=3">Game RPG Maker MV/MZ</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="/contact">Liên Hệ</a></li>
+                                <li><a href="/faq">FAQ</a></li>
                             </ul>
                         </nav>
                     </div>
