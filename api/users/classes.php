@@ -231,5 +231,66 @@ class Nbhzvn_User {
         }
         return $games;
     }
+
+    function notifications() {
+        $notifications = [];
+        $result = db_query('SELECT * FROM `nbhzvn_notifications` WHERE `user_id` = ?', $this->id);
+        while ($row = $result->fetch_object()) {
+            array_push($notifications, new Nbhzvn_Notification($row));
+        }
+        return $notifications;
+    }
+
+    function send_notification($link, $content) {
+        db_query('INSERT INTO `nbhzvn_notifications` (`timestamp`, `user_id`, `link`, `content`, `is_unread`) VALUES (?, ?, ?, ?, ?)', time(), $this->id, $link, $content, 1);
+        return SUCCESS;
+    }
+}
+
+class Nbhzvn_Notification {
+    public $id;
+    public $timestamp;
+    public $user_id;
+    public $link;
+    public $content;
+    public $is_unread;
+
+    function __construct($id) {
+        if (is_object($id)) $data = $id;
+        else {
+            $result = db_query('SELECT * FROM `nbhzvn_notifications` WHERE id = ?', $id);
+            while ($row = $result->fetch_object()) $data = $row;
+        }
+        $this->id = $data->id;
+        $this->timestamp = $data->timestamp;
+        $this->user_id = $data->user_id;
+        $this->link = $data->link;
+        $this->content = $data->content;
+        $this->is_unread = ($data->is_unread == 1);
+    }
+
+    function delete() {
+        global $conn;
+        db_query('DELETE FROM `nbhzvn_notifications` WHERE `id` = ?', $this->id);
+        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+        $this->id = null;
+        return SUCCESS;
+    }
+
+    function to_html() {
+        $parsedown = new Parsedown();
+        $parsedown->setSafeMode(true);
+        $parsedown->setMarkupEscaped(true);
+        return '
+        <div id="notification-' . $this->id . '" class="comment_container"><a href="' . $this->link . '">
+            <div class="anime__review__item">
+                <div class="anime__review__item__text' . ($this->is_unread ? " notification_unread" : "") . '">
+                    <h6><span>' . comment_time($this->timestamp) . '</span></h6>
+                    <p>' . $parsedown->text($this->content) . '</p>
+                </div>
+            </div>
+        </a></div>
+        ';
+    }
 }
 ?>
