@@ -73,7 +73,7 @@ $featured_games = featured_games();
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="javascript:void(0)" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
+                                    <a href="/games?category=trending" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@ $featured_games = featured_games();
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="javascript:void(0)" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
+                                    <a href="/games?category=popular" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@ $featured_games = featured_games();
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="javascript:void(0)" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
+                                    <a href="/games?category=recent" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +130,7 @@ $featured_games = featured_games();
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="javascript:void(0)" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
+                                    <a href="/games?category=mobile" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>

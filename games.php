@@ -7,16 +7,45 @@ $parsedown = new Parsedown();
 $parsedown->setSafeMode(true);
 $parsedown->setMarkupEscaped(true);
 
-if (!get("id")) redirect_to_home();
-
-$game = new Nbhzvn_Game(intval(get("id")));
-if (!$game->id) redirect_to_home();
-if (!$game->approved && $game->uploader != $user->id && $user->type < 3) redirect_to_home();
-$game->add_views();
-$comments = $game->comments();
-$follows = $game->follows();
-$ratings = $game->ratings();
-$rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
+if (is_numeric(get("id"))) {
+    $game = new Nbhzvn_Game(intval(get("id")));
+    if (!$game->id) redirect_to_home();
+    if (!$game->approved && $game->uploader != $user->id && $user->type < 3) redirect_to_home();
+    $game->add_views();
+    $comments = $game->comments();
+    $follows = $game->follows();
+    $ratings = $game->ratings();
+    $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
+}
+else if (get("category")) {
+    switch (get("category")) {
+        case "trending": {
+            $title = "Game Thịnh Hành";
+            $repo = trending_games();
+            break;
+        }
+        case "popular": {
+            $title = "Game Phổ Biến";
+            $repo = popular_games();
+            break;
+        }
+        case "recent": {
+            $title = "Game Mới Tải Lên";
+            $repo = recent_games();
+            break;
+        }
+        case "mobile": {
+            $title = "Game Dành Cho Điện Thoại";
+            $repo = mobile_games();
+            break;
+        }
+        default: {
+            $repo = all_games();
+            break;
+        }
+    }
+}
+else $repo = all_games(20);
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -56,6 +85,7 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
     <!-- Anime Section Begin -->
     <section class="anime-details spad">
         <div class="container">
+            <?php if ($game && $game->id): ?>
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
@@ -221,6 +251,20 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                         </div>
                     </div>
                 </div>
+                <?php else: ?>
+                <h3 class="nbhzvn_title"><?php echo $title ? $title : "Danh Sách Game" ?></h3>
+                <div class="row" id="games">
+                    <?php
+                        $limit = 0;
+                        foreach ($repo as $tmp_game) {
+                            echo echo_search_game($tmp_game, true);
+                            $limit++;
+                            if ($limit == 20) break;
+                        }
+                    ?>
+                </div>
+                <?php echo pagination(count($repo)) ?>
+                <?php endif ?>
             </div>
         </section>
         <!-- Anime Section End -->
@@ -243,7 +287,6 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
         <!-- Search model end -->
 
         <!-- Js Plugins -->
-        <script>gameId = <?php echo $game->id ?></script>
         <script src="/js/jquery-3.3.1.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/player.js"></script>
@@ -254,7 +297,13 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
         <script src="/js/main.js"></script>
         <script src="/js/toastr.js"></script>
         <script src="/js/api.js"></script>
+        <?php if ($game && $game->id): ?>
+        <script>gameId = <?php echo $game->id ?></script>
         <script src="/js/game.js?time=<?php echo time() ?>"></script>
+        <?php else: ?>
+        <script>repo = "<?php echo addslashes(get("category")) ?>"</script>
+        <script src="/js/game_list.js?time=<?php echo time() ?>"></script>
+        <?php endif ?>
 
     </body>
 
