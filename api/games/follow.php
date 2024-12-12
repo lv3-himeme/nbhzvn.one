@@ -9,6 +9,7 @@ try {
     if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập để có thể theo dõi game này.", 401);
     switch ($_SERVER["REQUEST_METHOD"]) {
         case "POST": {
+            if ($user->check_timeout("follow")) api_response(null, "Bạn đang theo dõi quá nhanh, hãy chậm lại một chút.", 429);
             $json = json_decode(file_get_contents("php://input"));
             if (!$json->id) api_response(null, "Vui lòng nhập ID của một game.", 400);
             $game = new Nbhzvn_Game($json->id);
@@ -17,6 +18,7 @@ try {
             $response = new stdClass();
             $response->type = $result == ACTION_FOLLOW ? "follow" : "unfollow";
             $response->followers = $game->follows();
+            $user->update_timeout("follow", time() + 5);
             api_response($response, "Đã " . ($result == ACTION_FOLLOW ? "thêm game này vào danh sách theo dõi" : "bỏ game này ra khỏi danh sách theo dõi") . ".");
             break;
         }

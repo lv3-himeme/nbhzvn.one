@@ -25,6 +25,7 @@ try {
         }
         case "PUT": {
             if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập để có thể bình luận.", 401);
+            if ($user->check_timeout("comment")) api_response(null, "Bạn cần đợi ít nhất 1 phút từ lần bình luận cuối cùng trước khi có thể bình luận một lần nữa.", 429);
             $json = json_decode(file_get_contents("php://input"));
             if (!$json->id || !$json->content) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
             $game = new Nbhzvn_Game($json->id);
@@ -34,6 +35,7 @@ try {
                 if (!$reply_comment->id) api_response(null, "Không tìm thấy bình luận có ID là " . $json->replied_to . " để trả lời.", 404);
             }
             $result = $game->add_comment($user->id, $json->content, $json->replied_to);
+            $user->update_timeout("comment", time() + 60);
             api_response(echo_comment($result, !!$json->replied_to, $user), "Thực hiện thành công.");
             break;
         }

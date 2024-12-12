@@ -13,6 +13,7 @@ function process() {
     global $notice;
     global $user;
     if (!check_csrf(post("csrf_token"))) return $error = "Mã xác thực CSRF không đúng.";
+    if ($user->check_timeout("upload") && $user->type < 3) return $error = "Bạn cần đợi ít nhất 10 phút từ lần thêm cuối cùng trước khi thêm một game mới.";
     $inputs = ["name", "image", "links", "screenshots", "description", "engine", "release_year", "author", "language", "status", "supported_os"];
     $data = array();
     foreach ($inputs as $input) {
@@ -24,6 +25,7 @@ function process() {
     $data["uploader"] = $user->id;
     $data = json_decode(json_encode($data));
     $result = add_game($data, ($user->type == 3));
+    $user->update_timeout("upload", time() + 600);
     if ($result == SUCCESS) $notice = "Đã tải lên game thành công" . ($user->type < 3 ? ", game của bạn sẽ được hiển thị trên trang web sau khi Quản Trị Viên đã duyệt game của bạn." : ".");
 }
 
