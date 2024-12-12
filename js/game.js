@@ -10,7 +10,7 @@ function highlightStars(cursor) {
 }
 
 function unhighlightStars() {
-    for (var i = 1; i <= 5; i++) $(`#star-${i}`).attr("class", element.attr("data-original-class"));
+    for (var i = 1; i <= 5; i++) $(`#star-${i}`).attr("class", $(`#star-${i}`).attr("data-original-class"));
 }
 
 var hovering = {};
