@@ -134,7 +134,7 @@ catch (Exception $ex) {
                             <option value="0">Nền Tảng Được Hỗ Trợ</option>
                             <?php
                                 foreach ($os_vocab as $value => $vocab) {
-                                    echo '<option value="' . $value . '"' . ((intval(get("supported_os")) == $value) ? " selected" : "") . '>' . $vocab . '</option>';
+                                    echo '<option value="' . $value . '"' . ((get("supported_os") == $value) ? " selected" : "") . '>' . $vocab . '</option>';
                                 }
                             ?>
                         </select>
