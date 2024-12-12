@@ -35,4 +35,11 @@ function login($username, $passphrase) {
     if (!password_verify($passphrase, $passphrase_hash)) throw new Exception(INCORRECT_CREDENTIALS);
     return SUCCESS;
 }
+
+function get_admins() {
+    $users = [];
+    $result = db_query('SELECT `id` FROM `nbhzvn_users` WHERE `type` = 3');
+    while ($row = $result->fetch_object()) array_push($users, new Nbhzvn_User($row->id));
+    return $users;
+}
 ?>

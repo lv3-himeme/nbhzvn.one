@@ -210,7 +210,16 @@ class Nbhzvn_User {
 
     function notifications() {
         $notifications = [];
-        $result = db_query('SELECT * FROM `nbhzvn_notifications` WHERE `user_id` = ?', $this->id);
+        $result = db_query('SELECT * FROM `nbhzvn_notifications` WHERE `user_id` = ? ORDER BY `timestamp` DESC', $this->id);
+        while ($row = $result->fetch_object()) {
+            array_push($notifications, new Nbhzvn_Notification($row));
+        }
+        return $notifications;
+    }
+
+    function unread_notifications() {
+        $notifications = [];
+        $result = db_query('SELECT * FROM `nbhzvn_notifications` WHERE `user_id` = ? AND `is_unread` = 1', $this->id);
         while ($row = $result->fetch_object()) {
             array_push($notifications, new Nbhzvn_Notification($row));
         }
@@ -220,6 +229,29 @@ class Nbhzvn_User {
     function send_notification($link, $content) {
         db_query('INSERT INTO `nbhzvn_notifications` (`timestamp`, `user_id`, `link`, `content`, `is_unread`) VALUES (?, ?, ?, ?, ?)', time(), $this->id, $link, $content, 1);
         return SUCCESS;
+    }
+
+    function send_comment_notification(Nbhzvn_Game $game, $commenter_id, $comment_id, $type = COMMENT_DEFAULT, $reply_id = null) {
+        $link = "/games/" . $game->id; $commenter = new Nbhzvn_User($commenter_id); $content = "";
+        switch ($type) {
+            case COMMENT_DEFAULT: {
+                $link .= "?highlighted_comment=" . $comment_id . "#comment-" . $comment_id;
+                $content = "**{user}** đã bình luận vào game **{game}** của bạn.";
+                break;
+            }
+            case COMMENT_REPLY: {
+                $link .= "?highlighted_comment=" . $comment_id . "&reply_comment=" . $reply_id . "#comment-" . $reply_id;
+                $content = "**{user}** đã trả lời bình luận của bạn ở game **{game}**.";
+                break;
+            }
+            case COMMENT_MENTION: {
+                if ($reply_id) $link .= "?highlighted_comment=" . $comment_id . "&reply_comment=" . $reply_id . "#comment-" . $reply_id;
+                else $link .= "?highlighted_comment=" . $comment_id . "#comment-" . $comment_id;
+                $content = "**{user}** đã nhắc đến bạn trong một bình luận ở game **{game}**.";
+                break;
+            }
+        }
+        $this->send_notification($link, str_replace("{user}", $commenter->display_name ? $commenter->display_name : $commenter->username, str_replace("{game}", $game->name, $content)));
     }
 }
 
@@ -261,6 +293,9 @@ class Nbhzvn_Notification {
                 <div class="anime__review__item__text' . ($this->is_unread ? " notification_unread" : "") . '">
                     <h6><span>' . comment_time($this->timestamp) . '</span></h6>
                     <p>' . $parsedown->text($this->content) . '</p>
+                    <p class="comment_options">
+                        <a href="javascript:void(0)" onclick="deleteNotification(' . $this->id . ')">Xoá thông báo này</a>
+                    </p>
                 </div>
             </div>
         </a></div>

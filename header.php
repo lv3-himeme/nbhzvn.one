@@ -34,6 +34,8 @@
                         <a href="/upload" title="Thêm game mới"><span class="icon_upload"></span></a>
                         <?php endif ?>
                         <?php if ($user): ?>
+                            <?php $unread_notifications = $user->unread_notifications() ?>
+                            <a href="/notifications" class="nbhzvn_notification<?php if (count($unread_notifications)) echo ' unread' ?>"><span class="fa fa-bell"></span><?php if (count($unread_notifications)) echo ' <span class="number">(' . count($unread_notifications) . ')</span>' ?></a>
                             <a href="/profile"><span class="icon_profile"></span> <span class="nbhzvn_username"><?php echo $user->display_name ? $user->display_name : $user->username; ?></span></a>
                         <?php else: ?>
                             <a href="/login"><span class="icon_profile"></span></a>

@@ -43,6 +43,10 @@ const OS_IOS = "ios";
 const ACTION_FOLLOW = 2;
 const ACTION_UNFOLLOW = 1;
 
+const COMMENT_DEFAULT = 1;
+const COMMENT_REPLY = 2;
+const COMMENT_MENTION = 3;
+
 $engine_vocab = array(
     ENGINE_RPG2K => "RPG Maker 2000/2003",
     ENGINE_RGSS => "RPG Maker XP/VX/VX Ace",
@@ -71,5 +75,11 @@ $os_vocab = array(
     OS_LINUX => "Linux",
     OS_ANDROID => "Android",
     OS_IOS => "iOS"
-)
+);
+
+$type_vocab = array(
+    NORMAL_USER_TYPE => "Tài khoản thường",
+    UPLOADER_TYPE => "Uploader",
+    ADMINISTRATOR_TYPE => "Quản trị viên"
+);
 ?>

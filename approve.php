@@ -16,6 +16,8 @@ try {
         else if (!$user->verify_passphrase(post("password"))) $error = "Mật khẩu hiện tại không đúng.";
         else {
             $game->approve();
+            $author = new Nbhzvn_User($game->author);
+            if ($author->id && $author->id != $user->id) $user->send_notification("/games/" . $game->id, "Quản Trị Viên đã phê duyệt game **" . $game->name . "** của bạn. Giờ game của bạn đã được hiển thị công khai cho mọi người!");
             $fatal_error = "Đã phê duyệt game <b>" . htmlentities($game->name) . "</b> thành công.";
         }
     }

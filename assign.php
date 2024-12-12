@@ -17,6 +17,7 @@ try {
         else if (!$role) $error = "Vui lòng chọn chức vụ bạn muốn thay đổi.";
         else {
             $assign_user->change_type($role);
+            $assign_user->send_notification(null, "Một Quản Trị Viên vừa mới thay đổi chức vụ của bạn thành **" . $type_vocab[$role] . "**.");
             $fatal_error = "Đã đổi vai trò cho <b>" . htmlentities($assign_user->username) . "</b> thành công.";
         }
     }

@@ -97,6 +97,13 @@ class Nbhzvn_Game {
         return 0;
     }
 
+    function followers() {
+        $followers = [];
+        $result = db_query('SELECT `author` FROM `nbhzvn_gamefollows` WHERE `game_id` = ?', $this->id);
+        while ($row = $result->fetch_object()) array_push($followers, new Nbhzvn_User($row->author));
+        return $followers;
+    }
+
     function check_follow($user_id) {
         $result = db_query('SELECT `author` FROM `nbhzvn_gamefollows` WHERE `game_id` = ? AND `author` = ?', $this->id, $user_id);
         return !!$result->num_rows;
@@ -158,7 +165,33 @@ class Nbhzvn_Game {
     function add_comment($user_id, $content, $replied_to) {
         global $conn;
         db_query('INSERT INTO `nbhzvn_comments` (`author`, `timestamp`, `game_id`, `content`, `replied_to`, `edited`) VALUES (?, ?, ?, ?, ?, 0)', $user_id, time(), $this->id, $content, $replied_to);
-        if ($conn->insert_id) return new Nbhzvn_Comment($conn->insert_id);
+        if ($conn->insert_id) {
+            $comment_id = $conn->insert_id;
+            $check = array();
+            if (!$replied_to) {
+                $author = new Nbhzvn_User($this->uploader);
+                if ($author->id && $author->id != $user_id) {
+                    $author->send_comment_notification($this, $user_id, $comment_id);
+                    $check[$author->id] = true;
+                }
+            }
+            else {
+                $replying_comment = new Nbhzvn_Comment($replied_to);
+                $author = new Nbhzvn_User($replying_comment->author);
+                if ($author->id && $author->id != $user_id) {
+                    $author->send_comment_notification($this, $user_id, $replied_to, COMMENT_REPLY, $comment_id);
+                    $check[$author->id] = true;
+                }
+            }
+            $mentions = get_mention_users($content);
+            foreach ($mentions as $author) {
+                if ($author->id && $author->id != $user_id && !$check[$author->id]) {
+                    $author->send_comment_notification($this, $user_id, $replied_to ? $replied_to : $comment_id, COMMENT_MENTION, $replied_to ? $comment_id : null);
+                    $check[$author->id] = true;
+                }
+            }
+            return new Nbhzvn_Comment($comment_id);
+        }
         return FAILED;
     }
 }
