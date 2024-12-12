@@ -1,4 +1,9 @@
 RewriteEngine on
+
+ErrorDocument 403 /error.php?code=403
+ErrorDocument 404 /error.php?code=404
+ErrorDocument 500 /error.php?code=500
+
 RewriteRule ^ban/([0-9]+)$ ban.php?id=$1 [L,QSA]
 RewriteRule ^unban/([0-9]+)$ unban.php?id=$1 [L,QSA]
 RewriteRule ^assign/([0-9]+)$ assign.php?id=$1 [L,QSA]
@@ -14,5 +19,5 @@ RewriteRule ^feature/([0-9]+)$ feature.php?id=$1 [L,QSA]
 RewriteRule ^delete_game/([0-9]+)$ delete_game.php?id=$1 [L,QSA]
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule !.*\.php$ %{REQUEST_FILENAME}.php [QSA,L]
-Options All -Indexes
 
+Options All -Indexes
