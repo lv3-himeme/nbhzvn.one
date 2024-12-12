@@ -33,7 +33,7 @@ else {
             break;
         }
         case "unapproved": {
-            if ($profile_user->type < 3) redirect_to_home();
+            if ($user->type < 3) redirect_to_home();
             $repo = unapproved_games();
             $overwrite_title = "Game Đang Chờ Duyệt";
             break;
@@ -166,7 +166,7 @@ else {
                 </div>
                 <div class="row">
                     <div class="col-lg-8 col-md-8">
-                        <?php if ($profile_user->type == 3): ?>
+                        <?php if ($user->id == $profile_user->id && $user->type == 3): ?>
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="section-title">
