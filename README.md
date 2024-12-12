@@ -26,7 +26,7 @@ This website uses PHP for backend, and MySQL for database management.
 - [X] Accounts management
 - [X] Game following/rating/commenting
 - [X] Advanced search
-- [ ] Notifications about following, someone commenting and many things else
+- [X] Notifications about following, someone commenting and many things else
 - [ ] Discord webhook integration
 - [ ] Games API documentation for chatbots/applications
 
