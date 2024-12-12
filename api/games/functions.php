@@ -9,6 +9,19 @@ function add_game(stdClass $data, bool $pre_approved = false) {
     return SUCCESS;
 }
 
+function all_games($limit = 0) {
+    global $conn;
+    $games = []; $limit_query = ""; $limit_args = [];
+    if ($limit) {
+        $limit_query = " LIMIT ?";
+        $limit_args = [$limit];
+    }
+    $result = db_query('SELECT `id` FROM `nbhzvn_games` WHERE `approved` = 1' . $limit_query, ...$limit_args);
+    while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row->id));
+    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
+    return $games;
+}
+
 function random_games($current_id = 0, $limit = 5) {
     global $conn;
     $games = [];
@@ -36,7 +49,7 @@ function unapproved_games() {
     return $games;
 }
 
-function trending_games($limit) {
+function trending_games($limit = 0) {
     global $conn;
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {
@@ -49,7 +62,7 @@ function trending_games($limit) {
     return $games;
 }
 
-function popular_games($limit) {
+function popular_games($limit = 0) {
     global $conn;
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {
@@ -62,7 +75,7 @@ function popular_games($limit) {
     return $games;
 }
 
-function most_followed_games($limit) {
+function most_followed_games($limit = 0) {
     global $conn;
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {
@@ -80,7 +93,7 @@ function most_followed_games($limit) {
     return $games;
 }
 
-function recent_games($limit) {
+function recent_games($limit = 0) {
     global $conn;
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {
@@ -93,7 +106,7 @@ function recent_games($limit) {
     return $games;
 }
 
-function mobile_games($limit) {
+function mobile_games($limit = 0) {
     global $conn;
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {

@@ -8,12 +8,7 @@ require __DIR__ . "/functions.php";
 try {
     switch ($_SERVER["REQUEST_METHOD"]) {
         case "GET": {
-            $result = all_games(); $games = [];
-            $page = is_numeric(get("page")) ? intval(get("page")) : 1;
-            $limit = is_numeric(get("limit")) ? intval(get("limit")) : 20;
-            for ($i = ($page - 1) * $limit; $i < min(count($result), $page * $limit); $i++) {
-                if ($result[$i]) array_push($games, $result[$i]);
-            }
+            $games = random_games(0, is_numeric(get("limit")) ? intval(get("limit")) : 1);
             if (get("html")) {
                 $html = "";
                 foreach ($games as $game) $html .= echo_search_game($game, true);
