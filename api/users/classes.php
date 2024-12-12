@@ -187,7 +187,7 @@ class Nbhzvn_User {
 
     function check_timeout($prop) {
         global $conn;
-        $result = db_query('SELECT `timestamp` FROM `nbhzvn_timeouts` WHERE `id` = ? AND `property` = ?', $this->id, $prop);
+        $result = db_query('SELECT `timestamp` FROM `nbhzvn_timeouts` WHERE `user_id` = ? AND `property` = ?', $this->id, $prop);
         if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         while ($row = $result->fetch_object()) {
             return (time() < $row->timestamp);
@@ -197,9 +197,9 @@ class Nbhzvn_User {
 
     function update_timeout($prop, $time) {
         global $conn;
-        $result = db_query('SELECT `timestamp` FROM `nbhzvn_timeouts` WHERE `id` = ? AND `property` = ?', $this->id, $prop);
+        $result = db_query('SELECT * FROM `nbhzvn_timeouts` WHERE `user_id` = ? AND `property` = ?', $this->id, $prop);
         if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
-        if ($result->num_rows > 0) db_query('UPDATE `nbhzvn_timeouts` SET `timestamp` = ? WHERE `id` = ? AND `property` = ?', $time, $this->id, $prop);
+        if ($result->num_rows > 0) db_query('UPDATE `nbhzvn_timeouts` SET `timestamp` = ? WHERE `user_id` = ? AND `property` = ?', $time, $this->id, $prop);
         else db_query('INSERT INTO `nbhzvn_timeouts` (`user_id`, `property`, `timestamp`) VALUES (?, ?, ?)', $this->id, $prop, $time);
         return SUCCESS;
     }
