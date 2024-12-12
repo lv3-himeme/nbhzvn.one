@@ -20,11 +20,11 @@ try {
         if (!check_csrf(post("csrf_token"))) $error = "Mã xác thực CSRF không đúng.";
         else if (!$user->verify_passphrase(post("password"))) $error = "Mật khẩu hiện tại không đúng.";
         else {
-            $thumbnail = $game->image; $links = $game->links; $screenshots = $game->screenshots;
+            $thumbnail = $game->image; $links = $game->links; $screenshots = $game->screenshots; $uploader = $game->uploader;
             $game->delete();
             delete_files($thumbnail, $links, $screenshots);
-            $author = new Nbhzvn_User($game->author);
-            if ($author->id && $author->id != $user->id) $user->send_notification(null, "Một Quản Trị Viên vừa xoá game **" . $game->name . "** của bạn, nó đã không còn tồn tại trên trang web này nữa.");
+            $author = new Nbhzvn_User($uploader);
+            if ($author->id && $author->id != $user->id) $author->send_notification(null, "Một Quản Trị Viên vừa xoá game **" . $game->name . "** của bạn, nó đã không còn tồn tại trên trang web này nữa.");
             $fatal_error = "Đã xoá game <b>" . htmlentities($game->name) . "</b> thành công.";
         }
     }
