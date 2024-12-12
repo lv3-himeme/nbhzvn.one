@@ -23,10 +23,6 @@ if (post("submit")) {
         }
         catch (Exception $ex) {
             switch ($ex->getMessage()) {
-                case DB_CONNECTION_ERROR: {
-                    $error = "Lỗi kết nối tới máy chủ. Vui lòng thử lại.";
-                    break;
-                }
                 case MISSING_INFORMATION: {
                     $error = "Vui lòng nhập đầy đủ thông tin.";
                     break;

@@ -12,7 +12,6 @@ function email_exists($email) {
 }
 
 function register($username, $email, $passphrase, $verification = 1, $discord_id = null) {
-    global $conn;
     if (!$username || !$email || !$passphrase) throw new Exception(MISSING_INFORMATION);
     $username = strtolower($username);
     if (user_exists($username)) throw new Exception(USERNAME_ALREADY_EXISTS);
@@ -21,15 +20,12 @@ function register($username, $email, $passphrase, $verification = 1, $discord_id
     $email = encrypt_string($email);
     $passphrase = encrypt_string(password_hash($passphrase, PASSWORD_DEFAULT));
     db_query('INSERT INTO `nbhzvn_users` (`timestamp`, `username`, `email`, `passphrase`, `type`, `verification_required`, `discord_id`) VALUES (?, ?, ?, ?, 1, ?, ?)', time(), $username, $email, $passphrase, $verification, $discord_id);
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     return SUCCESS;
 }
 
 function login($username, $passphrase) {
-    global $conn;
     if (!$username || !$passphrase) throw new Exception(MISSING_INFORMATION);
     $result = db_query('SELECT `id`, `passphrase` FROM `nbhzvn_users` WHERE `username` = ?', $username);
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     $passphrase_hash = null; $user_id = null;
     while ($row = $result->fetch_object()) {
         $passphrase_hash = decrypt_string($row->passphrase);

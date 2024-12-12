@@ -48,86 +48,66 @@ class Nbhzvn_User {
     }
 
     function change_passphrase($passphrase) {
-        global $conn;
         $hash = password_hash($passphrase, PASSWORD_BCRYPT);
         db_query('UPDATE `nbhzvn_users` SET `passphrase` = ? WHERE `id` = ?', encrypt_string($hash), $this->id);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->passphrase = $hash;
     }
 
     function change_display_name($value) {
-        global $conn;
         db_query('UPDATE `nbhzvn_users` SET `display_name` = ? WHERE `id` = ?', $value, $this->id);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->display_name = $value;
     }
 
     function change_email($value) {
-        global $conn;
         db_query('UPDATE `nbhzvn_users` SET `email` = ?, `verification_required` = 1 WHERE `id` = ?', encrypt_string($value), $this->id);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->email = $value;
     }
 
     function change_description($value) {
-        global $conn;
         db_query('UPDATE `nbhzvn_users` SET `description` = ? WHERE `id` = ?',  $value, $this->id);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->description = $value;
     }
 
     function update_verification_code($code) {
-        global $conn;
         $hash = password_hash($code, PASSWORD_BCRYPT);
         db_query('UPDATE `nbhzvn_users` SET `verification_code` = ? WHERE `id` = ?', encrypt_string($hash), $this->id);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->verification_code = $hash;
         return $hash;
     }
 
     function update_login_token() {
-        global $conn;
         $login_token = random_string(64);
         $hash = password_hash($login_token, PASSWORD_BCRYPT);
         $token = encrypt_string($hash);
         db_query('UPDATE `nbhzvn_users` SET `login_token` = ? WHERE `id` = ?', $token, $this->id);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->login_token = $hash;
         return $login_token;
     }
 
     function update_discord_id($id) {
-        global $conn;
         db_query('UPDATE `nbhzvn_users` SET `discord_id` = ? WHERE `id` = ?', $id, $this->id);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->discord_id = $id;
         return SUCCESS;
     }
 
     function ban($reason) {
-        global $conn;
         $ban_info = new stdClass();
         $ban_info->timestamp = time();
         $ban_info->reason = $reason;
         db_query('UPDATE `nbhzvn_users` SET `ban_information` = ? WHERE `id` = ?', json_encode($ban_info), $this->id);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->ban_information = $ban_info;
         return SUCCESS;
     }
 
     function unban() {
-        global $conn;
         db_query('UPDATE `nbhzvn_users` SET `ban_information` = NULL WHERE `id` = ?', $this->id);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->ban_information = null;
         return SUCCESS;
     }
 
     function change_type($type) {
-        global $conn;
         if ($type < 1 || $type > 3) throw new Exception(DISALLOWED_TYPE);
         db_query('UPDATE `nbhzvn_users` SET `type` = ? WHERE `id` = ?', $type, $this->id);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->type = $type;
     }
 
@@ -186,9 +166,7 @@ class Nbhzvn_User {
     }
 
     function check_timeout($prop) {
-        global $conn;
         $result = db_query('SELECT `timestamp` FROM `nbhzvn_timeouts` WHERE `user_id` = ? AND `property` = ?', $this->id, $prop);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         while ($row = $result->fetch_object()) {
             return (time() < $row->timestamp);
         }
@@ -196,9 +174,7 @@ class Nbhzvn_User {
     }
 
     function update_timeout($prop, $time) {
-        global $conn;
         $result = db_query('SELECT * FROM `nbhzvn_timeouts` WHERE `user_id` = ? AND `property` = ?', $this->id, $prop);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         if ($result->num_rows > 0) db_query('UPDATE `nbhzvn_timeouts` SET `timestamp` = ? WHERE `user_id` = ? AND `property` = ?', $time, $this->id, $prop);
         else db_query('INSERT INTO `nbhzvn_timeouts` (`user_id`, `property`, `timestamp`) VALUES (?, ?, ?)', $this->id, $prop, $time);
         return SUCCESS;
@@ -270,9 +246,7 @@ class Nbhzvn_Notification {
     }
 
     function delete() {
-        global $conn;
         db_query('DELETE FROM `nbhzvn_notifications` WHERE `id` = ?', $this->id);
-        if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
         $this->id = null;
         return SUCCESS;
     }

@@ -1,89 +1,73 @@
 <?php
 function add_game(stdClass $data, bool $pre_approved = false) {
-    global $conn;
     db_query('INSERT INTO `nbhzvn_games`
         (`timestamp`, `name`, `links`, `image`, `screenshots`, `description`, `engine`, `tags`, `release_year`, `author`, `language`, `translator`, `uploader`, `status`, `views`, `views_today`, `updated_date`, `downloads`, `supported_os`, `is_featured`, `approved`)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ', time(), $data->name, $data->links, $data->image, $data->screenshots, $data->description, $data->engine, $data->tags, $data->release_year, $data->author, $data->language, $data->translator, $data->uploader, $data->status, 0, 0, date('Y-m-d'), 0, $data->supported_os, 0, $pre_approved ? 1 : 0);
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     return SUCCESS;
 }
 
 function all_games($limit = 0) {
-    global $conn;
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {
         $limit_query = " LIMIT ?";
         $limit_args = [$limit];
     }
     $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1' . $limit_query, ...$limit_args);
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
 
 function random_games($current_id = 0, $limit = 5) {
-    global $conn;
     $games = [];
     $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `id` != ? AND `approved` = 1 ORDER BY rand() LIMIT ?', $current_id, $limit);
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
 
 function featured_games() {
-    global $conn;
     $games = [];
     $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `is_featured` = 1 AND `approved` = 1');
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
 
 function unapproved_games() {
-    global $conn;
     $games = [];
     $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 0');
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
 
 function trending_games($limit = 0) {
-    global $conn;
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {
         $limit_query = " LIMIT ?";
         $limit_args = [$limit];
     }
     $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1 ORDER BY `views_today` DESC' . $limit_query, ...$limit_args);
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
 
 function popular_games($limit = 0) {
-    global $conn;
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {
         $limit_query = " LIMIT ?";
         $limit_args = [$limit];
     }
     $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1 ORDER BY `downloads` DESC' . $limit_query, ...$limit_args);
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
 
 function most_followed_games($limit = 0) {
-    global $conn;
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {
         $limit_query = " LIMIT ?";
         $limit_args = [$limit];
     }
     $result = db_query('SELECT g.`id`, COUNT(f.`game_id`) AS follow_count FROM `nbhzvn_gamefollows` f LEFT JOIN `nbhzvn_games` g ON f.`game_id` = g.`id` WHERE `approved` = 1 GROUP BY g.`id` ORDER BY follow_count DESC' . $limit_query, ...$limit_args);
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     while ($row = $result->fetch_object()) {
         $game = new stdClass();
         $game->data = new Nbhzvn_Game($row->id);
@@ -94,33 +78,28 @@ function most_followed_games($limit = 0) {
 }
 
 function recent_games($limit = 0) {
-    global $conn;
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {
         $limit_query = " LIMIT ?";
         $limit_args = [$limit];
     }
     $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1 ORDER BY `timestamp` DESC' . $limit_query, ...$limit_args);
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
 
 function mobile_games($limit = 0) {
-    global $conn;
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {
         $limit_query = " LIMIT ?";
         $limit_args = [$limit];
     }
     $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `supported_os` LIKE "%android%" OR `supported_os` LIKE "%ios%" AND `approved` = 1 ORDER BY `downloads` DESC' . $limit_query, ...$limit_args);
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
 
 function search_games($queries) {
-    global $conn;
     $games = []; $queries_arr = []; $arguments = [];
     foreach ($queries as $key => $value) {
         $operand = "=";
@@ -144,7 +123,6 @@ function search_games($queries) {
         array_push($arguments, $value);
     }
     $result = db_query('SELECT * FROM `nbhzvn_games` WHERE ' . implode(", ", $queries_arr), ...$arguments);
-    if ($conn->error) throw new Exception(DB_CONNECTION_ERROR);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }

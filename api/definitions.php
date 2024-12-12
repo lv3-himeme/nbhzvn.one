@@ -1,7 +1,6 @@
 <?php
 const SUCCESS = 1;
 const FAILED = 0;
-const DB_CONNECTION_ERROR = "-1";
 
 const MISSING_INFORMATION = "-101";
 const USERNAME_ALREADY_EXISTS = "-102";
