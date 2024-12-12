@@ -195,6 +195,7 @@ $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
                                     foreach ($comments as $comment) echo echo_comment($comment, !!$comment->replied_to, $user);
                                 ?>
                             </div>
+                            <?php echo pagination(count($comments)); ?>
                         </div>
                         <div class="anime__details__form">
                             <div class="section-title">

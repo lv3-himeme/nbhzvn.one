@@ -70,4 +70,17 @@ function http_post_request($url, $body = array(), $headers = []) {
     curl_close($curl);
     return $result;
 }
+
+function pagination($item_count = 0, $items_per_page = 20, $page = 1) {
+    $pages = ceil($item_count / $items_per_page);
+    if ($item_count == 0 || $pages < 2) return "";
+    echo '
+        <div id="pagination" class="nbhzvn_pagination">
+            <button class="previous" onclick="previousPage()">&lt; Trang trước</button>
+            <input id="currentPage" class="current_page" type="number" value="' . $page . '" onblur="jumpToPage()" max="' . $pages . '">
+            <button class="pages_count"> / ' . $pages . '</button>
+            <button class="next" onclick="nextPage()">Trang sau &gt;</button>
+        </div>
+    ';
+}
 ?>

@@ -2681,3 +2681,36 @@ input.hidden {
 .comment_reply_btn.cancel {
 	margin-left: 10px;
 }
+
+.nbhzvn_pagination {
+	text-align: center;
+}
+
+.nbhzvn_pagination > input {
+	width: 70px;
+	height: 40px;
+	padding-left: 15px;
+	border: 0;
+	border-radius: 5px;
+}
+
+.nbhzvn_pagination > button {
+	height: 40px;
+	font-size: 11pt;
+	font-weight: bold;
+	background: transparent;
+	color: #db6176;
+	border: 0;
+}
+
+.nbhzvn_pagination > .previous {
+	margin-right: 20px;
+}
+
+.nbhzvn_pagination > .next {
+	margin-left: 20px;
+}
+
+.nbhzvn_pagination > .pages_count {
+	color: #fff;
+}

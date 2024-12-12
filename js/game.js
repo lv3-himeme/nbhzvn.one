@@ -261,3 +261,27 @@ async function processCommentReply(id) {
     });
     if (response?.success) $(`#comment-${id}-replies`).append(response.data);
 }
+
+/*
+===========================================================
+Page navigation
+===========================================================
+*/
+
+async function previousPage() {
+    if (Pagination.page() < 2) return;
+    $("#comments").html("");
+    $("#comments").html(await Pagination.previous(`/api/games/comments/?id=${gameId}&page={page}&html=true`));
+}
+
+async function nextPage() {
+    if (Pagination.page() >= Pagination.maxPages()) return;
+    $("#comments").html("");
+    $("#comments").html(await Pagination.next(`/api/games/comments/?id=${gameId}&page={page}&html=true`));
+}
+
+async function jumpToPage() {
+    if (Pagination.page() >= Pagination.maxPages()) return;
+    $("#comments").html("");
+    $("#comments").html(await Pagination.jumpToPage(`/api/games/comments/?id=${gameId}&page={page}&html=true`, Pagination.page()));
+}

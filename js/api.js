@@ -60,3 +60,36 @@ async function uploadFile(file, progressBar, code) {
         return null;
     }
 }
+
+let Pagination = {
+    page: function() {
+        return parseInt($("#currentPage").val());
+    },
+    maxPages: function() {
+        return parseInt($("#currentPage").prop("max"));
+    },
+    previous: async function(apiUrl) {
+        var page = this.page();
+        if (page < 2) return null;
+        page--;
+        return await this.jump(apiUrl, page);
+    },
+    next: async function(apiUrl) {
+        var page = this.page();
+        if (page >= this.maxPages()) return null;
+        page++;
+        return await this.jump(apiUrl, page);
+    },
+    jump: async function(apiUrl, page = 1) {
+        $("#currentPage").val(page.toString());
+        var response = await apiRequest({
+            url: apiUrl.replaceAll("{page}", page.toString()),
+            type: "GET",
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+        if (response?.success) return response.data;
+        return null;
+    }
+}
