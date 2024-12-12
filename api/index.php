@@ -1,4 +1,4 @@
 <?php
 require __DIR__ . "/functions.php";
-api_response("OK");
+api_response(null, "OK");
 ?>
