@@ -99,9 +99,12 @@ function send_newgame_webhook(Nbhzvn_Game $game) {
     $row->add_components($button);
     $message->add_components($row);
     $message->add_embeds($game->discord_embed());
-    $message->content = $mentions . "\n" . $site . "/uploads/" . $game->image;
+    $message->content = $mentions;
+    $img_message = new Discord_Message();
+    $img_message->content = $site . "/uploads/" . $game->image;
+    $img_result = $webhook->send($img_message);
     $result = $webhook->send($message);
-    if ($result == "") return SUCCESS;
-    else return die($result);
+    if ($img_result == "" && $result == "") return SUCCESS;
+    else return FAILED;
 }
 ?>
