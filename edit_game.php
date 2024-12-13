@@ -126,7 +126,8 @@ refresh_csrf();
                     <p style="text-align: right">
                         <button type="button" onclick="addGameFile()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm tệp tin</span></button>
                     </p>
-                    <div id="gameFiles"></div><br>
+                    <div id="gameFiles"></div>
+                    <p>Nếu bạn gặp lỗi khi tải file có kích thước lớn, hãy thử chia tệp tin ra thành các file nhỏ.</p><br>
                     <p style="font-size: 16pt"><b>Ảnh Chụp Màn Hình Game</b></p>
                     <p style="text-align: right">
                         <button type="button" onclick="addScreenshot()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm ảnh</span></button>
