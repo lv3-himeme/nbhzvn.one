@@ -1,4 +1,5 @@
-var requests = {};
+var requests = {}, chunkName = {};
+const CHUNK_SIZE = 8388608;
 
 async function apiRequest(data, code) {
     return new Promise((resolve, reject) => {
@@ -27,37 +28,68 @@ async function uploadFile(file, progressBar, code) {
         progressBar.style.display = "block";
         progressBarInner.style.width = "0%";
     }
-    var formData = new FormData();
-    formData.append("file", file);
-    try {
-        var response = await apiRequest({
-            url: "/api/upload",
-            xhr: function() {
-                var xhr = new window.XMLHttpRequest();
-                xhr.upload.addEventListener("progress", function(evt) {
-                    if (evt.lengthComputable) {
-                        var percentComplete = (evt.loaded / evt.total) * 100;
-                        if (progressBar && progressBarInner) progressBarInner.style.width = `${percentComplete}%`;
-                    }
-                }, false);
-                return xhr;
-            },
-            type: "POST",
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData
-        }, code);
-        if (response?.success) {
-            if (progressBar && progressBarInner) progressBar.style.display = "none";
-            toastr.success(response.message, "Thông báo");
-            return response.data;
+    const chunks = Math.ceil(file.size / CHUNK_SIZE);
+    for (var cursor = 0; cursor < chunks; cursor++) {
+        const start = cursor * CHUNK_SIZE, end = Math.min(file.size, start + CHUNK_SIZE), chunk = file.slice(start, end);
+        var formData = new FormData();
+        formData.append("type", "chunk");
+        formData.append("cursor", cursor);
+        formData.append("chunks", chunks);
+        formData.append("chunk", chunk);
+        formData.append("file_name", file.name);
+        if (chunkName[code]) formData.append("generated_name", chunkName[code]);
+        try {
+            var response = await apiRequest({
+                url: "/api/upload",
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", (function(cursor, chunks, evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            var part = 100 / chunks;
+                            if (progressBar && progressBarInner) progressBarInner.style.width = `${(part * cursor) + (part * percentComplete)}%`;
+                        }
+                    }).bind(this, cursor, chunks), false);
+                    return xhr;
+                },
+                type: "POST",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData
+            }, code);
+            if (response?.success) {
+                if (cursor < chunks - 1) chunkName[code] = response.data;
+                else {
+                    if (progressBar && progressBarInner) progressBar.style.display = "none";
+                    toastr.success(response.message, "Thông báo");
+                    delete chunkName[code];
+                    return response.data;
+                }
+            }
         }
-    }
-    catch (err) {
-        console.error(err);
-        if (progressBar && progressBarInner) progressBar.style.display = "none";
-        return null;
+        catch (err) {
+            console.error(err);
+            if (progressBar && progressBarInner) progressBar.style.display = "none";
+            try {
+                if (chunkName[code]) {
+                    apiRequest({
+                        url: "/api/delete_chunk",
+                        type: "POST",
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: JSON.stringify({
+                            chunk: chunkName[code]
+                        }),
+                        json: true
+                    });
+                    delete chunkName[code];
+                }
+            }
+            catch {}
+            return null;
+        }
     }
 }
 

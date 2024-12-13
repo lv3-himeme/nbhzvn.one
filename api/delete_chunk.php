@@ -13,12 +13,12 @@ try {
         case "POST": {
             $json = json_decode(file_get_contents("php://input"));
             if (!$user || $user->type < 2) api_response(null, "Bạn không có quyền truy cập vào API này.", 403);
-            if (!$json->file) api_response(null, "Vui lòng chọn một tệp tin để xoá.", 400);
-            if (str_starts_with($json->file, ".") || str_contains($json->file, "/")) api_response(null, "Tên tệp tin không hợp lệ.", 400);
-            $path = $folder . "/" . $json->file;
-            if (!file_exists($path)) api_response(null, "Tệp tin đã bị xoá trước đó, bạn không cần phải làm gì thêm.", 200);
-            if (!unlink($path) || file_exists($path)) api_response(null, "Không thể xoá tệp tin vào thời gian này, vui lòng thử lại.", 500);
-            api_response($name, "Xoá tệp tin thành công.");
+            if (!$json->chunk) api_response(null, "Vui lòng chọn một chunk để xoá.", 400);
+            if (str_starts_with($json->chunk, ".") || str_contains($json->chunk, "/")) api_response(null, "Tên chunk không hợp lệ.", 400);
+            $path = $folder . "/" . $json->chunk;
+            if (!file_exists($path)) api_response(null, "Chunk đã bị xoá trước đó, bạn không cần phải làm gì thêm.", 200);
+            if (!rmdir($path) || file_exists($path)) api_response(null, "Không thể xoá chunk vào thời gian này, vui lòng thử lại.", 500);
+            api_response($name, "Xoá chunk thành công.");
             break;
         }
         default: {

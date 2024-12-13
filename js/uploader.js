@@ -72,6 +72,7 @@ async function processGameFile(id) {
     }
     catch (err) {
         console.error(err);
+        document.getElementById(`gameFileContainer-${id}`)?.remove();
     }
 }
 
@@ -111,6 +112,20 @@ function deleteGameFile(id, permanent = true) {
     if (!gameFiles[id]?.path && requests[id]) {
         requests[id].abort();
         delete requests[id];
+        if (chunkName[id]) {
+            apiRequest({
+                url: "/api/delete_chunk",
+                type: "POST",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: JSON.stringify({
+                    chunk: chunkName[id]
+                }),
+                json: true
+            });
+            delete chunkName[id];
+        }
     }
     delete cancelling[id];
     delete gameFiles[id];
@@ -179,6 +194,7 @@ async function processScreenshot(input) {
     }
     catch (err) {
         console.error(err);
+        document.getElementById(`screenshotContainer-${id}`)?.remove();
     }
 }
 
