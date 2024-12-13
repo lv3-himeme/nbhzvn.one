@@ -103,7 +103,7 @@ refresh_csrf();
                     </div>
                     <p style="font-size: 16pt"><b>Ảnh Đại Diện</b></p>
                     <div class="input__item" style="width: 100%">
-                        <input readonly class="readonly" name="image" placeholder="Nhấn vào đây để tải ảnh đại diện" required onclick="uploadThumbnail()" id="thumbnail" value="<?php echo post("thumbnail") ?>">
+                        <input readonly class="readonly" name="image" placeholder="Nhấn vào đây để tải ảnh đại diện" required onclick="uploadThumbnail()" id="thumbnail" value="<?php echo post("image") ?>">
                         <span class="icon_image"></span>
                     </div>
                     <div><img class="thumbnail_image" id="thumbnailImage" /></div>
@@ -185,9 +185,9 @@ refresh_csrf();
                                 echo '<div><input type="checkbox" class="supported_os_checkbox" value="' . $value . '"' . (in_array($value, $supported_oses) ? " checked" : "") . '> <label style="color: #fff; margin-left: 10px">' . $vocab . '</label></input></div>';
                             }
                         ?>
-                    <input type="hidden" name="links" value="<?php echo post("links") ?>" id="linksInput" />
-                    <input type="hidden" name="screenshots" value="<?php echo post("screenshots") ?>" id="screenshotsInput" />
-                    <input type="hidden" name="supported_os" value="<?php echo post("supported_os") ?>" id="supportedOSInput" />
+                    <input type="hidden" name="links" value='<?php echo str_ireplace("'", "\\'", post("links")) ?>' id="linksInput" />
+                    <input type="hidden" name="screenshots" value='<?php echo str_ireplace("'", "\\'", post("screenshots")) ?>' id="screenshotsInput" />
+                    <input type="hidden" name="supported_os" value='<?php echo str_ireplace("'", "\\'", post("supported_os")) ?>' id="supportedOSInput" />
                     <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
                     <p style="color: #e36666"><i><?php echo $error ?></i></p>
                     <button type="submit" name="submit" class="site-btn" value="Submit">Thêm Game Mới</button>

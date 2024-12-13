@@ -197,8 +197,8 @@ refresh_csrf();
                                 echo '<div><input type="checkbox" class="supported_os_checkbox" value="' . $value . '"' . (in_array($value, $supported_oses) ? " checked" : "") . '> <label style="color: #fff; margin-left: 10px">' . $vocab . '</label></input></div>';
                             }
                         ?>
-                    <input type="hidden" name="links" id="linksInput" value='<?php echo json_encode($game->links) ?>' />
-                    <input type="hidden" name="screenshots" id="screenshotsInput" value='<?php echo json_encode($game->screenshots) ?>' />
+                    <input type="hidden" name="links" id="linksInput" value='<?php echo str_ireplace("'", "\\'", json_encode($game->links)) ?>' />
+                    <input type="hidden" name="screenshots" id="screenshotsInput" value='<?php echo str_ireplace("'", "\\'", json_encode($game->screenshots)) ?>' />
                     <input type="hidden" name="supported_os" value="" id="supportedOSInput" />
                     <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
                     <p style="color: #e36666"><i><?php echo $error ?></i></p>
