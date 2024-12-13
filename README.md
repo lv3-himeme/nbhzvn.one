@@ -20,6 +20,8 @@ This website uses PHP for backend, and MySQL for database management.
 
 3. Upload the entire folder to your server's root `public_html`/`htdocs` folder and you're done! The database will also be setup automatically.
 
+4. The administrator login information will be the same as you provided in the `.env` file. Login using that information in the website and begin managing it!
+
 ## Features to-do list
 
 - [X] Games management

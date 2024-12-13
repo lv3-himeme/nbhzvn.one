@@ -11,7 +11,7 @@ function email_exists($email) {
     return false;
 }
 
-function register($username, $email, $passphrase, $verification = 1, $discord_id = null) {
+function register($username, $email, $passphrase, $verification = 1, $discord_id = null, $type = 1) {
     if (!$username || !$email || !$passphrase) throw new Exception(MISSING_INFORMATION);
     $username = strtolower($username);
     if (user_exists($username)) throw new Exception(USERNAME_ALREADY_EXISTS);
@@ -19,7 +19,7 @@ function register($username, $email, $passphrase, $verification = 1, $discord_id
     if (email_exists($email)) throw new Exception(EMAIL_ALREADY_EXISTS);
     $email = encrypt_string($email);
     $passphrase = encrypt_string(password_hash($passphrase, PASSWORD_DEFAULT));
-    db_query('INSERT INTO `nbhzvn_users` (`timestamp`, `username`, `email`, `passphrase`, `type`, `verification_required`, `discord_id`) VALUES (?, ?, ?, ?, 1, ?, ?)', time(), $username, $email, $passphrase, $verification, $discord_id);
+    db_query('INSERT INTO `nbhzvn_users` (`timestamp`, `username`, `email`, `passphrase`, `type`, `verification_required`, `discord_id`) VALUES (?, ?, ?, ?, ?, ?, ?)', time(), $username, $email, $passphrase, $type, $verification, $discord_id);
     return SUCCESS;
 }
 
