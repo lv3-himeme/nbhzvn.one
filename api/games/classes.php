@@ -205,7 +205,6 @@ class Nbhzvn_Game {
         $embed->title = $this->name;
         $embed->description = (strlen($this->description) > 2048) ? (substr($this->description, 0, 2045) . "...") : $this->description;
         $embed->url = $site . "/games/" . $this->id;
-        $embed->image = new Discord_EmbedImage($site . "/uploads/" . $this->image);
         $fields = [
             new Discord_EmbedField("Nhà phát triển:", $this->author, true),
             new Discord_EmbedField("Năm ra mắt:", strval($this->release_year), true),

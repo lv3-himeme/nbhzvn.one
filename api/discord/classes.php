@@ -137,14 +137,27 @@ class Discord_Button {
     public $url;
 }
 
+class Discord_Attachment {
+    public $filename;
+    public $url;
+    public $description;
+
+    function __construct($url, $filename) {
+        $this->filename = $filename;
+        $this->url = $url;
+        $this->description = "Attached file for Discord Webhook API";
+    }
+}
+
 class Discord_Message {
     public $content;
     public $username;
     public $avatar_url;
     public $tts;
-    public $embeds;
     public object $allowed_mentions;
-    public $components;
+    public array $embeds;
+    public array $attachments;
+    public array $components;
     public $thread_name;
     public $applied_tags;
 
@@ -154,6 +167,10 @@ class Discord_Message {
 
     function add_embeds(Discord_Embed ...$embeds) {
         foreach ($embeds as $embed) $this->embeds[] = $embed;
+    }
+
+    function add_attachments(Discord_Attachment ...$items) {
+        foreach ($items as $item) $this->attachments[] = $item;
     }
 }
 
