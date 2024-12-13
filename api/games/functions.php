@@ -94,7 +94,7 @@ function mobile_games($limit = 0) {
         $limit_query = " LIMIT ?";
         $limit_args = [$limit];
     }
-    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `supported_os` LIKE "%android%" OR `supported_os` LIKE "%ios%" AND `approved` = 1 ORDER BY `downloads` DESC' . $limit_query, ...$limit_args);
+    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE (`supported_os` LIKE "%android%" OR `supported_os` LIKE "%ios%") AND `approved` = 1 ORDER BY `downloads` DESC' . $limit_query, ...$limit_args);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
