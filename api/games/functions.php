@@ -32,9 +32,9 @@ function featured_games() {
     return $games;
 }
 
-function unapproved_games() {
+function unapproved_games($user) {
     $games = [];
-    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 0');
+    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 0' . (($user->type == 2) ? (" AND `uploader` = " . $user->id) : ""));
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }

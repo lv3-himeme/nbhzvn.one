@@ -33,8 +33,8 @@ else {
             break;
         }
         case "unapproved": {
-            if ($user->type < 3) redirect_to_home();
-            $repo = unapproved_games();
+            if ($user->type < 2) redirect_to_home();
+            $repo = unapproved_games($user);
             $overwrite_title = "Game Đang Chờ Duyệt";
             break;
         }
@@ -166,7 +166,8 @@ else {
                 </div>
                 <div class="row">
                     <div class="col-lg-8 col-md-8">
-                        <?php if ($user->id == $profile_user->id && $user->type == 3): ?>
+                        <?php $unapproved_games = unapproved_games($user) ?>
+                        <?php if ($user->id == $profile_user->id && $user->type >= 2 && count($unapproved_games)): ?>
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="section-title">
@@ -181,7 +182,7 @@ else {
                         </div>
                         <div class="row">
                             <?php
-                                foreach (unapproved_games() as $tmp_game) echo echo_search_game($tmp_game, true);
+                                foreach ($unapproved_games as $tmp_game) echo echo_search_game($tmp_game, true);
                             ?>
                         </div><br>
                         <?php endif ?>
