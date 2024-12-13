@@ -203,6 +203,7 @@ class Nbhzvn_Game {
         $site = $http . "://" . $host;
         $embed = new Discord_Embed();
         $embed->title = $this->name;
+        $embed->image = new Discord_EmbedImage($site . "/uploads/" . $this->image);
         $embed->description = (strlen($this->description) > 2048) ? (substr($this->description, 0, 2045) . "...") : $this->description;
         $embed->url = $site . "/games/" . $this->id;
         $fields = [

@@ -72,9 +72,7 @@ function send_moderation_webhook(Nbhzvn_Game $game) {
     $delete_button->label = "Xoá";
     $row->add_components($approve_button, $delete_button);
     $message->add_components($row);
-    $embed = $game->discord_embed();
-    $embed->image = new Discord_EmbedImage($site . "/uploads/" . $game->image);
-    $message->add_embeds($embed);
+    $message->add_embeds($game->discord_embed());
     $result = $webhook->send($message);
     if ($result == "") return SUCCESS;
     else return FAILED;
@@ -100,11 +98,8 @@ function send_newgame_webhook(Nbhzvn_Game $game) {
     $message->add_components($row);
     $message->add_embeds($game->discord_embed());
     $message->content = $mentions;
-    $img_message = new Discord_Message();
-    $img_message->content = $site . "/uploads/" . $game->image;
-    $img_result = $webhook->send($img_message);
     $result = $webhook->send($message);
-    if ($img_result == "" && $result == "") return SUCCESS;
+    if ($result == "") return SUCCESS;
     else return FAILED;
 }
 ?>
