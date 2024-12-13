@@ -18,7 +18,7 @@ This website uses PHP for backend, and MySQL for database management.
 
 2. Edit the `.env.sample` file to fit your server configuration. After that, rename the file to `.env`.
 
-3. Edit the `webhook_config.sample.php` file to fit your Discord server and channel configuration. After that, rename the file to `webhook_config.php`.
+3. Edit the `webhook_config.sample.php` file to fit your Discord server and channel configuration. After that, rename the file to `webhook_config.php`.<br>Proper documentation about this config file will be written soon.
 
 4. Upload the entire folder to your server's root `public_html`/`htdocs` folder and you're done! The database will also be setup automatically.
 
