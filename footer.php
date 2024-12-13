@@ -15,6 +15,7 @@
                         <li><a href="/games">Danh Sách Game</a></li>
                         <li><a href="/faq">FAQ</a></li>
                         <li><a href="https://www.facebook.com/groups/nobihazavietnam">Facebook</a></li>
+                        <li><a href="https://discord.gg/QpMuX3gQ5u">Discord</a></li>
                     </ul>
                 </div>
             </div>

@@ -23,7 +23,12 @@
                                     </ul>
                                 </li>
                                 <li><a href="/faq">FAQ</a></li>
-                                <li><a href="https://www.facebook.com/groups/nobihazavietnam">Facebook</a></li>
+                                <li><a href="javascript:void(0)">Liên Kết Nhóm <span class="arrow_carrot-down"></span></a>
+                                    <ul class="dropdown">
+                                        <li><a href="https://www.facebook.com/groups/nobihazavietnam">Facebook</a></li>
+                                        <li><a href="https://discord.gg/QpMuX3gQ5u">Discord</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </nav>
                     </div>
