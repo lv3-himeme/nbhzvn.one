@@ -91,7 +91,6 @@ function send_newgame_webhook(Nbhzvn_Game $game) {
     $message = new Discord_Message();
     $message->thread_name = $game->name;
     $message->applied_tags = process_webhook_tags($game);
-    $message->content = $mentions ? $mentions : null;
     $row = new Discord_ActionRow();
     $button = new Discord_Button();
     $button->style = BUTTON_STYLE_LINK;
@@ -100,7 +99,7 @@ function send_newgame_webhook(Nbhzvn_Game $game) {
     $row->add_components($button);
     $message->add_components($row);
     $message->add_embeds($game->discord_embed());
-    $message->content = $site . "/uploads/" . $game->image;
+    $message->content = $mentions . "\n" . $site . "/uploads/" . $game->image;
     $result = $webhook->send($message);
     if ($result == "") return SUCCESS;
     else return die($result);
