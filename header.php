@@ -23,6 +23,7 @@
                                     </ul>
                                 </li>
                                 <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://www.facebook.com/groups/nobihazavietnam">Facebook</a></li>
                             </ul>
                         </nav>
                     </div>

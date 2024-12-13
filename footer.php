@@ -14,6 +14,7 @@
                         <li class="active"><a href="/">Trang Chủ</a></li>
                         <li><a href="/games">Danh Sách Game</a></li>
                         <li><a href="/faq">FAQ</a></li>
+                        <li><a href="https://www.facebook.com/groups/nobihazavietnam">Facebook</a></li>
                     </ul>
                 </div>
             </div>
