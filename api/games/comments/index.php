@@ -36,6 +36,11 @@ try {
                 if (!$reply_comment->id) api_response(null, "Không tìm thấy bình luận có ID là " . $json->replied_to . " để trả lời.", 404);
             }
             $result = $game->add_comment($user->id, $json->content, $json->replied_to);
+            if ($user->id == $game->uploader && !$json->replied_to) {
+                foreach ($game->followers() as $follower) {
+                    if ($follower->id != $user->id) $follower->send_notification("/games/" . $game->id . "?highlighted_comment=" . $result->id . "#comment-" . $result->id, "**" . ($user->display_name ? $user->display_name : $user->username) . "** vừa thêm một bình luận mới tại trang của game **" . $game->name . "**.");
+                }
+            }
             $user->update_timeout("comment", time() + 60);
             api_response($result->to_html(!!$json->replied_to, $user), "Thực hiện thành công.");
             break;
