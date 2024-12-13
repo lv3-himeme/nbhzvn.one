@@ -13,7 +13,7 @@
                     <ul>
                         <li class="active"><a href="/">Trang Chủ</a></li>
                         <li><a href="/games">Danh Sách Game</a></li>
-                        <li><a href="/contact">Liên Hệ</a></li>
+                        <li><a href="/faq">FAQ</a></li>
                     </ul>
                 </div>
             </div>

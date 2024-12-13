@@ -21,3 +21,10 @@ RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule !.*\.php$ %{REQUEST_FILENAME}.php [QSA,L]
 
 Options All -Indexes
+IndexOptions Charset=UTF-8
+AddCharset UTF-8 .txt .html .css .js
+
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
