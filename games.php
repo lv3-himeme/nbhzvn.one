@@ -225,9 +225,9 @@ else $repo = all_games(20);
                                     $highlighted_comment_id = is_numeric(get("highlighted_comment")) ? intval(get("highlighted_comment")) : 0;
                                     if ($highlighted_comment_id) {
                                         $highlighted_comment = new Nbhzvn_Comment($highlighted_comment_id);
-                                        if ($highlighted_comment->id) echo echo_comment($highlighted_comment, !!$highlighted_comment->replied_to, $user, false, is_numeric(get("reply_comment")) ? intval(get("reply_comment")) : $highlighted_comment_id);
+                                        if ($highlighted_comment->id) echo $highlighted_comment->to_html(!!$highlighted_comment->replied_to, $user, false, is_numeric(get("reply_comment")) ? intval(get("reply_comment")) : $highlighted_comment_id);
                                     }
-                                    foreach ($comments as $comment) if ($comment->id != $highlighted_comment_id) echo echo_comment($comment, !!$comment->replied_to, $user);
+                                    foreach ($comments as $comment) if ($comment->id != $highlighted_comment_id) echo $comment->to_html(!!$comment->replied_to, $user);
                                 ?>
                             </div>
                             <?php echo pagination(count($comments)); ?>

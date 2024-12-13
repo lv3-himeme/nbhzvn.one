@@ -249,5 +249,23 @@ class Nbhzvn_Comment {
         $this->edited = true;
         return SUCCESS;
     }
+    
+    function to_html($is_reply, $user = new Nbhzvn_User(0), $hide_options = false, $highlighted = 0) {
+        $this_author = new Nbhzvn_User($this->author);
+        $replies = $this->reply_count();
+        $pre_reply_html = "";
+        if ($highlighted && $replies > 0) {
+            $replies_list = $this->fetch_replies();
+            foreach ($replies_list as $reply) $pre_reply_html .= $reply->to_html(true, $user, $hide_options, $reply->id == $highlighted);
+            $replies = 0;
+        }
+        $options = [];
+        if (!$hide_options) {
+            if ($user->id == $this->author) array_push($options, '<a href="javascript:void(0)" onclick="editComment(' . $this->id . ')">Chỉnh sửa</a>');
+            if ($user->id == $this->author || $user->type == 3) array_push($options, '<a href="javascript:void(0)" onclick="deleteComment(' . $this->id . ')">Xoá</a>');
+            if ($user->id) array_push($options, '<a href="javascript:void(0)" onclick="replyComment(' . ($this->replied_to ? $this->replied_to : $this->id) . ', ' . ($this->replied_to ? ('\'' . $this_author->username . '\'') : "null") . ')">Trả lời</a>');
+        }
+        return '<div id="comment-' . $this->id . '" class="comment_container"><div class="anime__review__item"><div class="anime__review__item__text' . ($is_reply ? " reply" : "") . '"><h6><a href="/profile/' . $this->author . '">' . ($this_author->display_name ? $this_author->display_name : $this_author->username) . '</a> • <a href="/games/' . $this->game_id . ($this->replied_to ? ('?highlighted_comment=' . $this->replied_to . '&reply_comment=' . $this->id . '#comment-' . $this->id) : ('?highlighted_comment=' . $this->id . '#comment-' . $this->id)) . '"><span style="font-size: 10pt">' . comment_time($this->timestamp) . ($this->edited ? " (đã chỉnh sửa)" : "") . (($highlighted == $this->id) ? '<span class="highlighted_comment">Bình luận nổi bật</span>' : "") . '</span></a></h6><p id="comment-' . $this->id . '-content">' . process_mentions($this->content) . '</p>' . (count($options) ? ('<p id="comment-' . $this->id . '-options" class="comment_options">' . implode(" • ", $options) . '</p>') : "") . '</div><div id="comment-' . $this->id . '-replies" class="comment_replies">' . $pre_reply_html . '</div>' . (($replies > 0 && !$hide_options) ? '<div class="view_replies_btn" id="comment-' . $this->id . '-repliesbtn"><a href="javascript:void(0)" onclick="viewReplies(' . $this->id . ')">Xem ' . $replies . ' câu trả lời...</a></div>' : "") . '</div></div>';
+    }
 }
 ?>

@@ -240,7 +240,7 @@ else {
                             <?php
                                 $lmit = 0;
                                 foreach ($comments as $comment) {
-                                    echo echo_comment($comment, false, $user, true);
+                                    echo $comment->to_html(false, $user, true);
                                     $limit++;
                                     if ($limit == 6) break;
                                 }

@@ -19,7 +19,7 @@ try {
             }
             if (get("html")) {
                 $html = "";
-                foreach ($comments as $comment) $html .= echo_comment($comment, !!$comment->replied_to, $user);
+                foreach ($comments as $comment) $html .= $comment->to_html(!!$comment->replied_to, $user);
                 $comments = $html;
             }
             api_response($comments, "Thực hiện thành công.");
@@ -37,7 +37,7 @@ try {
             }
             $result = $game->add_comment($user->id, $json->content, $json->replied_to);
             $user->update_timeout("comment", time() + 60);
-            api_response(echo_comment($result, !!$json->replied_to, $user), "Thực hiện thành công.");
+            api_response($result->to_html(!!$json->replied_to, $user), "Thực hiện thành công.");
             break;
         }
         case "POST": {
@@ -48,7 +48,7 @@ try {
             if (!$comment->id) api_response(null, "Không tìm thấy bình luận có ID này.", 404);
             if ($comment->author != $user->id) api_response(null, "Không thể chỉnh sửa bình luận này.", 403);
             $comment->edit($json->content);
-            api_response(echo_comment($comment, !!$comment->replied_to, $user), "Thực hiện thành công.");
+            api_response($comment->to_html(!!$comment->replied_to, $user), "Thực hiện thành công.");
             break;
         }
         case "DELETE": {
