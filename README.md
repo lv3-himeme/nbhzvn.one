@@ -38,6 +38,7 @@ You can also see [FAQ.en.md](FAQ.en.md) for the machine-translated English versi
 - [X] Advanced search
 - [X] Notifications about following, someone commenting and many things else
 - [X] Discord webhook integration
+- [ ] Proper large file upload handling
 - [ ] Proper game API documentation for chatbots/applications
 
 ## Contributing
