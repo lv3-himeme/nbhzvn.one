@@ -30,3 +30,6 @@
 
 # Ignore upload folder
 uploads/
+
+# Ignore config files
+webhook_config.php

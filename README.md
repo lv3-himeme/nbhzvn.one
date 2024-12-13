@@ -18,9 +18,11 @@ This website uses PHP for backend, and MySQL for database management.
 
 2. Edit the `.env.sample` file to fit your server configuration. After that, rename the file to `.env`.
 
-3. Upload the entire folder to your server's root `public_html`/`htdocs` folder and you're done! The database will also be setup automatically.
+3. Edit the `webhook_config.sample.php` file to fit your Discord server and channel configuration. After that, rename the file to `webhook_config.php`.
 
-4. The administrator login information will be the same as you provided in the `.env` file. Login using that information in the website and begin managing it!
+4. Upload the entire folder to your server's root `public_html`/`htdocs` folder and you're done! The database will also be setup automatically.
+
+5. The administrator login information will be the same as you provided in the `.env` file. Login using that information in the website and begin managing it!
 
 ## Features to-do list
 
@@ -29,8 +31,8 @@ This website uses PHP for backend, and MySQL for database management.
 - [X] Game following/rating/commenting
 - [X] Advanced search
 - [X] Notifications about following, someone commenting and many things else
-- [ ] Discord webhook integration
-- [ ] Games API documentation for chatbots/applications
+- [X] Discord webhook integration
+- [ ] Proper game API documentation for chatbots/applications
 
 ## Contributing
 

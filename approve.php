@@ -2,6 +2,7 @@
 require "api/functions.php";
 require "api/users/functions.php";
 require "api/users/cookies.php";
+require "api/discord/webhook.php";
 if (!$user || $user->type < 3 || !get("id")) redirect_to_home();
 
 $error = "";
@@ -18,6 +19,7 @@ try {
             $game->approve();
             $author = new Nbhzvn_User($game->uploader);
             if ($author->id && $author->id != $user->id) $author->send_notification("/games/" . $game->id, "Quản Trị Viên đã phê duyệt game **" . $game->name . "** của bạn. Giờ game của bạn đã được hiển thị công khai cho mọi người!");
+            send_newgame_webhook($game);
             $fatal_error = "Đã phê duyệt game <b>" . htmlentities($game->name) . "</b> thành công.";
         }
     }

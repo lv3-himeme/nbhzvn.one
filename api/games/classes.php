@@ -194,6 +194,29 @@ class Nbhzvn_Game {
         }
         return FAILED;
     }
+
+    function discord_embed() {
+        $http = (empty($_SERVER["HTTPS"]) ? "http" : "https");
+        $host = $_SERVER["HTTP_HOST"];
+        global $engine_vocab;
+        global $language_vocab;
+        $site = $http . "://" . $host;
+        $embed = new Discord_Embed();
+        $embed->title = $this->name;
+        $embed->description = (strlen($this->description) > 2048) ? (substr($this->description, 0, 2045) . "...") : $this->description;
+        $embed->url = $site . "/games/" . $this->id;
+        $embed->image = new Discord_EmbedImage($site . "/uploads/" . $this->image);
+        $fields = [
+            new Discord_EmbedField("Nhà phát triển:", $this->author, true),
+            new Discord_EmbedField("Năm ra mắt:", strval($this->release_year), true),
+            new Discord_EmbedField("Phần mềm làm game:", $engine_vocab[$this->engine], true),
+            new Discord_EmbedField("Ngôn ngữ:", $language_vocab[$this->language], true),
+            new Discord_EmbedField("Hỗ trợ:", implode(", ", array_map(function($v) {global $os_vocab; return $os_vocab[$v];}, explode(",", $this->supported_os))), true)
+        ];
+        if ($this->translator) $fields[] = new Discord_EmbedField("Dịch giả:", $this->translator, true);
+        $embed->add_fields(...$fields);
+        return $embed;
+    }
 }
 
 class Nbhzvn_Comment {

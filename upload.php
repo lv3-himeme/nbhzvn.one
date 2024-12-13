@@ -3,6 +3,7 @@ require "api/functions.php";
 require "api/users/functions.php";
 require "api/users/cookies.php";
 require "api/games/functions.php";
+require "api/discord/webhook.php";
 if (!$user || $user->type < 2) redirect_to_home();
 
 $error = "";
@@ -31,7 +32,9 @@ function process() {
     if ($user->type < 3) {
         $admins = get_admins();
         foreach ($admins as $admin) $admin->send_notification("/games/" . $game_id, "Game **" . post("name") . "** vừa mới được tải lên và cần các Quản Trị Viên phê duyệt.");
+        send_moderation_webhook(new Nbhzvn_Game($game_id));
     }
+    else send_newgame_webhook(new Nbhzvn_Game($game_id));
     if ($result == SUCCESS) $notice = "Đã tải lên game thành công" . ($user->type < 3 ? ", game của bạn sẽ được hiển thị trên trang web sau khi Quản Trị Viên đã duyệt game của bạn." : ".");
 }
 
