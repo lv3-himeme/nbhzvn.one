@@ -24,25 +24,31 @@ function process_webhook_tags(Nbhzvn_Game $game) {
     if ($config["tags"]) {
         if ($config["tags"]["engine"]) {
             $tag = $config["tags"]["engine"][$game->engine];
-            if ($tag) $tags[] = $tag;
+            if ($tag && count($tags) < 5) $tags[] = $tag;
         }
         if ($config["tags"]["language"]) {
             $tag = $config["tags"]["language"][$game->language];
-            if ($tag) $tags[] = $tag;
+            if ($tag && count($tags) < 5) $tags[] = $tag;
         }
         if ($config["tags"]["os"]) {
             $pc = false; $mobile = false;
             foreach (explode(",", $game->supported_os) as $os) {
                 if (in_array($os, [OS_WINDOWS, OS_MACOS, OS_LINUX]) && !$pc) {
                     $tag = $config["tags"]["os"]["pc"];
-                    if ($tag) $tags[] = $tag;
+                    if ($tag && count($tags) < 5) $tags[] = $tag;
                     $pc = true;
                 }
                 if (in_array($os, [OS_ANDROID, OS_IOS]) && !$mobile) {
                     $tag = $config["tags"]["os"]["mobile"];
-                    if ($tag) $tags[] = $tag;
+                    if ($tag && count($tags) < 5) $tags[] = $tag;
                     $mobile = true;
                 }
+            }
+        }
+        if ($config["tags"]["tags"]) {
+            $pc = false; $mobile = false;
+            foreach (explode(",", $game->tags) as $tag) {
+                if ($config["tags"]["tags"][$tag] && count($tags) < 5) $tags[] = $config["tags"]["tags"][$tag];
             }
         }
     }
