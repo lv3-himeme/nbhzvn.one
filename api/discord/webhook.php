@@ -86,6 +86,8 @@ function send_moderation_webhook(Nbhzvn_Game $game) {
 
 function send_newgame_webhook(Nbhzvn_Game $game) {
     global $new_game_webhook_url;
+    global $webhook_config;
+    $config = $webhook_config["new_game"];
     if (!$new_game_webhook_url) return FAILED;
     $mentions = process_webhook_mentions("new_game");
     $webhook = new Discord_Webhook($new_game_webhook_url);
@@ -93,8 +95,10 @@ function send_newgame_webhook(Nbhzvn_Game $game) {
     $host = $_SERVER["HTTP_HOST"];
     $site = $http . "://" . $host;
     $message = new Discord_Message();
-    $message->thread_name = $game->name;
-    $message->applied_tags = process_webhook_tags($game);
+    if ($config["threads"]) {
+        $message->thread_name = $game->name;
+        $message->applied_tags = process_webhook_tags($game);
+    }
     $row = new Discord_ActionRow();
     $button = new Discord_Button();
     $button->style = BUTTON_STYLE_LINK;
