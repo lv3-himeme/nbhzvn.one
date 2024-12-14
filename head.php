@@ -20,6 +20,7 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($t
     <meta name="twitter:title" content="<?php echo $meta_title ?>" />
     <meta name="twitter:description" content="<?php echo $meta_description ?>" />
     
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="icon" href="/favicon.ico">
     <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/img/icon/apple-touch-icon.png">
