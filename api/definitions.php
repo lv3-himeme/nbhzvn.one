@@ -47,6 +47,8 @@ const COMMENT_DEFAULT = 1;
 const COMMENT_REPLY = 2;
 const COMMENT_MENTION = 3;
 
+const META_DESCRIPTION = "Nobihaza Vietnam Community Collection là một trang web được tạo bởi Serena1432 để tổng hợp (hầu hết) các game Nobihaza vào một website riêng, với mục tiêu là giúp các người chơi Nobihaza có thể tìm kiếm game hay theo dõi game mình thích dễ hơn.";
+
 $engine_vocab = array(
     ENGINE_RPG2K => "RPG Maker 2000/2003",
     ENGINE_RGSS => "RPG Maker XP/VX/VX Ace",
