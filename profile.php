@@ -270,7 +270,7 @@ else {
         <?php if ($repo): ?>
         <script>var userId = <?php echo $profile_user->id ?>, repo = "<?php if (get("repo") != "unapproved") echo "users"; else echo "games" ?>/<?php echo addslashes(get("repo")) ?>";</script>
         <script src="/js/api.js"></script>
-        <script src="/js/profile.js?time=<?php echo time() ?>"></script>
+        <script src="/js/profile.js"></script>
         <?php endif ?>
 
     </body>

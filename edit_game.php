@@ -227,7 +227,7 @@ refresh_csrf();
     <script src="/js/main.js"></script>
     <script src="/js/toastr.js"></script>
     <script src="/js/api.js"></script>
-    <script src="/js/uploader.js?time=<?php echo time() ?>"></script>
+    <script src="/js/uploader.js"></script>
 
 </body>
 

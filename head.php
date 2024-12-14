@@ -39,4 +39,4 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($t
     <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/style.css?time=<?php echo time(); ?>" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">

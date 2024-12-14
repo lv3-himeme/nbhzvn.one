@@ -286,10 +286,10 @@ else $repo = all_games(20);
         <script src="/js/api.js"></script>
         <?php if ($game && $game->id): ?>
         <script>gameId = <?php echo $game->id ?></script>
-        <script src="/js/game.js?time=<?php echo time() ?>"></script>
+        <script src="/js/game.js"></script>
         <?php else: ?>
         <script>repo = "<?php echo addslashes(get("category")) ?>"</script>
-        <script src="/js/game_list.js?time=<?php echo time() ?>"></script>
+        <script src="/js/game_list.js"></script>
         <?php endif ?>
 
     </body>
