@@ -14,7 +14,7 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
     <meta property="og:title" content="<?php echo $meta_title ?>" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<?php echo $meta_title ?>" />
-    <meta property="og:url" content="<?php echo $http . "://" . $host . "/" . $_SERVER["REQUEST_URI"] ?>" />
+    <meta property="og:url" content="<?php echo $http . "://" . $host . $_SERVER["REQUEST_URI"] ?>" />
     <meta property="og:description" content="<?php echo $meta_description ?>" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="<?php echo $meta_title ?>" />
