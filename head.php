@@ -4,7 +4,7 @@ $parsedown->setSafeMode(true);
 $parsedown->setMarkupEscaped(true);
 use Soundasleep\Html2Text;
 $meta_title = ($game ? ($game->name . " - ") : ($title ? ($title . " - ") : "")) . "Nobihaza Vietnam Community Collection";
-$meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($tmp_game->description)))[0] : META_DESCRIPTION;
+$meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($game->description)))[0] : META_DESCRIPTION;
 ?>
     <meta name="description" content="<?php echo $meta_description ?>" />
     <meta name="keywords" content="nobihaza,nobihaza game,nobihaza community collection,nobihaza vietnam,nobita's resident evil,nobihaza tieng viet,tai game nobihaza" />
