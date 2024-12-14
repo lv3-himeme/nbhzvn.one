@@ -179,7 +179,8 @@ async function processScreenshot(input) {
         var files = input.files;
         if (!files.length) return toastr.error("Vui lòng chọn một tệp tin.", "Lỗi");
         for (var i = 0; i < files.length; i++) {
-            var file = files[i], id = Math.floor(Math.random() * 16777216).toString();
+			screenshotIndex++;
+            var file = files[i], id = `scr${screenshotIndex.toString()}`;
             screenshots[id] = {
                 path: null
             };
@@ -302,7 +303,8 @@ if ($(`#thumbnail`).val()) showThumbnailImage($(`#thumbnail`).val());
 if ($(`#linksInput`).val()) {
     var items = JSON.parse($(`#linksInput`).val());
     for (var item of items) {
-        var id = Math.floor(Math.random() * 16777216).toString();
+		gameFilesIndex++;
+        var id = `gf${gameFilesIndex.toString()}`;
         gameFiles[id] = item;
         createGameFileElementPreload(id, gameFiles[id]);
     }
@@ -310,7 +312,8 @@ if ($(`#linksInput`).val()) {
 if ($(`#screenshotsInput`).val()) {
     var items = JSON.parse($(`#screenshotsInput`).val());
     for (var item of items) {
-        var id = Math.floor(Math.random() * 16777216).toString();
+		screenshotIndex++;
+        var id = `scr${screenshotIndex.toString()}`;
         screenshots[id] = {path: item};
         createScreenshotElementPreload(id, item);
     }
