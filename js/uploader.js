@@ -1,4 +1,4 @@
-var gameFiles = {}, screenshots = {}, cancelling = {};
+var gameFiles = {}, screenshots = {}, cancelling = {}, gameFilesIndex = 0, screenshotIndex = 0;
 
 /*
 ===========================================================
@@ -36,7 +36,8 @@ Game files uploading
 */
 
 function addGameFile() {
-    var input = document.createElement("input"), fileId = Math.floor(Math.random() * 16777216).toString();
+    gameFilesIndex++;
+    var input = document.createElement("input"), fileId = `gf${gameFilesIndex.toString()}`;
     input.type = "file";
     input.id = `gameFileInput-${fileId}`;
     input.classList.add("hidden");
@@ -155,7 +156,8 @@ Screenshots uploading
 */
 
 function addScreenshot() {
-    var input = document.createElement("input"), fileId = Math.floor(Math.random() * 16777216).toString();
+    screenshotIndex++;
+    var input = document.createElement("input"), fileId = `scr${screenshotIndex.toString()}`;
     input.type = "file";
     input.id = `screenshotInput-${fileId}`;
     input.multiple = true;
