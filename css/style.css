@@ -2614,3 +2614,10 @@ input.hidden {
 .faq li::marker {
 	color: #fff;
 }
+
+.game_description li {
+	font-weight: normal;
+	margin-left: 18px;
+	color: #ccc;
+	font-size: 11pt;
+}

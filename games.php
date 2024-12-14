@@ -181,7 +181,7 @@ else $repo = all_games(20);
                             <div class="section-title">
                                 <h5>Mô tả game</h5>
                             </div>
-                            <?php echo $parsedown->text($game->description) ?>
+                            <div class="game_description"><?php echo $parsedown->text($game->description) ?></div>
                         </div><br>
                         <div>
                             <div class="section-title">
