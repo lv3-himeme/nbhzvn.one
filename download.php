@@ -21,6 +21,10 @@ header('Content-Disposition: attachment; filename="'. $link->name . '";');
 header('Content-Transfer-Encoding: binary');
 header('Content-Length: ' . filesize($path));
 
+if (ob_get_level()) {
+    ob_end_clean();
+}
+
 $game->add_downloads_count();
 readfile($path);
 
