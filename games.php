@@ -126,9 +126,17 @@ else $repo = all_games(20);
                                         <ul>
                                             <li><span>Phần mềm làm game:</span> <a href="/search?engine=<?php echo $game->engine ?>"><?php echo $engine_vocab[$game->engine] ?></a></li>
                                             <li><span>Năm ra mắt:</span> <a href="/search?release_year=<?php echo $game->release_year ?>"><?php echo $game->release_year ?></a></li>
-                                            <li><span>Nhà phát triển:</span> <a href="/search?author=<?php echo urlencode($game->author) ?>"><?php echo $game->author ?></a></li>
+                                            <li><span>Nhà phát triển:</span> <?php
+                                                $authors = explode(",", $game->author); $elements = [];
+                                                foreach ($authors as $author) array_push($elements, '<a href="/search?author=' . $author . '">' . $author . '</a>');
+                                                echo implode(", ", $elements);
+                                            ?></li>
                                             <?php if ($game->translator): ?>
-                                            <li><span>Dịch giả:</span> <a href="/search?translator=<?php echo urlencode($game->translator) ?>"><?php echo $game->translator ?></a></li>
+                                            <li><span>Dịch giả:</span> <?php
+                                                $translators = explode(",", $game->translator); $elements = [];
+                                                foreach ($translators as $translator) array_push($elements, '<a href="/search?translator=' . $translator . '">' . $translator . '</a>');
+                                                echo implode(", ", $elements);
+                                            ?></li>
                                             <?php endif ?>
                                             <li><span>Trạng thái:</span> <a href="/search?status=<?php echo $game->status ?>"><?php echo $status_vocab[$game->status] ?></a></li>
                                         </ul>
@@ -145,7 +153,7 @@ else $repo = all_games(20);
                                             <?php if ($game->tags): ?>
                                             <li><span>Thẻ:</span> <?php
                                                 $tags = explode(",", $game->tags); $elements = [];
-                                                foreach ($tags as $tag) array_push($elements, '<a href="/search?tag=' . $tag . '">' . $tag . '</a>');
+                                                foreach ($tags as $tag) array_push($elements, '<a href="/search?tags=' . $tag . '">' . $tag . '</a>');
                                                 echo implode(", ", $elements);
                                             ?></li>
                                             <?php endif ?>

@@ -149,7 +149,7 @@ refresh_csrf();
                     </div>
                     <p style="font-size: 16pt"><b>Tác Giả Gốc</b></p>
                     <div class="input__item" style="width: 100%">
-                        <input type="text" name="author" placeholder="Nhà phát triển của game gốc (chưa được dịch)." required value="<?php echo post("author") ?>">
+                        <input type="text" name="author" placeholder="Nhà phát triển của game gốc (chưa được dịch). Nếu có nhiều tác giả thì bạn có thể tách bằng dấu phẩy viết liền." required value="<?php echo post("author") ?>">
                         <span class="icon_profile"></span>
                     </div>
                     <p style="font-size: 16pt"><b>Ngôn Ngữ</b></p>
@@ -165,7 +165,7 @@ refresh_csrf();
                     </div>
                     <p style="font-size: 16pt"><b>Dịch Giả</b></p>
                     <div class="input__item" style="width: 100%">
-                        <input type="text" name="translator" placeholder="Bỏ trống nếu game chưa được dịch sang ngôn ngữ nào khác." value="<?php echo post("translator") ?>">
+                        <input type="text" name="translator" placeholder="Bỏ trống nếu game chưa được dịch sang ngôn ngữ nào khác.. Nếu có nhiều dịch giả thì bạn có thể tách bằng dấu phẩy viết liền." value="<?php echo post("translator") ?>">
                         <span class="icon_profile"></span>
                     </div>
                     <p style="font-size: 16pt"><b>Trạng Thái</b></p>
