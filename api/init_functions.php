@@ -92,4 +92,8 @@ function comment_time($timestamp) {
     }
     return $diff . " giây trước";
 }
+
+function remove_special_chars($str) {
+	return preg_replace('/[^a-zA-Z0-9_ -]/s', '', $str);
+}
 ?>
