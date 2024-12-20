@@ -148,7 +148,7 @@ else {
                             </div>
                         </div>
                     </div>
-                    <p><?php if ($profile_user->description) echo $parsedown->text($profile_user->description); else echo '<i>Tài khoản này chưa đặt mô tả.</i>' ?></p>
+                    <?php if ($profile_user->description) echo $parsedown->text($profile_user->description); else echo '<i>Tài khoản này chưa đặt mô tả.</i>' ?><br>
                     <div class="anime__details__btn"><p>
                         <?php if ($profile_user->id == $user->id): ?>
                         <a href="/change_info" class="nbhzvn_btn"><span><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp;Thay đổi thông tin</span></a>
