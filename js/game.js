@@ -143,7 +143,7 @@ View replies command
 async function viewReplies(id) {
     $(`#comment-${id}-repliesbtn`).remove();
     var response = await apiRequest({
-        url: `/api/games/comments/replies/?id=${id}&html=true`,
+        url: `/api/games/comments/replies?id=${id}&html=true`,
         type: "GET",
         cache: false,
         contentType: false,
