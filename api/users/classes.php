@@ -35,6 +35,10 @@ class Nbhzvn_User {
         }
     }
 
+    function display_name() {
+        return $this->display_name ? $this->display_name : $this->username;
+    }
+
     function verify_passphrase($passphrase) {
         return password_verify($passphrase, $this->passphrase);
     }
@@ -251,7 +255,7 @@ class Nbhzvn_User {
                 break;
             }
         }
-        $this->send_notification($link, str_replace("{user}", $commenter->display_name ? $commenter->display_name : $commenter->username, str_replace("{game}", $game->name, $content)));
+        $this->send_notification($link, str_replace("{user}", $commenter->display_name(), str_replace("{game}", $game->name, $content)));
     }
 }
 

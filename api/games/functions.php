@@ -133,7 +133,7 @@ function process_mentions($content) {
         if (str_starts_with($part, "@")) {
             $username = substr($part, 1);
             $mention_user = new Nbhzvn_User($username);
-            if ($mention_user->id) $part = '<a href="/profile/' . $mention_user->id . '">@' . ($mention_user->display_name ? $mention_user->display_name : $mention_user->username) . '</a>';
+            if ($mention_user->id) $part = '<a href="/profile/' . $mention_user->id . '">@' . $mention_user->display_name() . '</a>';
         }
         array_push($new_content, $part);
     }

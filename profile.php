@@ -18,6 +18,7 @@ if (!get("repo")) {
         $email_end_pos = strpos($user->email, "@");
         $censored_email = substr($user->email, 0, 2) . "••••••" . substr($user->email, $email_end_pos - 2, strlen($user->email) - $email_end_pos + 2);
     }
+    else $overwrite_title = $profile_user->display_name();
 }
 else {
     switch (get("repo")) {
@@ -91,7 +92,7 @@ else {
     <section class="anime-details spad">
         <div class="container">
             <?php if ($repo): ?>
-                <h3 class="nbhzvn_title"><b><?php echo $overwrite_title ?> <?php if (get("repo") != "unapproved") echo ' Của ' . ($profile_user->display_name ? $profile_user->display_name : $profile_user->username) ?></b></h3>
+                <h3 class="nbhzvn_title"><b><?php echo $overwrite_title ?> <?php if (get("repo") != "unapproved") echo ' Của ' . $profile_user->display_name() ?></b></h3>
                 <div class="row" id="games">
                     <?php
                         $limit = 0;
@@ -112,7 +113,7 @@ else {
             <div class="anime__details__content">
                 <div class="anime__details__text">
                     <div class="anime__details__title">
-                        <h3><?php echo $profile_user->display_name ? $profile_user->display_name : $profile_user->username ?></h3>
+                        <h3><?php echo $profile_user->display_name() ?></h3>
                         <span><?php echo $profile_user->username ?> (ID: <?php echo $profile_user->id ?>)</span>
                     </div>
                     <div class="anime__details__widget">

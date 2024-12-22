@@ -51,6 +51,7 @@ else $repo = all_games(20);
 <html lang="zxx">
 
 <head>
+    $title = $game->name;
     <?php require "head.php" ?>
 </head>
 
@@ -143,7 +144,7 @@ else $repo = all_games(20);
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <ul>
-                                            <li><span>Người tải lên:</span> <a href="/profile/<?php echo $game->uploader ?>"><?php $uploader = new Nbhzvn_User($game->uploader); echo $uploader->display_name ? $uploader->display_name : $uploader->username ?></a></li>
+                                            <li><span>Người tải lên:</span> <a href="/profile/<?php echo $game->uploader ?>"><?php $uploader = new Nbhzvn_User($game->uploader); echo $uploader->display_name() ?></a></li>
                                             <li><span>Ngôn ngữ:</span> <a href="/search?language=<?php echo $game->language ?>"><?php echo $language_vocab[$game->language] ?></a></li>
                                             <li><span>Hỗ trợ:</span> <?php
                                                 $oses = explode(",", $game->supported_os); $elements = [];

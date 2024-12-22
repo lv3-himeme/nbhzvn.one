@@ -44,7 +44,7 @@ function process() {
     if ($result == SUCCESS) {
         clean_files($thumbnail, $links, $screenshots);
         foreach ($game->followers() as $follower) {
-            if ($follower->id != $user->id) $follower->send_notification("/games/" . $game->id, "**" . ($user->display_name ? $user->display_name : $user->username) . "** vừa chỉnh sửa thông tin game **" . $game->name . "**.");
+            if ($follower->id != $user->id) $follower->send_notification("/games/" . $game->id, "**" . $user->display_name() . "** vừa chỉnh sửa thông tin game **" . $game->name . "**.");
         }
         $notice = "Đã chỉnh sửa game thành công.";
     }

@@ -38,7 +38,7 @@ try {
             $result = $game->add_comment($user->id, $json->content, $json->replied_to);
             if ($user->id == $game->uploader && !$json->replied_to) {
                 foreach ($game->followers() as $follower) {
-                    if ($follower->id != $user->id) $follower->send_notification("/games/" . $game->id . "?highlighted_comment=" . $result->id . "#comment-" . $result->id, "**" . ($user->display_name ? $user->display_name : $user->username) . "** vừa thêm một bình luận mới tại trang của game **" . $game->name . "**.");
+                    if ($follower->id != $user->id) $follower->send_notification("/games/" . $game->id . "?highlighted_comment=" . $result->id . "#comment-" . $result->id, "**" . $user->display_name() . "** vừa thêm một bình luận mới tại trang của game **" . $game->name . "**.");
                 }
             }
             $user->update_timeout("comment", time() + 60);
