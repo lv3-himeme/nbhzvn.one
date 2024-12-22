@@ -13,7 +13,7 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
     <meta name="application-name" content="Nobihaza Vietnam Community Collection" />
     <meta property="og:title" content="<?php echo $meta_title ?>" />
     <meta property="og:type" content="article" />
-    <meta property="og:image" content="<?php echo $game ? ("/uploads/" . $game->image) : "/img/logo.png" ?>" />
+    <meta property="og:image" content="<?php echo ($game && str_contains($_SERVER["REQUEST_URI"], "games")) ? ("/uploads/" . $game->image) : "/img/logo.png" ?>" />
     <meta property="og:url" content="<?php echo $http . "://" . $host . $_SERVER["REQUEST_URI"] ?>" />
     <meta property="og:description" content="<?php echo $meta_description ?>" />
     <meta name="twitter:card" content="summary" />
