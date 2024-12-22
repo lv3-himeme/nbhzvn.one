@@ -160,7 +160,7 @@ function echo_homepage_game($tmp_game) {
             <div class="product__item">
                 <a href="/games/' . $tmp_game->id . '"><div class="product__item__pic set-bg" data-setbg="/uploads/' . $tmp_game->image . '">
                     <div class="ep">' . $status_vocab[$tmp_game->status] . '</div>
-                    <div class="comment"><i class="fa fa-comments"></i> ' . number_format($tmp_game->comments, 0, ",", ".") . '</div>
+                    <div class="comment"><i class="fa fa-comments"></i> ' . number_format(count($tmp_game->comments()), 0, ",", ".") . '</div>
                     <div class="view"><i class="fa fa-eye"></i> ' . number_format($tmp_game->views, 0, ",", ".") . '</div>
                 </div></a>
                 <div class="product__item__text">
