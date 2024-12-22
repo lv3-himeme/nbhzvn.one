@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: 
+Disallow: /download/
+Disallow: /profile/
+Disallow: /tools/
+Disallow: /uploads/
+Disallow: /api/
+Disallow: /search/
+Disallow: /css/
+Disallow: /js/
+Disallow: /vendor/
+Disallow: /verify/
