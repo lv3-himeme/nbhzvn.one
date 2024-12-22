@@ -11,6 +11,7 @@ if (is_numeric(get("id"))) {
     $game = new Nbhzvn_Game(intval(get("id")));
     if (!$game->id) redirect_to_home();
     if (!$game->approved && $game->uploader != $user->id && $user->type < 3) redirect_to_home();
+    $title = $game->name;
     $game->add_views();
     $comments = $game->comments();
     $follows = $game->follows();
@@ -51,8 +52,10 @@ else $repo = all_games(20);
 <html lang="zxx">
 
 <head>
-    $title = $game->name;
-    <?php require "head.php" ?>
+    <?php
+        $title = $game->name; 
+        require "head.php" 
+    ?>
 </head>
 
 <body>
