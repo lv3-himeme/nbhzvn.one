@@ -128,7 +128,7 @@ function search_games($queries) {
 }
 
 function process_mentions($content) {
-    $content = htmlentities($content); $new_content = [];
+    $content = nl2br(htmlentities($content)); $new_content = [];
     foreach (explode(" ", $content) as $part) {
         if (str_starts_with($part, "@")) {
             $username = substr($part, 1);
