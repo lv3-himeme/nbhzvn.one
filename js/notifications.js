@@ -31,7 +31,7 @@ Notifications deleting function
 async function deleteNotification(id) {
     if (!confirm(`Xác nhận xoá ${id ? "thông báo này" : "tất cả các thông báo"}?`)) return;
     var response = await apiRequest({
-        url: "/api/users/notifications/",
+        url: "/api/users/notifications",
         type: "DELETE",
         cache: false,
         contentType: false,
