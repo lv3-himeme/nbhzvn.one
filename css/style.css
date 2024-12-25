@@ -1615,7 +1615,7 @@ ol {
 
 .login__form form .input__item {
 	position: relative;
-	width: 692px;
+	width: calc(100% - 30px);
 	margin-bottom: 20px;
 }
 
