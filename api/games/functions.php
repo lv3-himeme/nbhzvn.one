@@ -129,7 +129,7 @@ function search_games($queries) {
 
 function process_mentions($content) {
     $content = nl2br(htmlentities($content)); $new_content = [];
-    foreach (explode(" ", $content) as $part) {
+    foreach (explode(" ", str_replace("\n", " ", $content)) as $part) {
         if (str_starts_with($part, "@")) {
             $username = substr($part, 1);
             $mention_user = new Nbhzvn_User($username);
@@ -141,7 +141,7 @@ function process_mentions($content) {
 }
 
 function get_mention_users($content) {
-    $content = htmlentities($content); $users = [];
+    $content = str_replace("\n", " ", htmlentities($content)); $users = [];
     foreach (explode(" ", $content) as $part) {
         if (str_starts_with($part, "@")) {
             $username = substr($part, 1);
