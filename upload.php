@@ -114,13 +114,12 @@ refresh_csrf();
                     <p style="text-align: right">
                         <button type="button" onclick="addGameFile()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm tệp tin</span></button>
                     </p>
-                    <div id="gameFiles"></div>
-                    <p>Nếu bạn gặp lỗi khi tải file có kích thước lớn, hãy thử chia tệp tin ra thành các file nhỏ.</p><br>
+                    <div id="gameFiles"></div><br>
                     <p style="font-size: 16pt"><b>Ảnh Chụp Màn Hình Game</b></p>
                     <p style="text-align: right">
                         <button type="button" onclick="addScreenshot()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm ảnh</span></button>
                     </p>
-                    <div id="screenshots" class="upload_screenshots"></div>
+                    <div id="screenshots" class="upload_screenshots"></div><br>
                     <p style="font-size: 16pt"><b>Mô Tả</b></p>
                     <div class="input__item input__item__textarea" style="width: 100%">
                         <textarea name="description" placeholder="Mô tả có hỗ trợ Markdown." required><?php echo post("description") ?></textarea>
