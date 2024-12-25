@@ -888,7 +888,8 @@ ol {
 .anime__details__text p {
 	color: #b7b7b7;
 	font-size: 15px;
-	line-height: 15px;
+	line-height: 26px;
+	margin-bottom: 10px;
 }
 
 .anime__details__pic {
