@@ -18,11 +18,6 @@ db_query('UPDATE `nbhzvn_notifications` SET `is_unread` = 0 WHERE `user_id` = ?'
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
     <!-- Header Section Begin -->
     <header class="header">
         <?php require "header.php" ?>

@@ -56,11 +56,6 @@ refresh_csrf();
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
     <!-- Header Section Begin -->
     <header class="header">
         <?php require "header.php"; ?>

@@ -15,11 +15,6 @@ if (!$user || !$user->ban_information) redirect_to_home();
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
     <!-- Header Section Begin -->
     <header class="header">
         <?php require "header.php"; ?>
