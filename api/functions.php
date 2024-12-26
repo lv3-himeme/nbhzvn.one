@@ -83,4 +83,7 @@ function pagination($item_count = 0, $items_per_page = 20, $page = 1) {
         </div>
     ';
 }
+
+// Update views_today
+db_query('UPDATE `nbhzvn_games` SET `views_today` = 0, `downloads_today` = 0, `updated_date` = ? WHERE `updated_date` != ?', date('Y-m-d'), date('Y-m-d'));
 ?>

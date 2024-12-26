@@ -1,9 +1,9 @@
 <?php
 function add_game(stdClass $data, bool $pre_approved = false) {
     db_query('INSERT INTO `nbhzvn_games`
-        (`timestamp`, `name`, `links`, `image`, `screenshots`, `description`, `engine`, `tags`, `release_year`, `author`, `language`, `translator`, `uploader`, `status`, `views`, `views_today`, `updated_date`, `downloads`, `supported_os`, `is_featured`, `approved`)
+        (`timestamp`, `name`, `links`, `image`, `screenshots`, `description`, `engine`, `tags`, `release_year`, `author`, `language`, `translator`, `uploader`, `status`, `views`, `views_today`, `downloads_today`, `updated_date`, `downloads`, `supported_os`, `is_featured`, `approved`)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ', time(), $data->name, $data->links, $data->image, $data->screenshots, $data->description, $data->engine, $data->tags, $data->release_year, $data->author, $data->language, $data->translator, $data->uploader, $data->status, 0, 0, date('Y-m-d'), 0, $data->supported_os, 0, $pre_approved ? 1 : 0);
+    ', time(), $data->name, $data->links, $data->image, $data->screenshots, $data->description, $data->engine, $data->tags, $data->release_year, $data->author, $data->language, $data->translator, $data->uploader, $data->status, 0, 0, 0, date('Y-m-d'), 0, $data->supported_os, 0, $pre_approved ? 1 : 0);
     return SUCCESS;
 }
 
@@ -45,7 +45,7 @@ function trending_games($limit = 0) {
         $limit_query = " LIMIT ?";
         $limit_args = [$limit];
     }
-    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1 ORDER BY `views_today` DESC' . $limit_query, ...$limit_args);
+    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1 ORDER BY `downloads_today` DESC, `views_today` DESC' . $limit_query, ...$limit_args);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
@@ -202,7 +202,4 @@ function echo_search_game($tmp_game, $col = false) {
     </div>
     ' . ($col ? '</div>' : "");
 }
-
-// Update views_today
-db_query('UPDATE `nbhzvn_games` SET `views_today` = 0, `updated_date` = ? WHERE `updated_date` != ?', date('Y-m-d'), date('Y-m-d'));
 ?>

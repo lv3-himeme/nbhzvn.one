@@ -17,6 +17,7 @@ class Nbhzvn_Game {
     public $status;
     public $views;
     public $views_today;
+    public $downloads_today;
     public $updated_date;
     public $downloads;
     public $supported_os;
@@ -46,6 +47,7 @@ class Nbhzvn_Game {
         $this->status = $data->status;
         $this->views = $data->views;
         $this->views_today = $data->views_today;
+        $this->downloads_today = $data->downloads_today;
         $this->updated_date = $data->updated_date;
         $this->downloads = $data->downloads;
         $this->supported_os = $data->supported_os;
@@ -62,7 +64,8 @@ class Nbhzvn_Game {
 
     function add_downloads_count() {
         $this->downloads = intval($this->downloads) + 1;
-        db_query('UPDATE `nbhzvn_games` SET `downloads` = ? WHERE `id` = ?', $this->downloads, $this->id);
+        $this->downloads_today = intval($this->downloads_today) + 1;
+        db_query('UPDATE `nbhzvn_games` SET `downloads` = ?, `downloads_today` = ? WHERE `id` = ?', $this->downloads, $this->downloads_today, $this->id);
         return SUCCESS;
     }
 
