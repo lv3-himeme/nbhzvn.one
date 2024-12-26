@@ -46,7 +46,7 @@ else if (get("category")) {
         }
     }
 }
-else $repo = all_games(20);
+else $repo = all_games();
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
