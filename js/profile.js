@@ -19,5 +19,5 @@ async function nextPage() {
 async function jumpToPage() {
     if (Pagination.page() >= Pagination.maxPages()) return;
     $("#games").html("");
-    $("#games").html(await Pagination.jumpToPage(`/api/${repo}?id=${userId}&page={page}&html=true`, Pagination.page()));
+    $("#games").html(await Pagination.jump(`/api/${repo}?id=${userId}&page={page}&html=true`, Pagination.page()));
 }

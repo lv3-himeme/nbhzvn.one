@@ -19,7 +19,7 @@ async function nextPage() {
 async function jumpToPage() {
     if (Pagination.page() >= Pagination.maxPages()) return;
     $("#notifications").html("");
-    $("#notifications").html(await Pagination.jumpToPage(`/api/users/notifications?page={page}&html=true`, Pagination.page()));
+    $("#notifications").html(await Pagination.jump(`/api/users/notifications?page={page}&html=true`, Pagination.page()));
 }
 
 /*

@@ -282,5 +282,5 @@ async function nextPage() {
 async function jumpToPage() {
     if (Pagination.page() >= Pagination.maxPages()) return;
     $("#comments").html("");
-    $("#comments").html(await Pagination.jumpToPage(`/api/games/comments/?id=${gameId}&page={page}&html=true`, Pagination.page()));
+    $("#comments").html(await Pagination.jump(`/api/games/comments/?id=${gameId}&page={page}&html=true`, Pagination.page()));
 }
