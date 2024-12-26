@@ -70,7 +70,11 @@ async function uploadFile(file, progressBar, code) {
         }
         catch (err) {
             console.error(err);
-            if (progressBar && progressBarInner) progressBar.style.display = "none";
+            if (progressBar && progressBarInner) {
+                progressBar.innerHTML = `<i style="color: #af1932">Lỗi!</i>`;
+                progressBar.classList.remove("progressbar_container");
+                progressBar.style.display = "inline";
+            }
             try {
                 if (chunkName[code]) {
                     apiRequest({

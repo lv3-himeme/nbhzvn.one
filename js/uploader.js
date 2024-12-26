@@ -252,7 +252,22 @@ function deleteScreenshot(id, permanent = true) {
     document.getElementById(`screenshotContainer-${id}`).remove();
 }
 
+function alertNoSubmit(text) {
+    toastr.error(text, "Lỗi");
+    return false;
+}
+
 function processSubmit() {
+    var gameFilesArr = Object.values(gameFiles);
+    if (!gameFilesArr.length) return alertNoSubmit("Vui lòng tải lên một tệp tin trước.");
+    for (var i = 0; i < gameFilesArr.length; i++) {
+        if (!gameFilesArr[i]?.path) return alertNoSubmit(`Tệp tin số ${i + 1} bị lỗi trong quá trình tải lên, vui lòng xoá tệp tin đó và tải lên lại.`);
+    }
+    var screenshotArr = Object.values(screenshots);
+    if (!screenshotArr.length) return alertNoSubmit("Vui lòng tải lên một ảnh chụp màn hình trước.");
+    for (var i = 0; i < screenshotArr.length; i++) {
+        if (!screenshotArr[i]) return alertNoSubmit(`Ảnh chụp màn hình số ${i + 1} bị lỗi trong quá trình tải lên, vui lòng xoá ảnh chụp đó và tải lên lại.`);
+    }
     $("#linksInput").val(JSON.stringify(Object.values(gameFiles)));
     $("#screenshotsInput").val(JSON.stringify(Object.values(screenshots).map(obj => obj.path)));
     var checkboxes = document.getElementsByClassName("supported_os_checkbox"), supportedOS = [];

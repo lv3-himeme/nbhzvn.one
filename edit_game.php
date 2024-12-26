@@ -37,6 +37,16 @@ function process() {
         if (!post($input)) return $error = "Vui lòng nhập đầy đủ thông tin.";
         $data[$input] = post($input);
     }
+    $links = json_decode($data["links"]);
+    if (count($links) < 1) return $error = "Vui lòng tải ít nhất một tệp tin game lên.";
+    foreach ($links as $link) {
+        if (!$link || !$link->path) return $error = "Có ít nhất một tệp tin bị lỗi trong quá trình tải lên, vui lòng kiểm tra lại các tệp tin đã tải lên và thử lại.";
+    }
+    $screenshots = json_decode($data["screenshots"]);
+    if (count($screenshots) < 1) return $error = "Vui lòng tải ít nhất một ảnh chụp màn hình lên.";
+    foreach ($screenshots as $screenshot) {
+        if (!$screenshot) return $error = "Có ít nhất một ảnh chụp màn hình bị lỗi trong quá trình tải lên, vui lòng kiểm tra lại các ảnh chụp màn hình đã tải lên và thử lại.";
+    }
     if (post("tags")) $data["tags"] = post("tags");
     if (post("translator")) $data["translator"] = post("translator");
     $thumbnail = $game->image; $links = $game->links; $screenshots = $game->screenshots;
@@ -107,7 +117,7 @@ refresh_csrf();
         <div class="container">
             <div class="login__form page">
                 <h3>Chỉnh Sửa Thông Tin Game</h3>
-                <form action="" method="POST" onsubmit="processSubmit()">
+                <form action="" method="POST" onsubmit="return processSubmit()">
                     <p style="font-size: 16pt"><b>Tên Game</b></p>
                     <div class="input__item" style="width: 100%">
                         <input type="name" name="name" placeholder="Tên Game" required value="<?php echo $game->name ?>">
