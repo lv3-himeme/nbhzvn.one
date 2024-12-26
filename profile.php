@@ -235,7 +235,7 @@ else {
                                 <h5>Bình luận gần đây</h5>
                             </div>
                             <?php
-                                $lmit = 0;
+                                $limit = 0;
                                 foreach ($comments as $comment) {
                                     echo $comment->to_html(false, $user, true);
                                     $limit++;
