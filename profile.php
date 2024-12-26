@@ -177,7 +177,7 @@ else {
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="/unapproved/<?php echo $user->id ?>" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
+                                    <a href="/unapproved/<?php echo $profile_user->id ?>" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -196,7 +196,7 @@ else {
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="/uploads/<?php echo $user->id ?>" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
+                                    <a href="/uploads/<?php echo $profile_user->id ?>" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -219,7 +219,7 @@ else {
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="/follows/<?php echo $user->id ?>" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
+                                    <a href="/follows/<?php echo $profile_user->id ?>" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
