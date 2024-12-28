@@ -207,6 +207,7 @@ else $repo = all_games();
                             <div class="section-title">
                                 <h5>Tải game xuống</h5>
                             </div>
+                            <p><i><b>Sử dụng WinRAR hoặc 7-Zip để giải nén!</b> Trình giải nén mặc định của Windows có khả năng bị lỗi rất cao và mình không khuyến khích các bạn dùng nó để giải nén.<br>Đối với điện thoại thì bạn nên dùng ứng dụng RAR hoặc ZArchiver để giải nén.</i></p>
                             <?php
                                 $index = 0;
                                 foreach ($game->links as $link) {
