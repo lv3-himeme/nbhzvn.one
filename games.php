@@ -21,7 +21,7 @@ if (is_numeric(get("id"))) {
 else if (get("category")) {
     switch (get("category")) {
         case "trending": {
-            $title = "Game Thịnh Hành";
+            $title = "Game Được Đề Xuất";
             $repo = trending_games();
             break;
         }

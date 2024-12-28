@@ -63,7 +63,7 @@ $featured_games = featured_games();
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="section-title">
-                                    <h4>Thịnh Hành</h4>
+                                    <h4>Được Đề Xuất</h4>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
