@@ -122,7 +122,7 @@ function search_games($queries) {
         array_push($queries_arr, '`' . $key . '` ' . $operand . ' ?');
         array_push($arguments, $value);
     }
-    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE ' . implode(", ", $queries_arr), ...$arguments);
+    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE ' . implode(" AND ", $queries_arr), ...$arguments);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
