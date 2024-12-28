@@ -187,13 +187,14 @@ function editComment(id) {
         content: $(`#comment-${id}-content`).text(),
         options: $(`#comment-${id}-options`).html()
     };
-    $(`#comment-${id}-content`).html(`<textarea class="comment_edit_box" id="comment-${id}-editbox">${originalContent[id].content}</textarea>`);
+    $(`#comment-${id}-content`).html(`<textarea class="comment_edit_box" id="comment-${id}-editbox"></textarea>`);
+    $(`#comment-${id}-editbox`).val(originalContent[id].content);
     $(`#comment-${id}-options`).html(`<a href="javascript:void(0)" onclick="processCommentEdit(${id})">Chỉnh sửa</a> • <a href="javascript:void(0)" onclick="cancelCommentEdit(${id})">Huỷ</a>`);
 }
 
 function cancelCommentEdit(id) {
     if (!originalContent[id]) return;
-    $(`#comment-${id}-content`).html(originalContent[id].content);
+    $(`#comment-${id}-content`).text(originalContent[id].content);
     $(`#comment-${id}-options`).html(originalContent[id].options);
     delete originalContent[id];
 }
