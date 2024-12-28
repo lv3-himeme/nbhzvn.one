@@ -117,7 +117,7 @@ catch (Exception $ex) {
                         <span class="icon_datareport_alt"></span>
                     </div>
                     <div class="input__item" style="width: 100%">
-                        <select name="status" placeholder="Nền Tảng Được Hỗ Trợ">
+                        <select name="supported_os" placeholder="Nền Tảng Được Hỗ Trợ">
                             <option value="0">Nền Tảng Được Hỗ Trợ</option>
                             <?php
                                 foreach ($os_vocab as $value => $vocab) {
