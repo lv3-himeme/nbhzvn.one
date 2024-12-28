@@ -84,6 +84,12 @@ function pagination($item_count = 0, $items_per_page = 20, $page = 1) {
     ';
 }
 
+function get_total() {
+    $result = db_query('SELECT SUM(views) as total_views, SUM(downloads) as total_downloads FROM `nbhzvn_games` WHERE 1');
+    while ($row = $result->fetch_object()) return $row;
+    return null;
+}
+
 // Update views_today
 db_query('UPDATE `nbhzvn_games` SET `views_today` = 0, `downloads_today` = 0, `updated_date` = ? WHERE `updated_date` != ?', date('Y-m-d'), date('Y-m-d'));
 ?>

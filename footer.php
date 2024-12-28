@@ -1,3 +1,6 @@
+<?php
+$total = get_total();
+?>
     <div class="page-up">
         <a href="javascript:void(0)" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
     </div>
@@ -7,6 +10,9 @@
                 <div class="footer__logo">
                     <a href="./index.html"><img src="/img/logo.png" alt=""></a>
                 </div>
+                <?php if ($total): ?>
+                    <p style="margin-top: 10px">Hiện tại các game trên web đã có tổng cộng <?php echo number_format(intval($total->total_views), 0, ",", ".") ?> lượt xem và <?php echo number_format(intval($total->total_downloads), 0, ",", ".") ?> lượt tải. Cảm ơn các bạn rất nhiều!</p>
+                <?php endif ?>
             </div>
             <div class="col-lg-6">
                 <div class="footer__nav">
