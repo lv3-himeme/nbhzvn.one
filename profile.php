@@ -13,7 +13,14 @@ if (!$profile_user->id) redirect_to_home();
 if (!get("repo")) {
     $followed_games = $profile_user->followed_games();
     $comments = $profile_user->comments();
-    if ($profile_user->type >= 2) $uploaded_games = $profile_user->uploaded_games();
+    if ($profile_user->type >= 2) {
+        $uploaded_games = $profile_user->uploaded_games();
+        $total_views = 0; $total_downloads = 0;
+        foreach ($uploaded_games as $tmp_game) {
+            $total_views += $tmp_game->views;
+            $total_downloads += $tmp_game->downloads;
+        }
+    }
     if ($profile_user->id == $user->id) {
         $email_end_pos = strpos($user->email, "@");
         $censored_email = substr($user->email, 0, 2) . "••••••" . substr($user->email, $email_end_pos - 2, strlen($user->email) - $email_end_pos + 2);
@@ -128,6 +135,9 @@ else {
                                     <?php else: ?>
                                     <li><span>Game đã theo dõi:</span> <?php echo count($followed_games) ?></li>
                                     <?php endif ?>
+                                    <?php if ($profile_user->type >= 2): ?>
+                                    <li><span>Tổng lượt xem:</span> <?php echo number_format($total_views, 0, ",", ".") ?></li>
+                                    <?php endif ?>
                                     <?php if ($profile_user->id == $user->id): ?>
                                         <li><span>Email:</span> <?php echo $censored_email ?></li>
                                     <?php endif ?>
@@ -137,6 +147,9 @@ else {
                                 <ul>
                                     <li><span>Ngày tạo tài khoản:</span> <?php echo timestamp_to_string($profile_user->timestamp) ?></li>
                                     <li><span>Số bình luận đã gửi:</span> <?php echo count($comments) ?></li>
+                                    <?php if ($profile_user->type >= 2): ?>
+                                    <li><span>Tổng lượt tải xuống:</span> <?php echo number_format($total_downloads, 0, ",", ".") ?></li>
+                                    <?php endif ?>
                                     <?php if ($profile_user->id == $user->id): ?>
                                         <li><span>ID Discord:</span> <?php echo $user->discord_id ? $user->discord_id : "Chưa liên kết" ?></li>
                                     <?php endif ?>
