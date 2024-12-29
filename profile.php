@@ -131,9 +131,9 @@ else {
                                         echo $account_type[$profile_user->type]
                                     ?></li>
                                     <?php if ($profile_user->type >= 2): ?>
-                                    <li><span>Game đã tải lên:</span> <?php echo count($uploaded_games) ?></li>
+                                    <li><span>Game đã tải lên:</span> <?php echo count($uploaded_games ? $uploaded_games : []) ?></li>
                                     <?php else: ?>
-                                    <li><span>Game đã theo dõi:</span> <?php echo count($followed_games) ?></li>
+                                    <li><span>Game đã theo dõi:</span> <?php echo count($followed_games ? $followed_games : []) ?></li>
                                     <?php endif ?>
                                     <?php if ($profile_user->type >= 2): ?>
                                     <li><span>Tổng lượt xem:</span> <?php echo number_format($total_views, 0, ",", ".") ?></li>
@@ -146,7 +146,7 @@ else {
                             <div class="col-lg-6 col-md-6">
                                 <ul>
                                     <li><span>Ngày tạo tài khoản:</span> <?php echo timestamp_to_string($profile_user->timestamp) ?></li>
-                                    <li><span>Số bình luận đã gửi:</span> <?php echo count($comments) ?></li>
+                                    <li><span>Số bình luận đã gửi:</span> <?php echo count($comments ? $comments : []) ?></li>
                                     <?php if ($profile_user->type >= 2): ?>
                                     <li><span>Tổng lượt tải xuống:</span> <?php echo number_format($total_downloads, 0, ",", ".") ?></li>
                                     <?php endif ?>
