@@ -219,8 +219,8 @@ refresh_csrf();
     <script src="/js/owl.carousel.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/toastr.js"></script>
-    <script src="/js/api.js?time=<?= time() ?>"></script>
-    <script src="/js/uploader.js?time=<?= time() ?>"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/uploader.js"></script>
 
 </body>
 
