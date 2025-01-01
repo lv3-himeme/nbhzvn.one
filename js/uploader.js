@@ -68,6 +68,7 @@ async function processGameFile(id) {
             document.getElementById(`gameFileDisplay-${id}`).style.flexDirection = null;
             document.getElementById(`gameFileDisplay-${id}`).style.textAlign = "right";
             gameFiles[id].path = path;
+            AutoSave.save();
             document.getElementById(`gameFileInput-${id}`).remove();
         }
     }
@@ -127,9 +128,11 @@ function deleteGameFile(id, permanent = true) {
             });
             delete chunkName[id];
         }
+        if (fileName[id]) window.localStorage.removeItem(fileName[id]);
     }
     delete cancelling[id];
     delete gameFiles[id];
+    AutoSave.save();
     if (permanent) {
         try {
             if (path) apiRequest({
@@ -188,6 +191,7 @@ async function processScreenshot(input) {
             const path = await uploadFile(file, document.getElementById(`screenshotProgressBar-${id}`), id);
             if (screenshots[id]) {
                 screenshots[id].path = path;
+                AutoSave.save();
                 $(`#screenshotContent-${id}`).html(`
                     <img src="/uploads/${path}" class="upload_screenshot_image" />
                 `);
@@ -233,6 +237,7 @@ function deleteScreenshot(id, permanent = true) {
     }
     delete cancelling[id];
     delete screenshots[id];
+    AutoSave.save();
     if (permanent) {
         try {
             if (path) apiRequest({
@@ -314,22 +319,116 @@ function createScreenshotElementPreload(id, path) {
     document.getElementById("screenshots").appendChild(div);
 }
 
-if ($(`#thumbnail`).val()) showThumbnailImage($(`#thumbnail`).val());
-if ($(`#linksInput`).val()) {
-    var items = JSON.parse($(`#linksInput`).val());
-    for (var item of items) {
-		gameFilesIndex++;
-        var id = `gf${gameFilesIndex.toString()}`;
-        gameFiles[id] = item;
-        createGameFileElementPreload(id, gameFiles[id]);
+function preload() {
+    if ($(`#thumbnail`).val()) showThumbnailImage($(`#thumbnail`).val());
+    if ($(`#linksInput`).val()) {
+        var items = JSON.parse($(`#linksInput`).val());
+        for (var item of items) {
+            gameFilesIndex++;
+            var id = `gf${gameFilesIndex.toString()}`;
+            gameFiles[id] = item;
+            createGameFileElementPreload(id, gameFiles[id]);
+        }
+    }
+    if ($(`#screenshotsInput`).val()) {
+        var items = JSON.parse($(`#screenshotsInput`).val());
+        for (var item of items) {
+            screenshotIndex++;
+            var id = `scr${screenshotIndex.toString()}`;
+            screenshots[id] = {path: item};
+            createScreenshotElementPreload(id, item);
+        }
     }
 }
-if ($(`#screenshotsInput`).val()) {
-    var items = JSON.parse($(`#screenshotsInput`).val());
-    for (var item of items) {
-		screenshotIndex++;
-        var id = `scr${screenshotIndex.toString()}`;
-        screenshots[id] = {path: item};
-        createScreenshotElementPreload(id, item);
+
+/*
+===========================================================
+Autosave
+===========================================================
+*/
+
+var AutoSave = {
+    _div: null,
+    _timeout: null,
+    div: function() {
+        if (this._div) return this._div;
+        var div = document.createElement("div");
+        div.style = `position: fixed; top: 0px; right: 0px; padding: 10px; background-color: #af1932; color: #fff; font-size: 10pt; display: none`;
+        document.body.appendChild(div);
+        this._div = div;
+        return div;
+    },
+    show: function() {
+        this.div().style.display = "block";
+    },
+    hide: function() {
+        var div = this.div();
+        div.style.display = "none";
+        div.style.backgroundColor = "#af1932";
+    },
+    changeText: function(text) {
+        this.div().innerText = text;
+    },
+    changeColor: function(color) {
+        this.div().style.backgroundColor = color;
+    },
+    props: ["name", "image", "description", "engine", "tags", "release_year", "author", "language", "translator", "status", "links", "screenshots", "supported_os"],
+    elements: {
+        description: "textarea",
+        engine: "select",
+        language: "select",
+        status: "select"
+    },
+    save: function() {
+        this.show();
+        this.changeText("Đang tiến hành lưu bản nháp...");
+        $("#linksInput").val(JSON.stringify(Object.values(gameFiles)));
+        $("#screenshotsInput").val(JSON.stringify(Object.values(screenshots).map(obj => obj.path)));
+        var checkboxes = document.getElementsByClassName("supported_os_checkbox"), supportedOS = [];
+        for (var i = 0; i < checkboxes.length; i++) if (checkboxes[i].checked) supportedOS.push(checkboxes[i].value);
+        var save = {};
+        for (var i = 0; i < this.props.length; i++) if (!["supported_os"].includes(this.props[i])) save[this.props[i]] = $(`${this.elements[this.props[i]] || "input"}[name="${this.props[i]}"]`).val();
+        save.supported_os = supportedOS;
+        window.localStorage.setItem("nbhzvn_upload_autosave", JSON.stringify(save));
+        this.changeColor("rgb(46, 142, 19)");
+        this.changeText("Đã lưu dữ liệu hiện tại thành một bản nháp.");
+        if (this._timeout) clearTimeout(this._timeout);
+        this._timeout = setTimeout((function() {this.hide()}).bind(this), 5000);
+    },
+    load: function() {
+        var json = window.localStorage.getItem("nbhzvn_upload_autosave");
+        if (!json) return $("#deleteDraftBtn").css("display", "none");
+        this.show();
+        this.changeText("Đang tải bản nháp đã lưu trước đó...");
+        var save = JSON.parse(json);
+        var savePart = Object.keys(save).filter(key => !(["supported_os"].includes(key)));
+        for (var i = 0; i < savePart.length; i++) {
+            var prop = savePart[i];
+            $(`${this.elements[prop] || "input"}[name="${prop}"]`).val(save[savePart[i]]);
+        }
+        for (var i = 0; i < save.supported_os.length; i++) $(`input[class="supported_os_checkbox"][value="${save.supported_os[i]}"]`).prop("checked", true);
+        preload();
+        this.hide();
+        toastr.success("Đã tải bản nháp đã lưu trước đó.", "Thông báo");
+    },
+    delete: function() {
+        if (!confirm("Xác nhận muốn xoá bản nháp đã lưu?")) return;
+        window.localStorage.removeItem("nbhzvn_upload_autosave");
+        toastr.success("Đã xoá bản nháp đã lưu.", "Thông báo");
+        window.location.reload();
+    },
+    events: function() {
+        for (var i = 0; i < this.props.length; i++) {
+            var prop = this.props[i];
+            $(`${this.elements[prop] || "input"}[name="${prop}"]`).blur(function() {
+                AutoSave.save();
+            });
+        }
     }
 }
+
+if (document.location.pathname.includes("upload")) {
+    AutoSave.load();
+    AutoSave.events();
+}
+else preload();

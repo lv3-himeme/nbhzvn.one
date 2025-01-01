@@ -1,5 +1,16 @@
-var requests = {}, chunkName = {};
+var requests = {}, chunkName = {}, fileName = {};
 const CHUNK_SIZE = 8388608;
+
+function hashString(string) {
+    let hash = 0;
+    if (string.length == 0) return hash;
+    for (i = 0; i < string.length; i++) {
+        char = string.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+    }
+    return hash;
+}
 
 async function apiRequest(data, code) {
     return new Promise((resolve, reject) => {
@@ -29,7 +40,22 @@ async function uploadFile(file, progressBar, code) {
         progressBarInner.style.width = "0%";
     }
     const chunks = Math.ceil(file.size / CHUNK_SIZE);
-    for (var cursor = 0; cursor < chunks; cursor++) {
+    var beginCursor = 0, hash = `nbhzvn_checkpoint_${hashString(file.name).toString()}`;
+    var checkpointJson = window.localStorage.getItem(hash);
+    fileName[code] = hash;
+    try {
+        if (checkpointJson) {
+            var checkpoint = JSON.parse(checkpointJson);
+            if (checkpoint.size == file.size) {
+                beginCursor = checkpoint.cursor + 1;
+                chunkName[code] = checkpoint.chunkName;
+                toastr.success("Tiếp tục tải lên phần còn lại của tệp tin này từ vị trí đã dừng trước đó.", "Thông báo");
+            }
+            else window.localStorage.removeItem(hash);
+        }
+    }
+    catch (err) {console.error(err)}
+    for (var cursor = beginCursor; cursor < chunks; cursor++) {
         const start = cursor * CHUNK_SIZE, end = Math.min(file.size, start + CHUNK_SIZE), chunk = file.slice(start, end);
         var formData = new FormData();
         formData.append("type", "chunk");
@@ -59,9 +85,13 @@ async function uploadFile(file, progressBar, code) {
                 data: formData
             }, code);
             if (response?.success) {
-                if (cursor < chunks - 1) chunkName[code] = response.data;
+                if (cursor < chunks - 1) {
+                    window.localStorage.setItem(hash, JSON.stringify({size: file.size, chunkName: response.data, cursor}));
+                    chunkName[code] = response.data;
+                }
                 else {
                     if (progressBar && progressBarInner) progressBar.style.display = "none";
+                    window.localStorage.removeItem(hash);
                     toastr.success(response.message, "Thông báo");
                     delete chunkName[code];
                     return response.data;
@@ -75,23 +105,6 @@ async function uploadFile(file, progressBar, code) {
                 progressBar.classList.remove("progressbar_container");
                 progressBar.style.display = "inline";
             }
-            try {
-                if (chunkName[code]) {
-                    apiRequest({
-                        url: "/api/delete_chunk",
-                        type: "POST",
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        data: JSON.stringify({
-                            chunk: chunkName[code]
-                        }),
-                        json: true
-                    });
-                    delete chunkName[code];
-                }
-            }
-            catch {}
             return null;
         }
     }

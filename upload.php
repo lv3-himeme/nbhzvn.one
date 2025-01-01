@@ -196,6 +196,7 @@ refresh_csrf();
                     <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
                     <p style="color: #e36666"><i><?php echo $error ?></i></p>
                     <button type="submit" name="submit" class="site-btn" value="Submit">Thêm Game Mới</button>
+                    <button type="button" class="site-btn" style="background-color: #666" onclick="AutoSave.delete()" id="deleteDraftBtn">Xoá bản nháp</button>
                 </form>
             </div>
         </div>
@@ -218,8 +219,8 @@ refresh_csrf();
     <script src="/js/owl.carousel.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/toastr.js"></script>
-    <script src="/js/api.js"></script>
-    <script src="/js/uploader.js"></script>
+    <script src="/js/api.js?time=<?= time() ?>"></script>
+    <script src="/js/uploader.js?time=<?= time() ?>"></script>
 
 </body>
 
