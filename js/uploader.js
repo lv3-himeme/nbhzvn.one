@@ -382,8 +382,8 @@ var AutoSave = {
     save: function() {
         this.show();
         this.changeText("Đang tiến hành lưu bản nháp...");
-        $("#linksInput").val(JSON.stringify(Object.values(gameFiles)));
-        $("#screenshotsInput").val(JSON.stringify(Object.values(screenshots).map(obj => obj.path)));
+        $("#linksInput").val(JSON.stringify(Object.values(gameFiles).filter(obj => obj.path != null)));
+        $("#screenshotsInput").val(JSON.stringify(Object.values(screenshots).filter(obj => obj.path != null).map(obj => obj.path)));
         var checkboxes = document.getElementsByClassName("supported_os_checkbox"), supportedOS = [];
         for (var i = 0; i < checkboxes.length; i++) if (checkboxes[i].checked) supportedOS.push(checkboxes[i].value);
         var save = {};
