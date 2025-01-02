@@ -61,7 +61,7 @@ if (post("submit")) {
 }
 else if (get("code")) {
     try {
-        if (!check_csrf(get("state"))) $fatal_error = "Mã xác thực CSRF không đúng.";
+        if (get("state") != $_SESSION["discord_csrf"]) $fatal_error = "Mã xác thực CSRF không đúng.";
         $result = request_token(get("code"));
         if (!$result->access_token) {
             switch ($result->error) {
@@ -92,6 +92,7 @@ else if (get("code")) {
                     if ($user->discord_id) $fatal_error = "Tài khoản này đã được liên kết với một tài khoản Discord rồi. Hãy bỏ liên kết tài khoản hiện tại trước khi liên kết lại.";
                     else {
                         $user->update_discord_id($discord_user->id);
+                        $_SESSION["discord_csrf"] = null;
                         $fatal_error = "Đã liên kết tài khoản Discord <b>" . $discord_user->username . "</b> với tài khoản hiện tại của bạn (<b>" . $user->username . "</b>).";
                     }
                 }
@@ -116,8 +117,8 @@ else if (get("code")) {
     }
 }
 else {
-    refresh_csrf();
-    header('Location: https://discord.com/oauth2/authorize?client_id=' . $client_id . '&response_type=code&redirect_uri=' . $http . '%3A%2F%2F' . $host . '%2Fdiscord&scope=identify+email&state=' . get_csrf());
+    $_SESSION["discord_csrf"] = random_string(64);
+    header('Location: https://discord.com/oauth2/authorize?client_id=' . $client_id . '&response_type=code&redirect_uri=' . $http . '%3A%2F%2F' . $host . '%2Fdiscord&scope=identify+email&state=' . $_SESSION["discord_csrf"]);
     die();
 }
 refresh_csrf();
