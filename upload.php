@@ -65,6 +65,7 @@ catch (Exception $ex) {
 }
 if ($notice) die('
     <script>
+        window.localStorage.removeItem("nbhzvn_upload_autosave");
         alert("' . $notice . '");
         document.location.href = "/";
     </script>
