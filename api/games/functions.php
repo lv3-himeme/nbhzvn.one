@@ -39,7 +39,7 @@ function unapproved_games($user) {
     return $games;
 }
 
-function trending_games($limit = 0) {
+function trending_games($limit = 6) {
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {
         $limit_query = " LIMIT ?";
