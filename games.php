@@ -53,7 +53,7 @@ else $repo = all_games();
 
 <head>
     <?php
-        $title = $game->name; 
+        if (!get("category")) $title = $game->name; 
         require "head.php" 
     ?>
 </head>
