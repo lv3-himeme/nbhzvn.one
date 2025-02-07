@@ -229,10 +229,10 @@ refresh_csrf();
     <script src="/js/mixitup.min.js"></script>
     <script src="/js/jquery.slicknav.js"></script>
     <script src="/js/owl.carousel.min.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="/js/main.js?v=<?=$res_version?>"></script>
     <script src="/js/toastr.js"></script>
-    <script src="/js/api.js"></script>
-    <script src="/js/uploader.js"></script>
+    <script src="/js/api.js?v=<?=$res_version?>"></script>
+    <script src="/js/uploader.js?v=<?=$res_version?>"></script>
 
 </body>
 

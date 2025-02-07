@@ -179,7 +179,7 @@ $featured_games = featured_games();
 <script src="/js/mixitup.min.js"></script>
 <script src="/js/jquery.slicknav.js"></script>
 <script src="/js/owl.carousel.min.js"></script>
-<script src="/js/main.js"></script>
+<script src="/js/main.js?v=<?=$res_version?>"></script>
 
 
 </body>

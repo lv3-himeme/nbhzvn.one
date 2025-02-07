@@ -286,15 +286,15 @@ else $repo = all_games();
         <script src="/js/mixitup.min.js"></script>
         <script src="/js/jquery.slicknav.js"></script>
         <script src="/js/owl.carousel.min.js"></script>
-        <script src="/js/main.js"></script>
+        <script src="/js/main.js?v=<?=$res_version?>"></script>
         <script src="/js/toastr.js"></script>
-        <script src="/js/api.js"></script>
+        <script src="/js/api.js?v=<?=$res_version?>"></script>
         <?php if ($game && $game->id): ?>
         <script>gameId = <?php echo $game->id ?></script>
-        <script src="/js/game.js"></script>
+        <script src="/js/game.js?v=<?=$res_version?>"></script>
         <?php else: ?>
         <script>repo = "<?php echo addslashes(get("category")) ?>"</script>
-        <script src="/js/game_list.js"></script>
+        <script src="/js/game_list.js?v=<?=$res_version?>"></script>
         <?php endif ?>
 
     </body>
