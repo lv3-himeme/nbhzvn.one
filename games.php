@@ -212,7 +212,9 @@ else $repo = all_games();
                                         <div class="game_file">
                                             <div class="row">
                                                 <div class="col-sm-9 game_file_name"><a href="/download/' . $game->id . '/' . $index . '">' . $link->name . '</a></div>
-                                                <div class="col-sm-3 game_file_size">' . bytes_to_string(filesize($path)) .  '</div>
+                                                <div class="col-sm-3 game_file_size">' . bytes_to_string(filesize($path)) .  '<br>
+                                                    <small><b>CN lần cuối:</b> ' . timestamp_to_string(filemtime($path)) . '</small>
+                                                </div>
                                             </div>
                                         </div>
                                     ';
