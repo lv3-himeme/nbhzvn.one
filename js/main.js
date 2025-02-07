@@ -47,10 +47,8 @@
         allowParentLinks: true
     });
 
-    /*------------------
-		Hero Slider
-	--------------------*/
     var hero_s = $(".hero__slider");
+    var autoplayTimeout;
     hero_s.owlCarousel({
         loop: true,
         margin: 0,
@@ -63,7 +61,17 @@
         smartSpeed: 1200,
         autoHeight: false,
         autoplay: true,
+        autoplayTimeout: 10000,
+        autoplayHoverPause: false,
         mouseDrag: false
+    });
+
+    hero_s.on('click', '.owl-prev, .owl-next', function () {
+        hero_s.trigger('stop.owl.autoplay');
+        clearTimeout(autoplayTimeout);
+        autoplayTimeout = setTimeout(function () {
+            hero_s.trigger('play.owl.autoplay', [10000]);
+        }, 2000);
     });
 
     /*------------------
