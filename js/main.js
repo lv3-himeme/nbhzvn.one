@@ -82,4 +82,16 @@
         return false;
      });
 
+    function equalizeCarouselHeights() {
+        let maxHeight = 0;
+        $(".owl-item").css("height", "auto");
+        $(".owl-item").each(function() {
+            let thisHeight = $(this).outerHeight();
+            if (thisHeight > maxHeight) maxHeight = thisHeight;
+        });
+        $(".owl-item").css("height", maxHeight + "px");
+    }
+    $(document).ready(equalizeCarouselHeights);
+    $(window).resize(equalizeCarouselHeights);
+
 })(jQuery);

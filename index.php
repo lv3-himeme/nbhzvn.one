@@ -33,7 +33,7 @@ $featured_games = featured_games();
                 <?php
                     foreach ($featured_games as $tmp_game) {
                         echo '
-                            <div class="hero__items set-bg" data-setbg="/uploads/' . $tmp_game->image . '">
+                            <div class="hero__items set-bg" data-setbg="/uploads/' . $tmp_game->image . '" style="height: 100%">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="hero__text">
