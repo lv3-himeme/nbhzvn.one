@@ -45,7 +45,7 @@ function trending_games($limit = 6) {
         $limit_query = " LIMIT ?";
         $limit_args = [$limit];
     }
-    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1 ORDER BY (downloads_today * 1000) / CASE WHEN views_today = 0 THEN 1 ELSE views_today END DESC' . $limit_query, ...$limit_args);
+    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1 ORDER BY `downloads_today` DESC, `views_today` DESC' . $limit_query, ...$limit_args);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
