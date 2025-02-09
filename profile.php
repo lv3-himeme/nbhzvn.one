@@ -115,7 +115,7 @@ else {
             <div class="anime__details__content">
                 <div class="anime__details__text">
                     <div class="anime__details__title">
-                        <h3><?php echo $profile_user->display_name() ?></h3>
+                        <h3><?php echo $profile_user->display_name() ?> <?php echo $profile_user->badge_html(false, true) ?></h3>
                         <span><?php echo $profile_user->username ?> (ID: <?php echo $profile_user->id ?>)</span>
                     </div>
                     <div class="anime__details__widget">

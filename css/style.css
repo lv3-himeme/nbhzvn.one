@@ -2622,3 +2622,29 @@ input.hidden {
 	color: #ccc;
 	font-size: 11pt;
 }
+
+.badge {
+	display: inline!important;
+	padding: 5px;
+	margin-left: 5px;
+	font-size: 9pt;
+	color: #fff!important;
+}
+
+.badge.large {
+	padding: 5px 7px;
+	margin-left: 7px;
+	font-size: 15pt;
+}
+
+.badge.admin {
+	background-color: #0866ff;
+}
+
+.badge.uploader {
+	background-color: #157328;
+}
+
+.badge.author {
+	background-color: #af1932;
+}

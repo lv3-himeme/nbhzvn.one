@@ -257,6 +257,16 @@ class Nbhzvn_User {
         }
         $this->send_notification($link, str_replace("{user}", $commenter->display_name(), str_replace("{game}", $game->name, $content)));
     }
+
+    function badge_html($author = false, $large = false) {
+        if ($author) return '<span class="badge author">Chủ Thớt</span>';
+        $str = array(
+            NORMAL_USER_TYPE => '',
+            UPLOADER_TYPE => '<span class="badge uploader">Uploader</span>',
+            ADMINISTRATOR_TYPE => '<span class="badge admin">QTV</span>'
+        )[$this->type];
+        return $large ? str_replace("badge", "badge large", $str) : $str;
+    }
 }
 
 class Nbhzvn_Notification {
