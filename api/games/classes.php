@@ -75,6 +75,12 @@ class Nbhzvn_Game {
         return SUCCESS;
     }
 
+    function unapprove() {
+        db_query('UPDATE `nbhzvn_games` SET `approved` = 0 WHERE `id` = ?', $this->id);
+        $this->approved = false;
+        return SUCCESS;
+    }
+
     function delete() {
         db_query('DELETE FROM `nbhzvn_comments` WHERE `game_id` = ?', $this->id);
         db_query('DELETE FROM `nbhzvn_gamefollows` WHERE `game_id` = ?', $this->id);

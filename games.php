@@ -164,7 +164,10 @@ else $repo = all_games();
                             <div class="anime__details__btn">
                                 <a href="#downloadSection" class="download-btn"><i class="fa fa-download"></i>&nbsp;&nbsp;Tải xuống</a>
                                 <?php if ($game->approved): ?>
-                                <a href="javascript:void(0)" onclick="toggleFollow(<?php echo $game->id ?>)" class="follow-btn"><span id="followText"><?php echo ($user && $user->id && $game->check_follow($user->id)) ? "Bỏ theo dõi" : "Theo dõi" ?></span> <label id="followCount"><?php echo number_format($follows, 0, ",", ".") ?></label></a>
+                                <a href="javascript:void(0)" onclick="toggleFollow(<?php echo $game->id ?>)" class="follow-btn"><span id="followText"><?php echo ($user && $user->id && $game->check_follow($user->id)) ? "Bỏ theo dõi" : "Theo dõi" ?></span> <label id="followCount" style="margin-right: 10px"><?php echo number_format($follows, 0, ",", ".") ?></label></a>
+                                <?php if ($user->type == 3): ?>
+                                <a href="/unapprove/<?php echo $game->id ?>" class="download-btn"><i class="fa fa-eye-slash"></i>&nbsp;&nbsp;Ẩn</a>
+                                <?php endif ?>
                                 <?php elseif ($user->type == 3): ?>
                                 <a href="/approve/<?php echo $game->id ?>" class="download-btn"><i class="fa fa-check"></i>&nbsp;&nbsp;Phê duyệt</a>
                                 <?php endif ?>

@@ -16,6 +16,7 @@ RewriteRule ^games/([0-9]+)$ games.php?id=$1 [L,QSA]
 RewriteRule ^download/([0-9]+)/([0-9]+)$ download.php?id=$1&index=$2 [L,QSA]
 RewriteRule ^edit_game/([0-9]+)$ edit_game.php?id=$1 [L,QSA]
 RewriteRule ^approve/([0-9]+)$ approve.php?id=$1 [L,QSA]
+RewriteRule ^unapprove/([0-9]+)$ unapprove.php?id=$1 [L,QSA]
 RewriteRule ^feature/([0-9]+)$ feature.php?id=$1 [L,QSA]
 RewriteRule ^delete_game/([0-9]+)$ delete_game.php?id=$1 [L,QSA]
 
