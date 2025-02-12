@@ -63,7 +63,7 @@ refresh_csrf();
                 <p><?php echo $fatal_error ?></p>
                 <p><a href="/"><button class="site-btn">Về Trang Chủ</button></p>
                 <?php else: ?>
-                <p>Nhập mật khẩu hiện tại của bạn để xác nhận ẩn game <b><?php echo $game->name ?></b> (ID: <?php echo $game->id ?>). Game sẽ được trở lại mục các game cần phê duyệt, và các Quản Trị Viên cần phê duyệt lại game này để hiển thị game trở lại.</p>
+                <p>Nhập mật khẩu hiện tại của bạn để xác nhận ẩn game <b><?php echo $game->name ?></b> (ID: <?php echo $game->id ?>).<br>Game sẽ được trở lại mục các game cần phê duyệt, và các Quản Trị Viên cần phê duyệt lại game này để hiển thị game trở lại.</p>
                 <form action="" method="POST">
                     <div class="input__item" style="width: 100%">
                         <input type="password" name="password" placeholder="Mật Khẩu Hiện Tại" required>
