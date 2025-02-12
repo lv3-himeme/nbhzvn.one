@@ -21,6 +21,7 @@ $total = get_total();
                         <li><a href="/games">Danh Sách Game</a></li>
                         <li><a href="/faq">FAQ</a></li>
                         <li><a href="/tos">Điều Khoản Sử Dụng</a></li>
+                        <li><a href="/privacy_policy">Chính Sách Bảo Mật</a></li>
                     </ul>
                 </div>
             </div>
