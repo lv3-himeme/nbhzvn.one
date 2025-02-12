@@ -80,6 +80,7 @@ refresh_csrf();
                             </div>
                             <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
                             <p style="color: #e36666"><i><?php echo $error ?></i></p>
+                            <p><small>Bằng cách tiếp tục sử dụng trang web này, bạn đã đồng ý với <a href="/tos">Điều Khoản Sử Dụng</a> và <a href="/privacy_policy">Chính Sách Bảo Mật</a> của trang web.</small></p>
                             <button type="submit" name="submit" class="site-btn" value="Submit">Đăng Nhập</button>
                         </form>
                         <a href="/forgot_password" class="forget_pass">Quên mật khẩu?</a>

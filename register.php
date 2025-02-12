@@ -93,6 +93,7 @@ refresh_csrf();
                         </form>
                         <br>
                         <p><i>Website sẽ chỉ sử dụng Địa Chỉ Email của bạn để xác nhận tài khoản và khi lấy lại mật khẩu, ngoài ra email của bạn sẽ không được sử dụng cho bất kì hành động nào khác của website.<br>Chỉ hỗ trợ email đến từ Gmail, Yahoo! Mail hoặc Outlook.</i></p>
+                        <p><small>Bằng cách tiếp tục sử dụng trang web này, bạn đã đồng ý với <a href="/tos">Điều Khoản Sử Dụng</a> và <a href="/privacy_policy">Chính Sách Bảo Mật</a> của trang web.</small></p>
                         <h5>Đã có tài khoản? <a href="/login">Đăng Nhập</a></h5>
                     </div>
                 </div>
