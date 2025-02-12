@@ -2648,3 +2648,7 @@ input.hidden {
 .badge.author {
 	background-color: #af1932;
 }
+
+pre {
+	color: #ddd;
+}
