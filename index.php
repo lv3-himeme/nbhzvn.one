@@ -77,6 +77,28 @@ $featured_games = featured_games();
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="section-title">
+                                    <h4>Mới Cập Nhật Gần Đây</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="btn__all">
+                                    <a href="/games?category=recently_updated" class="primary-btn">Xem Tất Cả <span class="arrow_right"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <?php
+                                $recently_updated_games = recently_updated_games(6);
+                                if (count($recently_updated_games) > 0) 
+                                    foreach ($recently_updated_games as $tmp_game) echo echo_homepage_game($tmp_game);
+                                else echo '<p style="margin: 20px"><i>Không có game nào mới được cập nhật gần đây.</i></p>'
+                            ?>
+                        </div>
+                    </div>
+                    <div class="popular__product">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="section-title">
                                     <h4>Game Phổ Biến</h4>
                                 </div>
                             </div>

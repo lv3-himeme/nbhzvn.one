@@ -35,6 +35,11 @@ else if (get("category")) {
             $repo = mobile_games();
             break;
         }
+        case "recently_updated": {
+            $title = "Game Mới Cập Nhật Gần Đây";
+            $repo = recently_updated_games();
+            break;
+        }
         default: {
             $repo = all_games();
             break;

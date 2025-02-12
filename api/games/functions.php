@@ -1,9 +1,9 @@
 <?php
 function add_game(stdClass $data, bool $pre_approved = false) {
     db_query('INSERT INTO `nbhzvn_games`
-        (`timestamp`, `name`, `links`, `image`, `screenshots`, `description`, `engine`, `tags`, `release_year`, `author`, `language`, `translator`, `uploader`, `status`, `views`, `views_today`, `downloads_today`, `updated_date`, `downloads`, `supported_os`, `is_featured`, `approved`)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ', time(), $data->name, $data->links, $data->image, $data->screenshots, $data->description, $data->engine, $data->tags, $data->release_year, $data->author, $data->language, $data->translator, $data->uploader, $data->status, 0, 0, 0, date('Y-m-d'), 0, $data->supported_os, 0, $pre_approved ? 1 : 0);
+        (`timestamp`, `name`, `links`, `image`, `screenshots`, `description`, `engine`, `tags`, `release_year`, `author`, `language`, `translator`, `uploader`, `status`, `views`, `views_today`, `downloads_today`, `updated_date`, `file_updated_time`, `downloads`, `supported_os`, `is_featured`, `approved`)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ', time(), $data->name, $data->links, $data->image, $data->screenshots, $data->description, $data->engine, $data->tags, $data->release_year, $data->author, $data->language, $data->translator, $data->uploader, $data->status, 0, 0, 0, date('Y-m-d'), time(), 0, $data->supported_os, 0, $pre_approved ? 1 : 0);
     return SUCCESS;
 }
 
@@ -84,6 +84,17 @@ function recent_games($limit = 0) {
         $limit_args = [$limit];
     }
     $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1 ORDER BY `timestamp` DESC' . $limit_query, ...$limit_args);
+    while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
+    return $games;
+}
+
+function recently_updated_games($limit = 0) {
+    $games = []; $limit_query = ""; $limit_args = [];
+    if ($limit) {
+        $limit_query = " LIMIT ?";
+        $limit_args = [$limit];
+    }
+    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1 AND `file_updated_time` > ' . strval(time() - 604800) . ' ORDER BY `file_updated_time` DESC' . $limit_query, ...$limit_args);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
