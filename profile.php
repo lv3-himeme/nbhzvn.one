@@ -162,6 +162,9 @@ else {
                         <?php if ($profile_user->id == $user->id): ?>
                         <a href="/change_info" class="nbhzvn_btn"><span><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp;Thay đổi thông tin</span></a>
                         <?php else: ?>
+                        <?php if ($user->type == 3): ?>
+                            <a href="/send_notification/<?php echo $profile_user->id ?>" class="nbhzvn_btn"><span>Gửi thông báo</span></a>
+                        <?php endif ?>
                         <?php if ($user->type == 3 && $profile_user->type < 3): ?>
                             <a href="/assign/<?php echo $profile_user->id ?>" class="nbhzvn_btn"><span>Thay đổi chức vụ</span></a>
                             <?php if ($profile_user->ban_information): ?>
