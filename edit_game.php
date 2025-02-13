@@ -63,7 +63,7 @@ function process() {
         clean_files($thumbnail, $links, $screenshots);
         if ($game->file_updated_time > $prev_update_time) {
             foreach ($game->followers() as $follower) {
-                if ($follower->id != $user->id) $follower->send_notification("/games/" . $game->id, "**" . $user->display_name() . "** vừa chỉnh sửa thông tin game **" . $game->name . "**.");
+                if ($follower->id != $user->id) $follower->send_notification("/games/" . $game->id, "**" . $user->display_name() . "** vừa cập nhật game **" . $game->name . "**.");
             }
         }
         $notice = "Đã chỉnh sửa game thành công.";
