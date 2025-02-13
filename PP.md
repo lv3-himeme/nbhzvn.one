@@ -1,5 +1,5 @@
 # Chính Sách Bảo Mật
-*Cập nhật lần cuối vào ngày 12/2/2025.*
+*Cập nhật lần cuối vào ngày 13/2/2025.*
 
 Trang Web **Nobihaza Vietnam Community Collection** ("Trang Web") cam kết bảo vệ quyền riêng tư và thông tin cá nhân của người dùng. Chính Sách Bảo Mật này giải thích cách chúng tôi thu thập, sử dụng và bảo vệ thông tin của bạn khi bạn truy cập và sử dụng Trang Web.
 
