@@ -29,7 +29,7 @@ function clean_files($thumbnail = "none", $links = [], $screenshots = []) {
         if (!in_array($screenshot, $new_screenshots)) unlink("./uploads/" . $screenshot);
     }
     foreach ($new_links as $link) $time = max($time, filemtime("./uploads/" . $link->path));
-    db_query('UPDATE `nbhzvn_games` SET `file_updated_time` = ? WHERE `id` = ?', $time, $game->id);
+    $game->update_file_time($time);
 }
 
 function process() {

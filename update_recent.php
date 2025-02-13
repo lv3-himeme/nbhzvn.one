@@ -13,7 +13,7 @@ try {
     foreach ($games as $game) {
         $time = 1;
         foreach ($game->links as $link) $time = max($time, filemtime("./uploads/" . $link->path));
-        db_query('UPDATE `nbhzvn_games` SET `file_updated_time` = ? WHERE `id` = ?', $time, $game->id);
+        $game->update_file_time($time);
     }
     $notice = "Cập nhật lại thời gian cập nhật cuối cùng của các tệp tin trong toàn bộ game thành công.";
 }

@@ -19,6 +19,7 @@ class Nbhzvn_Game {
     public $views_today;
     public $downloads_today;
     public $updated_date;
+    public $file_updated_time;
     public $downloads;
     public $supported_os;
     public $is_featured;
@@ -49,6 +50,7 @@ class Nbhzvn_Game {
         $this->views_today = $data->views_today;
         $this->downloads_today = $data->downloads_today;
         $this->updated_date = $data->updated_date;
+        $this->file_updated_time = $data->file_updated_time;
         $this->downloads = $data->downloads;
         $this->supported_os = $data->supported_os;
         $this->is_featured = $data->is_featured;
@@ -227,6 +229,11 @@ class Nbhzvn_Game {
         if ($this->translator) $fields[] = new Discord_EmbedField("Dịch giả:", $this->translator, true);
         $embed->add_fields(...$fields);
         return $embed;
+    }
+
+    function update_file_time($time) {
+        db_query('UPDATE `nbhzvn_games` SET `file_updated_time` = ? WHERE `id` = ?', $time, $this->id);
+        $this->file_updated_time = $time;
     }
 }
 
