@@ -35,7 +35,7 @@ uploads/
 webhook_config.php
 
 # Ignore spme files/folders due to them being specific to NbhzVN Community
-bulletin/
+bulletin_files/
 tools/
 bulletin.php
 bulletin.md
