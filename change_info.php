@@ -147,6 +147,11 @@ refresh_csrf();
                         <?php else: ?>
                         <p>Vui lòng xác minh tài khoản trước khi liên kết với mạng xã hội khác.</p>
                         <?php endif ?>
+                        <hr>
+                        <h3>NGUY HIỂM!</h3>
+                        <ul>
+                            <li><a href="/delete_account" class="google">Xóa Tài Khoản</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
