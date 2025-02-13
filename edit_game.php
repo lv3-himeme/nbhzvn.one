@@ -13,7 +13,7 @@ $notice = "";
 
 function clean_files($thumbnail = "none", $links = [], $screenshots = []) {
     global $game;
-    $file_updated = false;
+    $time = 0;
     $new_thumbnail = post("image"); $new_links = json_decode(post("links")); $new_screenshots = json_decode(post("screenshots"));
     if ($new_thumbnail != $thumbnail) unlink("./uploads/" . $thumbnail);
     foreach ($links as $link) {
@@ -22,15 +22,14 @@ function clean_files($thumbnail = "none", $links = [], $screenshots = []) {
             return $v->path;
         }, $new_links))) {
             unlink("./uploads/" . $path);
-            if (!$file_updated) {
-                db_query('UPDATE `nbhzvn_games` SET `file_updated_time` = ? WHERE `id` = ?', time(), $game->id);
-                $file_updated = true;
-            }
+            $file_updated = true;
         }
     }
     foreach ($screenshots as $screenshot) {
         if (!in_array($screenshot, $new_screenshots)) unlink("./uploads/" . $screenshot);
     }
+    foreach ($new_links as $link) $time = max($time, filemtime("./uploads/" . $link->path));
+    db_query('UPDATE `nbhzvn_games` SET `file_updated_time` = ? WHERE `id` = ?', $time, $game->id);
 }
 
 function process() {
