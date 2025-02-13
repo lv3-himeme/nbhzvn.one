@@ -37,6 +37,7 @@ function process() {
     global $notice;
     global $user;
     global $game;
+    $prev_update_time = $game->file_updated_time;
     if (!check_csrf(post("csrf_token"))) return $error = "Mã xác thực CSRF không đúng.";
     $inputs = ["name", "image", "links", "screenshots", "description", "engine", "release_year", "author", "language", "status", "supported_os"];
     $data = array();
@@ -60,8 +61,10 @@ function process() {
     $result = $game->edit($data);
     if ($result == SUCCESS) {
         clean_files($thumbnail, $links, $screenshots);
-        foreach ($game->followers() as $follower) {
-            if ($follower->id != $user->id) $follower->send_notification("/games/" . $game->id, "**" . $user->display_name() . "** vừa chỉnh sửa thông tin game **" . $game->name . "**.");
+        if ($game->file_updated_time > $prev_update_time) {
+            foreach ($game->followers() as $follower) {
+                if ($follower->id != $user->id) $follower->send_notification("/games/" . $game->id, "**" . $user->display_name() . "** vừa chỉnh sửa thông tin game **" . $game->name . "**.");
+            }
         }
         $notice = "Đã chỉnh sửa game thành công.";
     }
