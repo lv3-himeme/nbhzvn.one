@@ -45,7 +45,7 @@ Bạn có quyền:
 - **Kiểm tra và cập nhật thông tin tài khoản** bất cứ lúc nào.
 - **Xóa tài khoản của bạn** nếu không muốn sử dụng Trang Web nữa.
 
-Nếu bạn muốn thay đổi thông tin tài khoản, hãy dùng tính năng **Chỉnh Sửa Thông Tin** trên trang cá nhân của bạn. Còn nếu bạn muốn xóa tài khoản của bạn vĩnh viễn ra khỏi cơ sở dữ liệu của Trang Web, vui lòng liên hệ với **Quản Trị Viên**.
+Nếu bạn muốn thay đổi hay xóa toàn bộ thông tin tài khoản, hãy dùng tính năng **Chỉnh Sửa Thông Tin** trên trang cá nhân của bạn.
 
 ## 6. Liên Kết Đến Trang Web Khác
 Trang Web có thể chứa các **liên kết đến website bên thứ ba**. Chúng tôi **không chịu trách nhiệm về chính sách bảo mật hoặc nội dung** của các trang web bên ngoài. Khi truy cập các liên kết này, bạn **tự chịu trách nhiệm về dữ liệu của mình**.
