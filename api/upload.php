@@ -56,7 +56,7 @@ try {
             else {
                 if (!isset($_FILES["file"])) api_response(null, "Vui lòng chọn một tệp tin để tải lên.", 400);
                 $extension = strtolower(pathinfo("./uploads/" . basename($_FILES["file"]["name"]), PATHINFO_EXTENSION));
-                $types = ["zip", "rar", "7z", "jpg", "png", "webp", "jpeg"];
+                $types = ["zip", "rar", "7z", "jpg", "png", "webp", "jpeg", "gz"];
                 if (!in_array($extension, $types)) api_response(null, "Định dạng tệp tin không được hỗ trợ.", 400);
                 $name = random_string(64) . "." . $extension;
                 $path = $folder . "/" . $name;
