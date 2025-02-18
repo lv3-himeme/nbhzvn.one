@@ -14,7 +14,7 @@ try {
             if (!$user || $user->type < 2) api_response(null, "Bạn không có quyền truy cập vào API này.", 403);
             if (post("type") == "chunk") {
                 $extension = strtolower(pathinfo("./uploads/" . basename(post("file_name")), PATHINFO_EXTENSION));
-                $types = ["zip", "rar", "7z", "jpg", "png", "webp", "jpeg"];
+                $types = ["zip", "rar", "7z", "jpg", "png", "webp", "jpeg", ".gz"];
                 if (!in_array($extension, $types)) api_response(null, "Định dạng tệp tin không được hỗ trợ.", 400);
                 if (!isset($_FILES["chunk"])) api_response(null, "Không có dữ liệu của tệp tin.", 400);
                 $arguments = ["cursor", "chunks", "file_name"];
