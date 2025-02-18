@@ -40,7 +40,7 @@ try {
                     if (!move_uploaded_file($_FILES["chunk"]["tmp_name"], $chunk_path) || !chmod($chunk_path, 0775) || !file_exists($chunk_path)) api_response(null, "Không thể tải tệp tin lên vào thời gian này, vui lòng thử lại.", 500);
                     $file_name = $generated_name . "." . strtolower(pathinfo(post("file_name"), PATHINFO_EXTENSION));
                     $file_path = $folder . "/" . $file_name;
-                    $file = fopen($file_path, "wb");
+                    $file = fopen($file_pzath, "wb");
                     if (!$file) api_response(null, "Không thể tải tệp tin lên vào thời gian này, vui lòng thử lại. 4", 500);
                     for ($i = 0; $i < $chunks; $i++) {
                         $chunk_path_tmp = $path . "/" . strval($i);
