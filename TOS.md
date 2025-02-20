@@ -1,5 +1,5 @@
 # Điều Khoản Sử Dụng
-*Cập nhật lần cuối vào ngày 12/2/2025.*
+*Cập nhật lần cuối vào ngày 20/2/2025.*
 
 **Nobihaza Vietnam Community Collection** ("Trang Web") là một nền tảng được thiết lập nhằm tổng hợp, lưu trữ và chia sẻ các game Nobihaza trên mọi ngôn ngữ và thể loại, miễn là nội dung của chúng có liên quan đến Nobihaza. Trang Web này được phát triển và quản lý bởi **Serena1432** ("Nhà Phát Triển"), và thuộc quyền sở hữu của **Cộng Đồng Nobihaza Việt Nam** ("Cộng Đồng").  
 
@@ -124,6 +124,7 @@ Các Điều Khoản này chỉ áp dụng cho Trang Web với tên miền chín
 ### 4.3. Tải các Tài Nguyên lên Trang Web
 - Tất cả các Tài Nguyên (trừ những Tài Nguyên được Quản Trị Viên trực tiếp tải lên) phải trải qua quy trình xét duyệt trước khi được công khai trên Trang Web. Quá trình xét duyệt nhằm đảm bảo Tài Nguyên đáp ứng tiêu chuẩn chất lượng và không vi phạm điều khoản.
 - Bạn chịu trách nhiệm cập nhật, chỉnh sửa hoặc xóa một phần/toàn bộ Tài Nguyên và thông tin mô tả của nó nếu có yêu cầu hợp lệ từ Quản Trị Viên hoặc nếu đa số người chơi phản hồi về vấn đề nghiêm trọng. Quản Trị Viên có quyền yêu cầu chỉnh sửa nội dung hoặc ẩn Tài Nguyên khỏi Trang Web nếu cần thiết.
+- Bạn chỉ được phép tải một Tài Nguyên lên Trang Web nếu như đã có sự cho phép của chủ sở hữu Tài Nguyên đó. Nếu phát hiện một Tài Nguyên được tải lên mà không có sự cho phép của chủ sở hữu, Quản Trị Viên có quyền gỡ bỏ ngay lập tức mà không cần báo trước.
 - Quản Trị Viên có quyền gỡ bỏ hoặc từ chối công khai các Tài Nguyên nếu phát hiện vi phạm bất kỳ điều kiện nào dưới đây mà không cần báo trước:
   - **Tài Nguyên không đạt tiêu chuẩn chất lượng**, gây ảnh hưởng tiêu cực đến trải nghiệm người chơi.
   - **Tài Nguyên chứa nội dung phản cảm, khiêu dâm hoặc cổ xúy bạo lực** (trừ yếu tố kinh dị được cho phép).
