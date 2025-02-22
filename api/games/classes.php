@@ -58,16 +58,20 @@ class Nbhzvn_Game {
     }
 
     function add_views() {
-        $this->views = intval($this->views) + 1;
-        $this->views_today = intval($this->views_today) + 1;
-        db_query('UPDATE `nbhzvn_games` SET `views` = ?, `views_today` = ? WHERE `id` = ?', $this->views, $this->views_today, $this->id);
+        if ($this->approved) {
+            $this->views = intval($this->views) + 1;
+            $this->views_today = intval($this->views_today) + 1;
+            db_query('UPDATE `nbhzvn_games` SET `views` = ?, `views_today` = ? WHERE `id` = ?', $this->views, $this->views_today, $this->id);
+        }
         return SUCCESS;
     }
 
     function add_downloads_count() {
-        $this->downloads = intval($this->downloads) + 1;
-        $this->downloads_today = intval($this->downloads_today) + 1;
-        db_query('UPDATE `nbhzvn_games` SET `downloads` = ?, `downloads_today` = ? WHERE `id` = ?', $this->downloads, $this->downloads_today, $this->id);
+        if ($this->approved) {
+            $this->downloads = intval($this->downloads) + 1;
+            $this->downloads_today = intval($this->downloads_today) + 1;
+            db_query('UPDATE `nbhzvn_games` SET `downloads` = ?, `downloads_today` = ? WHERE `id` = ?', $this->downloads, $this->downloads_today, $this->id);
+        }
         return SUCCESS;
     }
 
