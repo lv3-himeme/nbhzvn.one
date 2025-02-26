@@ -263,7 +263,7 @@ async function rate(id, rating) {
         </div>
     `;
     modal.footer = `
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
         <button type="button" class="btn btn-primary" style="background-color: #af1932; border: 1px solid rgb(209, 55, 81)" onclick="processRate(${id}, ${rating})">Gửi đánh giá</button>
     `;
     modal.update();
@@ -278,7 +278,7 @@ function updateReason(id, rating, reason) {
         </div>
     `;
     modal.footer = `
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
         <button type="button" class="btn btn-primary" style="background-color: #af1932; border: 1px solid rgb(209, 55, 81)" onclick="processRate(${id}, ${rating})">Gửi đánh giá</button>
     `;
     modal.update();

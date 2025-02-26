@@ -11,7 +11,7 @@ class Modal {
         this.id = `modal-${randomId(16)}`;
         this.title = title || "Thông báo";
         this.body = body;
-        this.footer = `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>`;
+        this.footer = `<button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>`;
         this.element = null;
         this.createElement();
     }
