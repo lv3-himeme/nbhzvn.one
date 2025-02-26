@@ -227,22 +227,25 @@ Page navigation
 ===========================================================
 */
 
-async function previousPage() {
-    if (Pagination.page() < 2) return;
-    $("#comments").html("");
-    $("#comments").html(await Pagination.previous(`/api/games/comments/?id=${gameId}&page={page}&html=true`));
+async function previousPage(distantId = "") {
+    var elementId = `#${distantId.toLowerCase() || "comments"}`, api = `${distantId.toLowerCase() || "comments/"}`;
+    if (Pagination.page(distantId) < 2) return;
+    $(elementId).html("");
+    $(elementId).html(await Pagination.previous(`/api/games/${api}?id=${gameId}&page={page}&html=true`, distantId));
 }
 
-async function nextPage() {
-    if (Pagination.page() >= Pagination.maxPages()) return;
-    $("#comments").html("");
-    $("#comments").html(await Pagination.next(`/api/games/comments/?id=${gameId}&page={page}&html=true`));
+async function nextPage(distantId = "") {
+    var elementId = `#${distantId.toLowerCase() || "comments"}`, api = `${distantId.toLowerCase() || "comments/"}`;
+    if (Pagination.page(distantId) >= Pagination.maxPages(distantId)) return;
+    $(elementId).html("");
+    $(elementId).html(await Pagination.next(`/api/games/${api}?id=${gameId}&page={page}&html=true`, distantId));
 }
 
-async function jumpToPage() {
-    if (Pagination.page() >= Pagination.maxPages()) return;
-    $("#comments").html("");
-    $("#comments").html(await Pagination.jump(`/api/games/comments/?id=${gameId}&page={page}&html=true`, Pagination.page()));
+async function jumpToPage(distantId = "") {
+    var elementId = `#${distantId.toLowerCase() || "comments"}`, api = `${distantId.toLowerCase() || "comments/"}`;
+    if (Pagination.page(distantId) >= Pagination.maxPages(distantId)) return;
+    $(elementId).html("");
+    $(elementId).html(await Pagination.jump(`/api/games/${api}?id=${gameId}&page={page}&html=true`, Pagination.page(distantId), distantId));
 }
 
 /*
@@ -328,5 +331,30 @@ async function processRate(id, rating) {
     catch (err) {
         console.error(err);
         updateReason(id, rating, reason);
+    }
+}
+
+/*
+===========================================================
+Delete rating function
+===========================================================
+*/
+
+async function deleteRating(id) {
+    if (!confirm("Xác nhận xoá đánh giá này?")) return;
+    var response = await apiRequest({
+        url: "/api/games/ratings",
+        type: "DELETE",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: JSON.stringify({
+            id: id
+        }),
+        json: true
+    });
+    if (response?.success) {
+        toastr.success(response.message, "Thông báo");
+        $(`#rating-${id}`).remove();
     }
 }

@@ -243,6 +243,13 @@ class Nbhzvn_Game {
         db_query('UPDATE `nbhzvn_games` SET `file_updated_time` = ? WHERE `id` = ?', $time, $this->id);
         $this->file_updated_time = $time;
     }
+
+    function all_ratings() {
+        $ratings = [];
+        $query = db_query('SELECT * FROM `nbhzvn_gameratings` WHERE `game_id` = ?', $this->id);
+        while ($row = $query->fetch_object()) array_push($ratings, new Nbhzvn_Rating($row));
+        return $ratings;
+    }
 }
 
 class Nbhzvn_Comment {
@@ -316,6 +323,44 @@ class Nbhzvn_Comment {
             if ($user->id) array_push($options, '<a href="javascript:void(0)" onclick="replyComment(' . ($this->replied_to ? $this->replied_to : $this->id) . ', ' . ($this->replied_to ? ('\'' . $this_author->username . '\'') : "null") . ')">Trả lời</a>');
         }
         return '<div id="comment-' . $this->id . '" class="comment_container"><div class="anime__review__item"><div class="anime__review__item__text' . ($is_reply ? " reply" : "") . '"><h6><a href="/profile/' . $this->author . '">' . $this_author->display_name() . '</a>' . $this_author->badge_html(($this_game->uploader == $this_author->id)) . ' • <a href="/games/' . $this->game_id . ($this->replied_to ? ('?highlighted_comment=' . $this->replied_to . '&reply_comment=' . $this->id . '#comment-' . $this->id) : ('?highlighted_comment=' . $this->id . '#comment-' . $this->id)) . '"><span style="font-size: 10pt">' . comment_time($this->timestamp) . ($this->edited ? " (đã chỉnh sửa)" : "") . (($highlighted == $this->id) ? '<span class="highlighted_comment">Bình luận nổi bật</span>' : "") . '</span></a></h6><p id="comment-' . $this->id . '-content">' . process_mentions($this->content) . '</p>' . (count($options) ? ('<p id="comment-' . $this->id . '-options" class="comment_options">' . implode(" • ", $options) . '</p>') : "") . '</div><div id="comment-' . $this->id . '-replies" class="comment_replies">' . $pre_reply_html . '</div>' . (($replies > 0 && !$hide_options) ? '<div class="view_replies_btn" id="comment-' . $this->id . '-repliesbtn"><a href="javascript:void(0)" onclick="viewReplies(' . $this->id . ')">Xem ' . $replies . ' câu trả lời...</a></div>' : "") . '</div></div>';
+    }
+}
+
+class Nbhzvn_Rating {
+    public $id;
+    public $author;
+    public $timestamp;
+    public $game_id;
+    public $rating;
+    public $reason;
+    private $user;
+
+    function __construct($id) {
+        if (is_object($id)) $data = $id;
+        else {
+            $result = db_query('SELECT * FROM `nbhzvn_gameratings` WHERE `id` = ?', $id);
+            while ($row = $result->fetch_object()) $data = $row;
+        }
+        $this->id = $data->id;
+        $this->user = new Nbhzvn_User($data->author);
+        $this->author = substr($this->user->display_name(), 0, 2) . "*****";
+        $this->timestamp = $data->timestamp;
+        $this->game_id = $data->game_id;
+        $this->rating = $data->rating;
+        $this->reason = $data->reason;
+    }
+
+    function delete() {
+        db_query('DELETE FROM `nbhzvn_gameratings` WHERE `id` = ?', $this->id);
+    }
+
+    function to_html($user = new Nbhzvn_User(0)) {
+        $stars = "";
+        for ($i = 0; $i < $this->rating; $i++) $stars .= '<i class="fa fa-star"></i>';
+        for ($i = 0; $i < 5 - $this->rating; $i++) $stars .= '<i class="fa fa-star-o"></i>';
+        $reason = htmlentities($this->reason ? $this->reason : "");
+        if (!$reason) $reason = '<i>Thành viên này không để lại lý do nào' . (($this->timestamp < 1740576333) ? ', vì đánh giá này được thực hiện trước thời gian website yêu cầu thành viên phải ghi lý do' : ''). '.</i>';
+        return '<div id="rating-' . $this->id . '" class="comment_container"><div class="anime__review__item"><div class="anime__review__item__text"><h6><a href="' . ($user->type < 3 ? 'javascript:void(0)' : ('/profile/' . $this->user->id)) . '">' . ($user->type < 3 ? $this->author : $this->user->display_name()) . '</a> • <span class="rating_stars">' . $stars . '</span> • <span style="font-size: 10pt">' . comment_time($this->timestamp) . '</span></h6><p style="font-size: 10pt; margin-top: 5px">' . $reason . '</p>' . ($user->type == 3 ? ('<p class="comment_options"><a href="javascript:void(0)" onclick=\'deleteRating(' . $this->id . ')\'>Xoá đánh giá này</a></p>') : '') . '</div></div></div>';
     }
 }
 ?>

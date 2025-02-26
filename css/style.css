@@ -2652,3 +2652,10 @@ input.hidden {
 pre {
 	color: #ddd;
 }
+
+.rating_stars > i {
+	font-size: 12pt;
+	color: #e89f12;
+	display: inline-block;
+	margin: 2px;
+}

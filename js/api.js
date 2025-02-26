@@ -111,26 +111,26 @@ async function uploadFile(file, progressBar, code) {
 }
 
 let Pagination = {
-    page: function() {
-        return parseInt($("#currentPage").val());
+    page: function(distantId = "") {
+        return parseInt($(`#currentPage${distantId}`).val());
     },
-    maxPages: function() {
-        return parseInt($("#currentPage").prop("max"));
+    maxPages: function(distantId = "") {
+        return parseInt($(`#currentPage${distantId}`).prop("max"));
     },
-    previous: async function(apiUrl) {
-        var page = this.page();
+    previous: async function(apiUrl, distantId = "") {
+        var page = this.page(distantId);
         if (page < 2) return null;
         page--;
-        return await this.jump(apiUrl, page);
+        return await this.jump(apiUrl, page, distantId);
     },
-    next: async function(apiUrl) {
-        var page = this.page();
-        if (page >= this.maxPages()) return null;
+    next: async function(apiUrl, distantId = "") {
+        var page = this.page(distantId);
+        if (page >= this.maxPages(distantId)) return null;
         page++;
-        return await this.jump(apiUrl, page);
+        return await this.jump(apiUrl, page, distantId);
     },
-    jump: async function(apiUrl, page = 1) {
-        $("#currentPage").val(page.toString());
+    jump: async function(apiUrl, page = 1, distantId = "") {
+        $(`#currentPage${distantId}`).val(page.toString());
         var response = await apiRequest({
             url: apiUrl.replaceAll("{page}", page.toString()),
             type: "GET",

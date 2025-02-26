@@ -16,6 +16,7 @@ if (is_numeric(get("id"))) {
     $comments = $game->comments();
     $follows = $game->follows();
     $ratings = $game->ratings();
+    $all_ratings = $game->all_ratings();
     $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
 }
 else if (get("category")) {
@@ -229,6 +230,23 @@ else $repo = all_games();
                                 }
                             ?>
                         </div><br>
+                        <div class="anime__details__review">
+                            <div class="section-title">
+                                <h5>Đánh giá game (<?php echo count($all_ratings) ?>)</h5>
+                            </div>
+                            <p style="font-size: 11pt"><i>Để đảm bảo an toàn, website sẽ không hiển thị tên đầy đủ của các thành viên đã đánh giá. Chỉ có Quản Trị Viên mới xem được tên hiển thị đầy đủ và thực hiện hành động đối với các đánh giá này.</i></p>
+                            <div id="ratings">
+                                <?php
+                                    $i == 0;
+                                    foreach ($all_ratings as $rating) {
+                                        if ($i >= 5) break;
+                                        echo $rating->to_html($user);
+                                        $i++;
+                                    }
+                                ?>
+                            </div>
+                            <?php echo pagination(count($all_ratings), 5, 1, "Ratings"); ?>
+                        </div>
                         <div class="anime__details__review">
                             <div class="section-title">
                                 <h5>Bình luận (<?php echo count($comments) ?>)</h5>

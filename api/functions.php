@@ -71,15 +71,15 @@ function http_post_request($url, $body = array(), $headers = []) {
     return $result;
 }
 
-function pagination($item_count = 0, $items_per_page = 20, $page = 1) {
+function pagination($item_count = 0, $items_per_page = 20, $page = 1, $distant_id = "") {
     $pages = ceil($item_count / $items_per_page);
     if ($item_count == 0 || $pages < 2) return "";
     echo '
-        <div id="pagination" class="nbhzvn_pagination">
-            <button class="previous" onclick="previousPage()">&lt; Trang trước</button>
-            <input id="currentPage" class="current_page" type="number" value="' . $page . '" onblur="jumpToPage()" max="' . $pages . '">
+        <div id="pagination' . $distant_id . '" class="nbhzvn_pagination">
+            <button class="previous" onclick="previousPage(\'' . $distant_id . '\')">&lt; Trang trước</button>
+            <input id="currentPage' . $distant_id . '" class="current_page" type="number" value="' . $page . '" onblur="jumpToPage(\'' . $distant_id . '\')" max="' . $pages . '">
             <button class="pages_count"> / ' . $pages . '</button>
-            <button class="next" onclick="nextPage()">Trang sau &gt;</button>
+            <button class="next" onclick="nextPage(\'' . $distant_id . '\')">Trang sau &gt;</button>
         </div>
     ';
 }
