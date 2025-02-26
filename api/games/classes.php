@@ -142,10 +142,10 @@ class Nbhzvn_Game {
         return $new_value;
     }
 
-    function add_rating($user_id, $rating) {
+    function add_rating($user_id, $rating, $reason) {
         $result = db_query('SELECT `rating` FROM `nbhzvn_gameratings` WHERE `game_id` = ? AND `author` = ?', $this->id, $user_id);
         if ($result->num_rows > 0) throw new Exception(ALREADY_RATED);
-        db_query('INSERT INTO `nbhzvn_gameratings` (`author`, `timestamp`, `game_id`, `rating`) VALUES (?, ?, ?, ?)', $user_id, time(), $this->id, $rating);
+        db_query('INSERT INTO `nbhzvn_gameratings` (`author`, `timestamp`, `game_id`, `rating`, `reason`) VALUES (?, ?, ?, ?, ?)', $user_id, time(), $this->id, $rating, $reason);
         return $this->ratings();
     }
 

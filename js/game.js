@@ -35,47 +35,6 @@ for (var i = 1; i <= 5; i++) {
 
 /*
 ===========================================================
-Rating command
-===========================================================
-*/
-
-async function rate(id, rating) {
-    if ($("#star-1").attr("data-rated")) return;
-    var response = await apiRequest({
-        url: "/api/games/rate",
-        type: "POST",
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: JSON.stringify({
-            id,
-            rating
-        }),
-        json: true
-    });
-    if (response?.success) {
-        toastr.success(response.message, "Thông báo");
-        var average = response.data.average,
-            full = Math.floor(average), remain = average - full, index = 0, ostar = 4 - full, html = "";
-        for (var i = 0; i < full; i++) {
-            index++;
-            html += `<a href="javascript:void(0)"><i data-rated="true" id="star-${i}" class="fa fa-star"></i></a> `;
-        }
-        if (index < 5) {
-            index++;
-            html += `<a href="javascript:void(0)"><i data-rated="true" id="star-${i}" class="fa fa-star${(remain >= 0.5) ? "-half" : ""}-o"></i></a> `;
-        }
-        for (var i = 0; i < ostar; i++) {
-            index++;
-            html += `<a href="javascript:void(0)"><i data-rated="true" id="star-${i}" class="fa fa-star-o"></i></a> `;
-        }
-        $("#rating").html(html);
-        $(`#ratingText`).text(`${response.data.total} lượt đánh giá`);
-    }
-}
-
-/*
-===========================================================
 Follow command
 ===========================================================
 */
@@ -284,4 +243,90 @@ async function jumpToPage() {
     if (Pagination.page() >= Pagination.maxPages()) return;
     $("#comments").html("");
     $("#comments").html(await Pagination.jump(`/api/games/comments/?id=${gameId}&page={page}&html=true`, Pagination.page()));
+}
+
+/*
+===========================================================
+Rate with modal
+===========================================================
+*/
+
+var modal = new Modal();
+
+async function rate(id, rating) {
+    if ($("#star-1").attr("data-rated")) return;
+    modal.title = `Đánh Giá Game`;
+    modal.body = `
+        <p>Ghi rõ lý do tại sao bạn lại đánh giá ${rating} sao cho game <b>${$("#gameTitle > h3").text()}:</p>
+        <div class="anime__details__form">
+            <textarea id="ratingReason" style="height: 300px"></textarea>
+        </div>
+    `;
+    modal.footer = `
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+        <button type="button" class="btn btn-primary" style="background-color: #af1932; border: 1px solid rgb(209, 55, 81)" onclick="processRate(${id}, ${rating})">Gửi đánh giá</button>
+    `;
+    modal.update();
+    modal.show();
+}
+
+function updateReason(id, rating, reason) {
+    modal.body = `
+        <p>Ghi rõ lý do tại sao bạn lại đánh giá ${rating} sao cho game <b>${$("#gameTitle > h3").text()}:</p>
+        <div class="anime__details__form">
+            <textarea id="ratingReason" style="height: 300px">${reason}</textarea>
+        </div>
+    `;
+    modal.footer = `
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+        <button type="button" class="btn btn-primary" style="background-color: #af1932; border: 1px solid rgb(209, 55, 81)" onclick="processRate(${id}, ${rating})">Gửi đánh giá</button>
+    `;
+    modal.update();
+}
+
+async function processRate(id, rating) {
+    var reason = $("#ratingReason").val();
+    modal.body = `<p><i>Đang gửi đánh giá, bạn vui lòng chờ một lát...</i></p>`;
+    modal.footer = ``;
+    modal.update();
+    try {
+        var response = await apiRequest({
+            url: "/api/games/rate",
+            type: "POST",
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: JSON.stringify({
+                id,
+                rating,
+                reason
+            }),
+            json: true
+        });
+        if (response?.success) {
+            toastr.success(response.message, "Thông báo");
+            modal.hide();
+            var average = response.data.average,
+                full = Math.floor(average), remain = average - full, index = 0, ostar = 4 - full, html = "";
+            for (var i = 0; i < full; i++) {
+                index++;
+                html += `<a href="javascript:void(0)"><i data-rated="true" id="star-${i}" class="fa fa-star"></i></a> `;
+            }
+            if (index < 5) {
+                index++;
+                html += `<a href="javascript:void(0)"><i data-rated="true" id="star-${i}" class="fa fa-star${(remain >= 0.5) ? "-half" : ""}-o"></i></a> `;
+            }
+            for (var i = 0; i < ostar; i++) {
+                index++;
+                html += `<a href="javascript:void(0)"><i data-rated="true" id="star-${i}" class="fa fa-star-o"></i></a> `;
+            }
+            $("#rating").html(html);
+            $(`#ratingText`).text(`${response.data.total} lượt đánh giá`);
+        }
+        else updateReason(id, rating, reason);
+    }
+    catch (err) {
+        console.error(err);
+        updateReason(id, rating, reason);
+    }
 }

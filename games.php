@@ -95,7 +95,7 @@ else $repo = all_games();
                     </div>
                     <div class="col-lg-9">
                         <div class="anime__details__text">
-                            <div class="anime__details__title">
+                            <div class="anime__details__title" id="gameTitle">
                                 <h3><?php echo $game->name ?></h3>
                             </div>
                             <div class="anime__details__rating">
@@ -294,6 +294,7 @@ else $repo = all_games();
         <script src="/js/mixitup.min.js"></script>
         <script src="/js/jquery.slicknav.js"></script>
         <script src="/js/owl.carousel.min.js"></script>
+        <script src="/js/modal.js"></script>
         <script src="/js/main.js?v=<?=$res_version?>"></script>
         <script src="/js/toastr.js"></script>
         <script src="/js/api.js?v=<?=$res_version?>"></script>
