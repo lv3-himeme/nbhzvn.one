@@ -246,7 +246,7 @@ class Nbhzvn_Game {
 
     function all_ratings() {
         $ratings = [];
-        $query = db_query('SELECT * FROM `nbhzvn_gameratings` WHERE `game_id` = ?', $this->id);
+        $query = db_query('SELECT * FROM `nbhzvn_gameratings` WHERE `game_id` = ? ORDER BY `timestamp` DESC', $this->id);
         while ($row = $query->fetch_object()) array_push($ratings, new Nbhzvn_Rating($row));
         return $ratings;
     }
