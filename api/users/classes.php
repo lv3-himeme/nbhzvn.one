@@ -14,24 +14,40 @@ class Nbhzvn_User {
     private $login_token;
     public $ban_information;
 
-    function __construct($id) {
-        if (gettype($id) == "string") $result = db_query('SELECT * FROM `nbhzvn_users` WHERE username = ?', $id);
-        else $result = db_query('SELECT * FROM `nbhzvn_users` WHERE id = ?', $id);
-        $this->id = null;
-        while ($row = $result->fetch_object()) {
-            $this->id = $row->id;
-            $this->timestamp = $row->timestamp;
-            $this->username = $row->username;
-            $this->email = decrypt_string($row->email);
-            $this->type = $row->type;
-            $this->passphrase = decrypt_string($row->passphrase);
-            $this->display_name = $row->display_name;
-            $this->description = $row->description;
-            $this->discord_id = $row->discord_id;
-            $this->verification_required = $row->verification_required;
-            $this->verification_code = decrypt_string($row->verification_code);
-            $this->login_token = decrypt_string($row->login_token);
-            $this->ban_information = json_decode($row->ban_information);
+    function __construct($id, $private = false) {
+        $this->id = null; $data = new stdClass();
+        switch (gettype($id)) {
+            case "string":
+            case "integer": {
+                $result = db_query('SELECT * FROM `nbhzvn_users` WHERE ' . ((gettype($id) == "string") ? "username" : "id") . ' = ?', $id);
+                while ($row = $result->fetch_object()) $data = $row;
+                break;
+            }
+            default: {
+                $data = $id;
+                break;
+            }
+        }
+        $this->id = $data->id;
+        $this->timestamp = $data->timestamp;
+        $this->username = $data->username;
+        $this->type = $data->type;
+        $this->passphrase = decrypt_string($data->passphrase);
+        $this->display_name = $data->display_name;
+        $this->description = $data->description;
+        $this->verification_code = decrypt_string($data->verification_code);
+        $this->login_token = decrypt_string($data->login_token);
+        if (!$private) {
+            $this->email = decrypt_string($data->email);
+            $this->discord_id = $data->discord_id;
+            $this->verification_required = $data->verification_required;
+            $this->ban_information = json_decode($data->ban_information);
+        }
+        else {
+            unset($this->email);
+            unset($this->discord_id);
+            unset($this->verification_required);
+            unset($this->ban_information);
         }
     }
 

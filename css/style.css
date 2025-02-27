@@ -999,8 +999,9 @@ ol {
 	letter-spacing: 2px;
 	text-transform: uppercase;
 	padding: 14px 20px;
-	border-radius: 4px;
 	margin-right: 11px;
+	margin-bottom: 25px;
+	border-radius: 4px;
 }
 
 .anime__details__btn .follow-btn span {
@@ -2225,11 +2226,6 @@ ol {
 	.footer__nav ul li {
 		margin-right: 10px;
 	}
-	.anime__details__btn .download-btn {
-		padding: 14px 26px;
-		margin-right: 11px;
-		margin-bottom: 25px;
-	}
 	.anime__details__widget ul li span {
 		width: 85px;
 	}
@@ -2658,4 +2654,30 @@ pre {
 	color: #e89f12;
 	display: inline-block;
 	margin: 2px;
+}
+
+.transfer_member {
+	display: grid;
+	grid-template-columns: 9fr 1fr;
+	margin-bottom: 10px;
+}
+
+.transfer_member button {
+	font-size: 24pt;
+	color: #ffffff;
+	background: #af1932;
+	border: none;
+	border-radius: 2px;
+	width: 100%;
+	height: 100%;
+}
+
+.form-control {
+	color: #b7b7b7;
+	background: #27292a;
+}
+
+.form-control:focus {
+	color: #b7b7b7;
+	background: #27292a;
 }

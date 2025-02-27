@@ -250,6 +250,11 @@ class Nbhzvn_Game {
         while ($row = $query->fetch_object()) array_push($ratings, new Nbhzvn_Rating($row));
         return $ratings;
     }
+
+    function change_owner($id) {
+        db_query('UPDATE `nbhzvn_games` SET `uploader` = ? WHERE `id` = ?', $id, $this->id);
+        $this->uploader = $id;
+    }
 }
 
 class Nbhzvn_Comment {

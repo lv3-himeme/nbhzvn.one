@@ -173,7 +173,8 @@ else $repo = all_games();
                                 <a href="/approve/<?php echo $game->id ?>" class="download-btn"><i class="fa fa-check"></i>&nbsp;&nbsp;Phê duyệt</a>
                                 <?php endif ?>
                                 <?php if ($user->id == $game->uploader): ?>
-                                <a href="/edit_game/<?php echo $game->id ?>" class="download-btn" style="margin-left: 12px"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Chỉnh sửa</a>
+                                <a href="/edit_game/<?php echo $game->id ?>" class="download-btn"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Chỉnh sửa</a>
+                                <a href="/transfer/<?php echo $game->id ?>" class="download-btn"><i class="fa fa-exchange"></i>&nbsp;&nbsp;Chuyển quyền quản lý</a>
                                 <?php endif ?>
                                 <?php if ($user->type == 3): ?>
                                 <a href="/feature/<?php echo $game->id ?>" class="download-btn"><?php if (!$game->is_featured) echo 'Thêm vào'; else echo "Loại bỏ khỏi" ?> mục Tiêu Điểm</a>
