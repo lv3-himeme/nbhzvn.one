@@ -58,7 +58,7 @@ db_query('UPDATE `nbhzvn_notifications` SET `is_unread` = 0 WHERE `user_id` = ?'
                                 if ($limit == 20) break;
                             }
                         }
-                        else echo '<p>Bạn chưa có thông báo nào.</p>' ?>
+                        else echo '<p>Bạn chưa có thông báo nào.</p>' 
                     ?>
                 </div>
                 <?php if (count($notifications)) echo pagination(count($notifications)) ?>
