@@ -34,7 +34,7 @@
 html,
 body {
 	height: 100%;
-	font-family: "Mulish", sans-serif;
+	font-family: "Inter", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	background: #1f2122;
 }
@@ -48,7 +48,7 @@ h6 {
 	margin: 0;
 	color: #fff;
 	font-weight: 400;
-	font-family: "Mulish", sans-serif;
+	font-family: "Inter", sans-serif;
 	margin-bottom: 10px;
 }
 
@@ -78,7 +78,7 @@ h6 {
 
 p {
 	font-size: 15px;
-	font-family: "Mulish", sans-serif;
+	font-family: "Inter", sans-serif;
 	color: #ccc;
 	font-weight: 400;
 	line-height: 25px;
