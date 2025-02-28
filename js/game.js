@@ -294,8 +294,8 @@ async function processRate(id, rating) {
     modal.update();
     try {
         var response = await apiRequest({
-            url: "/api/games/rate",
-            type: "POST",
+            url: "/api/games/rating",
+            type: "PUT",
             cache: false,
             contentType: false,
             processData: false,
