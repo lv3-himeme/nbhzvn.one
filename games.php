@@ -87,6 +87,11 @@ else $repo = all_games();
     <section class="anime-details spad">
         <div class="container">
             <?php if ($game && $game->id): ?>
+            <?php if (!$game->approved): ?>
+                <p style="padding: 18px 30px 16px 20px; border-radius: 10px; background: #af1932; color: #fff; margin-bottom: 30px">
+                    Game này vẫn chưa được phê duyệt. Chỉ có Quản Trị Viên và người quản lý game mới có thể xem thông tin game này ở thời điểm hiện tại.
+                </p>
+            <?php endif ?>
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
