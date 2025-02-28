@@ -29,7 +29,7 @@ try {
             break;
         }
         case "DELETE": {
-            if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập để có thể bình luận.", 401);
+            if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập để có thể xóa đánh giá.", 401);
             $json = json_decode(file_get_contents("php://input"));
             if (!$json->id) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
             $rating = new Nbhzvn_Rating($json->id);
