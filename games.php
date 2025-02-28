@@ -17,6 +17,7 @@ if (is_numeric(get("id"))) {
     $follows = $game->follows();
     $ratings = $game->ratings();
     $all_ratings = $game->all_ratings();
+    $changelogs = $game->changelogs();
     $rated = ($user && $user->id) ? $game->check_rating($user->id) : false;
 }
 else if (get("category")) {
@@ -189,11 +190,41 @@ else $repo = all_games();
                 </div>
                 <div class="row">
                     <div class="col-lg-8 col-md-8">
-                        <div>
-                            <div class="section-title">
-                                <h5>Mô tả game</h5>
+                        <ul class="nav nav-tabs mb-3" id="tabList" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="descriptionTab" data-toggle="pill" data-target="#descriptionTabContent" type="button" role="tab" aria-controls="descriptionTabContent" aria-selected="true">Mô Tả Game</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="changelogsTab" data-toggle="pill" data-target="#changelogsTabContent" type="button" role="tab" aria-controls="changelogsTabContent" aria-selected="false">Nhật Ký Cập Nhật</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="tabContent">
+                            <div class="tab-pane fade show active" id="descriptionTabContent" role="tabpanel" aria-labelledby="descriptionTab">
+                                <div class="game_description"><?php echo $parsedown->text($game->description) ?></div>
                             </div>
-                            <div class="game_description"><?php echo $parsedown->text($game->description) ?></div>
+                            <div class="tab-pane fade" id="changelogsTabContent" role="tabpanel" aria-labelledby="changelogsTab">
+                                <?php if ($game->uploader == $user->id): ?>
+                                <div id="addChangelogArea">
+                                    <p style="text-align: right">
+                                        <a href="javascript:void(0)" onclick="addChangelog()" class="changelog-btn"><i class="fa fa-plus"></i>&nbsp;&nbsp;Thêm nhật ký mới</a>
+                                    </p>
+                                </div>
+                                <?php endif ?>
+                                <div id="changelogs">
+                                    <?php
+                                        $i = 0;
+                                        if (count($changelogs) > 0) {
+                                            foreach ($changelogs as $changelog) {
+                                                if ($i >= 5) break;
+                                                echo $changelog->to_html($user);
+                                                $i++;
+                                            }
+                                        }
+                                        else echo '<p id="noChangelogText"><i>Chưa có nhật ký cập nhật nào được thêm.</i></p>';
+                                    ?>
+                                </div>
+                                <?php echo pagination(count($changelogs), 5, 1, "Changelogs"); ?>
+                            </div>
                         </div><br>
                         <div>
                             <div class="section-title">
@@ -238,7 +269,7 @@ else $repo = all_games();
                             <p style="font-size: 11pt"><i>Để đảm bảo an toàn, website sẽ không hiển thị tên đầy đủ của các thành viên đã đánh giá. Chỉ có Quản Trị Viên mới xem được tên hiển thị đầy đủ và thực hiện hành động đối với các đánh giá này.</i></p>
                             <div id="ratings">
                                 <?php
-                                    $i == 0;
+                                    $i = 0;
                                     foreach ($all_ratings as $rating) {
                                         if ($i >= 5) break;
                                         echo $rating->to_html($user);
@@ -313,7 +344,7 @@ else $repo = all_games();
         <script src="/js/mixitup.min.js"></script>
         <script src="/js/jquery.slicknav.js"></script>
         <script src="/js/owl.carousel.min.js"></script>
-        <script src="/js/modal.js"></script>
+        <script src="/js/modal.js?v=<?=$res_version?>"></script>
         <script src="/js/main.js?v=<?=$res_version?>"></script>
         <script src="/js/toastr.js"></script>
         <script src="/js/api.js?v=<?=$res_version?>"></script>

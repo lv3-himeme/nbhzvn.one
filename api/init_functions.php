@@ -60,12 +60,12 @@ function special_chars($str) {
     return preg_match('/[^a-zA-Z0-9_]/', $str) > 0;
 }
 
-function timestamp_to_string($timestamp) {
+function timestamp_to_string($timestamp, $short = false) {
     $utcPlus7 = new DateTimeZone('Asia/Ho_Chi_Minh');
     $dateTime = new DateTime();
     $dateTime->setTimestamp($timestamp);
     $dateTime->setTimezone($utcPlus7);
-    return $dateTime->format("d/m/Y H:i:s");
+    return $dateTime->format($short ? "j \\t\\há\\n\\g n, Y" : "d/m/Y H:i:s");
 }
 
 function redirect_to_home() {

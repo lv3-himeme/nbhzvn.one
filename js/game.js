@@ -349,12 +349,168 @@ async function deleteRating(id) {
         contentType: false,
         processData: false,
         data: JSON.stringify({
-            id: id
+            id
         }),
         json: true
     });
     if (response?.success) {
         toastr.success(response.message, "Thông báo");
         $(`#rating-${id}`).remove();
+    }
+}
+
+/*
+===========================================================
+Add changelog function
+===========================================================
+*/
+
+function cancelAddChangelog() {
+    $("#addChangelogArea").html(`
+        <p style="text-align: right">
+            <a href="javascript:void(0)" onclick="addChangelog()" class="changelog-btn"><i class="fa fa-plus"></i>&nbsp;&nbsp;Thêm nhật ký mới</a>
+        </p>
+    `);
+}
+
+function addChangelog() {
+    $("#addChangelogArea").html(`
+        <p><input type="text" class="form-control" id="newChangelogVersion" placeholder="Số phiên bản (ví dụ như 1.0.0 hoặc 1.0.1)" /></p>
+        <p><textarea class="form-control" id="newChangelogDescription" style="height: 300px" placeholder="Nội dung cập nhật (hỗ trợ Markdown)" /></p>
+        <p style="text-align: right" id="changelogButtonList">
+            <a href="javascript:void(0)" onclick="processAddChangelog()" class="changelog-btn"><i class="fa fa-plus"></i>&nbsp;&nbsp;Thêm nhật ký mới</a>
+            <a href="javascript:void(0)" onclick="cancelAddChangelog()" class="changelog-btn"><i class="fa fa-times"></i>&nbsp;&nbsp;Huỷ bỏ</a>
+        </p>
+    `);
+}
+
+async function processAddChangelog() {
+    var version = $("#newChangelogVersion").val(),
+        description = $("#newChangelogDescription").val();
+    if (!version || !description) return toastr.error("Vui lòng nhập đầy đủ thông tin.", "Lỗi");
+    $("#changelogButtonList").html(`<i>Đang thêm nhật ký cập nhật mới, vui lòng đợi...</i>`);
+    try {
+        var response = await apiRequest({
+            url: "/api/games/changelogs",
+            type: "PUT",
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: JSON.stringify({
+                game_id: gameId,
+                version,
+                description
+            }),
+            json: true
+        });
+        if (response?.success) {
+            toastr.success(response.message, "Thông báo");
+            if ($("#noChangelogText")) $("#noChangelogText").html("");
+            $("#changelogs").html(`${response.data}${$("#changelogs").html()}`);
+            cancelAddChangelog();
+        }
+    }
+    catch (err) {
+        console.error(err);
+        $("#changelogButtonList").html(`
+            <a href="javascript:void(0)" onclick="processAddChangelog()" class="changelog-btn"><i class="fa fa-plus"></i>&nbsp;&nbsp;Thêm nhật ký mới</a>
+            <a href="javascript:void(0)" onclick="cancelAddChangelog()" class="changelog-btn"><i class="fa fa-times"></i>&nbsp;&nbsp;Huỷ bỏ</a>
+        `);
+    }
+}
+
+/*
+===========================================================
+Edit changelogs function
+===========================================================
+*/
+
+async function editChangelog(id) {
+    modal.title = `Chỉnh Sửa Mô Tả`;
+    modal.body = `
+        <p><b>Mô tả cập nhật mới:</b></p>
+        <p><textarea class="form-control" id="editChangelogDescription" style="height: 300px" /></p>
+    `;
+    modal.footer = `
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+        <button type="button" class="btn btn-primary" style="background-color: #af1932; border: 1px solid rgb(209, 55, 81)" onclick="processEditChangelog(${id})">Chỉnh sửa</button>
+    `;
+    modal.update();
+    modal.show();
+    var response = await apiRequest({
+        url: `/api/games/changelogs?id=${id}`,
+        type: "GET",
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+    if (response?.success) $("#editChangelogDescription").val(response.data[0].description);
+}
+
+function updateEditChangelog(id, description = "") {
+    modal.body = `
+        <p><b>Mô tả cập nhật mới:</b></p>
+        <p><textarea class="form-control" id="editChangelogDescription" style="height: 300px">${description}</textarea></p>
+    `;
+    modal.footer = `
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+        <button type="button" class="btn btn-primary" style="background-color: #af1932; border: 1px solid rgb(209, 55, 81)" onclick="processEditChangelog(${id})">Chỉnh sửa</button>
+    `;
+    modal.update();
+}
+
+async function processEditChangelog(id) {
+    var description = $("#editChangelogDescription").val();
+    modal.body = `<p><i>Đang thực hiện sửa đổi, bạn vui lòng chờ một lát...</i></p>`;
+    modal.footer = ``;
+    modal.update();
+    try {
+        var response = await apiRequest({
+            url: "/api/games/changelogs",
+            type: "POST",
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: JSON.stringify({
+                id,
+                description
+            }),
+            json: true
+        });
+        if (response?.success) {
+            toastr.success(response.message, "Thông báo");
+            $(`#changelog-${id}`).html(response.data);
+            modal.hide();
+        }
+        else updateEditChangelog(id, description);
+    }
+    catch (err) {
+        console.error(err);
+        updateEditChangelog(id, description);
+    }
+}
+
+/*
+===========================================================
+Delete changelogs function
+===========================================================
+*/
+
+async function deleteChangelog(id) {
+    if (!confirm("Xác nhận xoá nội dung cập nhật này?")) return;
+    var response = await apiRequest({
+        url: "/api/games/changelogs",
+        type: "DELETE",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: JSON.stringify({
+            id
+        }),
+        json: true
+    });
+    if (response?.success) {
+        toastr.success(response.message, "Thông báo");
+        $(`#changelog-${id}`).remove();
     }
 }

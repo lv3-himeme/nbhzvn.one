@@ -16,5 +16,6 @@ db_query("CREATE TABLE IF NOT EXISTS `nbhzvn_gameratings` (`id` INT NOT NULL AUT
 db_query("CREATE TABLE IF NOT EXISTS `nbhzvn_gamefollows` (`id` INT NOT NULL AUTO_INCREMENT , `author` INT NOT NULL , `game_id` INT NOT NULL , PRIMARY KEY (`id`) , FOREIGN KEY (author) REFERENCES nbhzvn_users(id) , FOREIGN KEY (game_id) REFERENCES nbhzvn_games(id)) ENGINE = InnoDB");
 db_query("CREATE TABLE IF NOT EXISTS `nbhzvn_timeouts` (`id` INT NOT NULL AUTO_INCREMENT , `user_id` INT NOT NULL , `property` TEXT NOT NULL , `timestamp` BIGINT NOT NULL , PRIMARY KEY (`id`) , FOREIGN KEY (user_id) REFERENCES nbhzvn_users(id)) ENGINE = InnoDB");
 db_query("CREATE TABLE IF NOT EXISTS `nbhzvn_notifications` (`id` INT NOT NULL AUTO_INCREMENT , `timestamp` BIGINT NOT NULL , `user_id` INT NOT NULL , `link` TEXT NULL , `content` TEXT NOT NULL , `is_unread` BOOLEAN NOT NULL , PRIMARY KEY (`id`) , FOREIGN KEY (user_id) REFERENCES nbhzvn_users(id)) ENGINE = InnoDB");
+db_query("CREATE TABLE IF NOT EXISTS `nbhzvn_changelogs` (`id` INT NOT NULL AUTO_INCREMENT , `game_id` INT NOT NULL , `timestamp` BIGINT NOT NULL , `version` TEXT NOT NULL , `description` LONGTEXT NOT NULL , PRIMARY KEY (`id`) , FOREIGN KEY (game_id) REFERENCES nbhzvn_games(id)) ENGINE = InnoDB");
 create_admin_user();
 ?>

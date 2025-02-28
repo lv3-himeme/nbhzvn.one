@@ -2681,3 +2681,36 @@ pre {
 	color: #b7b7b7;
 	background: #27292a;
 }
+
+.nav-link {
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	font-weight: bold;
+}
+
+.nav-link.active {
+	background: #af1932!important;
+	border: none;
+}
+
+.changelog-btn {
+	font-size: 13px;
+	color: #ffffff;
+	background: #af1932;
+	display: inline-block;
+	font-weight: 700;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	padding: 14px 20px;
+	margin-right: 11px;
+	margin-bottom: 25px;
+	border-radius: 4px;
+}
+
+.anime__review__item__text ul {
+	margin-left: 13px;
+	font-size: 11pt;
+	color: #b7b7b7;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}

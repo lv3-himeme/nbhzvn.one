@@ -1,4 +1,5 @@
 <?php
+
 class Nbhzvn_Game {
     public $id;
     public $timestamp;
@@ -95,6 +96,7 @@ class Nbhzvn_Game {
         db_query('DELETE FROM `nbhzvn_comments` WHERE `game_id` = ?', $this->id);
         db_query('DELETE FROM `nbhzvn_gamefollows` WHERE `game_id` = ?', $this->id);
         db_query('DELETE FROM `nbhzvn_gameratings` WHERE `game_id` = ?', $this->id);
+        db_query('DELETE FROM `nbhzvn_changelogs` WHERE `game_id` = ?', $this->id);
         db_query('DELETE FROM `nbhzvn_games` WHERE `id` = ?', $this->id);
         $this->id = null;
         return SUCCESS;
@@ -255,6 +257,29 @@ class Nbhzvn_Game {
         db_query('UPDATE `nbhzvn_games` SET `uploader` = ? WHERE `id` = ?', $id, $this->id);
         $this->uploader = $id;
     }
+
+    function changelogs() {
+        $logs = [];
+        $query = db_query('SELECT * FROM `nbhzvn_changelogs` WHERE `game_id` = ? ORDER BY `timestamp` DESC', $this->id);
+        while ($row = $query->fetch_object()) {
+            $changelog = new Nbhzvn_Changelog($row);
+            $changelog->set_game_object($this);
+            array_push($logs, $changelog);
+        }
+        return $logs;
+    }
+
+    function add_changelog($version, $description, $user = new Nbhzvn_User(0)) {
+        global $conn;
+        db_query('INSERT INTO `nbhzvn_changelogs` (`game_id`, `timestamp`, `version`, `description`) VALUES (?, ?, ?, ?)', $this->id, time(), $version, $description);
+        if ($conn->insert_id) {
+            $changelog_id = $conn->insert_id;
+            $changelog = new Nbhzvn_Changelog($changelog_id);
+            $changelog->set_game_object($this);
+            return $changelog->to_html($user);
+        }
+        else return FAILED;
+    }
 }
 
 class Nbhzvn_Comment {
@@ -366,6 +391,51 @@ class Nbhzvn_Rating {
         $reason = htmlentities($this->reason ? $this->reason : "");
         if (!$reason) $reason = '<i>Thành viên này không để lại lý do nào' . (($this->timestamp < 1740576333) ? ', vì đánh giá này được thực hiện trước thời gian website yêu cầu thành viên phải ghi lý do' : ''). '.</i>';
         return '<div id="rating-' . $this->id . '" class="comment_container"><div class="anime__review__item"><div class="anime__review__item__text"><h6><a href="' . ($user->type < 3 ? 'javascript:void(0)' : ('/profile/' . $this->user->id)) . '">' . ($user->type < 3 ? $this->author : $this->user->display_name()) . '</a> • <span class="rating_stars">' . $stars . '</span> • <span style="font-size: 10pt">' . comment_time($this->timestamp) . '</span></h6><p style="font-size: 10pt; margin-top: 5px">' . $reason . '</p>' . ($user->type == 3 ? ('<p class="comment_options"><a href="javascript:void(0)" onclick=\'deleteRating(' . $this->id . ')\'>Xoá đánh giá này</a></p>') : '') . '</div></div></div>';
+    }
+}
+
+class Nbhzvn_Changelog {
+    public $id;
+    public $game_id;
+    public $timestamp;
+    public $version;
+    public $description;
+    private $game_object;
+
+    function __construct($id) {
+        if (is_object($id)) $data = $id;
+        else {
+            $result = db_query('SELECT * FROM `nbhzvn_changelogs` WHERE id = ?', $id);
+            while ($row = $result->fetch_object()) $data = $row;
+        }
+        $this->id = $data->id;
+        $this->game_id = $data->game_id;
+        $this->timestamp = $data->timestamp;
+        $this->version = $data->version;
+        $this->description = $data->description;
+    }
+
+    function edit_description($desc) {
+        db_query('UPDATE `nbhzvn_changelogs` SET `description` = ? WHERE id = ?', $desc, $this->id);
+        $this->description = $desc;
+    }
+
+    function delete() {
+        db_query('DELETE FROM `nbhzvn_changelogs` WHERE id = ?', $this->id);
+        $this->id = null;
+    }
+
+    function set_game_object($game = new Nbhzvn_Game(0)) {
+        $this->game_object = $game;
+    }
+
+    function to_html($user) {
+        $parsedown = new Parsedown();
+        $parsedown->setSafeMode(true);
+        $parsedown->setMarkupEscaped(true);
+        if (!is_object($this->game_object)) $this->game_object = new Nbhzvn_Game($this->game_id);
+        $game = $this->game_object;
+        return '<div id="changelog-' . $this->id . '" class="comment_container"><div class="anime__review__item"><div class="anime__review__item__text"><div class="row"><div class="col-6" style="text-align: left"><h4><b>' . $this->version . '</b></h4></div><div class="col-6" style="text-align: right; font-size: 10pt; margin-top: 4px">' . timestamp_to_string($this->timestamp, true) . '</div></div><div style="font-size: 10pt" id="changelog-' . $this->id . '-content">' . $parsedown->text($this->description) . '</div>' . (($user->id == $game->uploader) ? '<p id="changelog-' . $this->id . '-options" class="comment_options"><a href="javascript:void(0)" onclick="editChangelog(' . $this->id . ')">Chỉnh sửa nội dung</a> • <a href="javascript:void(0)" onclick="deleteChangelog(' . $this->id . ')">Xoá</a></p></p>' : '') . '</div></div></div>';
     }
 }
 ?>
