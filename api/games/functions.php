@@ -94,7 +94,7 @@ function recently_updated_games($limit = 0) {
         $limit_query = " LIMIT ?";
         $limit_args = [$limit];
     }
-    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1 AND `file_updated_time` > ' . strval(time() - 604800) . ' ORDER BY `file_updated_time` DESC' . $limit_query, ...$limit_args);
+    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1 AND `file_updated_time` > ' . strval(time() - 604800) . ' AND `timestamp` < ' . strval(time() - 604800) . ' ORDER BY `file_updated_time` DESC' . $limit_query, ...$limit_args);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }
