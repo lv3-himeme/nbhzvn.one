@@ -2564,54 +2564,65 @@ input.hidden {
 	background-color: #57222b!important;
 }
 
-.faq > h1 {
+.blog__details__text > h1 {
 	margin-top: 25px;
 	font-size: 32pt;
 	font-weight: bold;
 }
 
-.faq > h2 {
+.blog__details__text > h2 {
 	font-size: 24pt;
 	font-weight: 500;
 	margin-top: 25px;
 }
 
-.faq > h3 {
+.blog__details__text > h3 {
 	font-size: 20pt;
 	font-weight: 500;
 	margin-top: 25px;
 }
 
-.faq > h4 {
+.blog__details__text > h4 {
 	font-size: 16pt;
 	font-weight: 500;
 	margin-top: 25px;
 }
 
-.faq > h5 {
+.blog__details__text > h5 {
 	font-size: 14pt;
 	font-weight: 500;
 	margin-top: 25px;
 }
 
-.faq p {
+.blog__details__text p {
 	font-size: 12pt;
 	margin-bottom: 8px;
 	line-height: 26px;
 }
 
-.faq li {
+.blog__details__text ul {
+	margin-bottom: 8px;
+}
+
+.blog__details__text ul ul {
+	margin-bottom: 0;
+}
+
+.blog__details__text li {
 	font-weight: normal;
 	margin-left: 18px;
 	color: #fff;
+	line-height: 26px;
+	font-size: 12pt;
 }
 
-.faq img {
+.blog__details__text img {
 	margin-top: 10px;
 	border: 1px solid #555;
+	margin-bottom: 8px;
 }
 
-.faq li::marker {
+.blog__details__text li::marker {
 	color: #fff;
 }
 
