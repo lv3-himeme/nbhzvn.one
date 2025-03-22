@@ -15,6 +15,10 @@ if (!get("repo")) {
     $comments = $profile_user->comments();
     if ($profile_user->type >= 2) {
         $uploaded_games = $profile_user->uploaded_games();
+        $popular_games = array_merge([], $uploaded_games);
+        usort($popular_games, function($a, $b) {
+            return $b->downloads <=> $a->downloads;
+        });
         $total_views = 0; $total_downloads = 0;
         foreach ($uploaded_games as $tmp_game) {
             $total_views += $tmp_game->views;
@@ -44,6 +48,12 @@ else {
             if ($user->type < 2) redirect_to_home();
             $repo = unapproved_games($user);
             $overwrite_title = "Game Đang Chờ Duyệt";
+            break;
+        }
+        case "popular": {
+            if ($profile_user->type < 2) redirect_to_home();
+            $repo = $profile_user->popular_games();
+            $overwrite_title = "Game Phổ Biến";
             break;
         }
         default: {
@@ -215,6 +225,28 @@ else {
                             <?php
                                 $limit = 0;
                                 foreach ($uploaded_games as $tmp_game) {
+                                    echo echo_search_game($tmp_game, true);
+                                    $limit++;
+                                    if ($limit == 6) break;
+                                }
+                            ?>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="section-title">
+                                    <h4>Game Phổ Biến</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="btn__all">
+                                    <a href="/popular/<?php echo $profile_user->id ?>" class="primary-btn">Xem tất cả <span class="arrow_right"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <?php
+                                $limit = 0;
+                                foreach ($popular_games as $tmp_game) {
                                     echo echo_search_game($tmp_game, true);
                                     $limit++;
                                     if ($limit == 6) break;

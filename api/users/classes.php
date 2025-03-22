@@ -228,6 +228,15 @@ class Nbhzvn_User {
         return $games;
     }
 
+    function popular_games() {
+        $games = [];
+        $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `uploader` = ? AND `approved` = 1 ORDER BY `downloads` DESC', $this->id);
+        while ($row = $result->fetch_object()) {
+            array_push($games, new Nbhzvn_Game($row));
+        }
+        return $games;
+    }
+
     function notifications() {
         $notifications = [];
         $result = db_query('SELECT * FROM `nbhzvn_notifications` WHERE `user_id` = ? ORDER BY `timestamp` DESC', $this->id);
