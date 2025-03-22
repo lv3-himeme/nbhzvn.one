@@ -2630,7 +2630,12 @@ input.hidden {
 	font-weight: normal;
 	margin-left: 18px;
 	color: #ccc;
-	font-size: 11pt;
+	font-size: 15px;
+	line-height: 26px;
+}
+
+.game_description ul {
+	margin-bottom: 15px;
 }
 
 .badge {
