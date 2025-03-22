@@ -73,6 +73,8 @@ $featured_games = featured_games();
                             ?>
                         </div>
                     </div>
+                    <?php $recently_updated_games = recently_updated_games(6) ?>
+                    <?php if (count($recently_updated_games) > 0): ?>
                     <div class="popular__product">
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
@@ -89,12 +91,11 @@ $featured_games = featured_games();
                         <div class="row">
                             <?php
                                 $recently_updated_games = recently_updated_games(6);
-                                if (count($recently_updated_games) > 0) 
-                                    foreach ($recently_updated_games as $tmp_game) echo echo_homepage_game($tmp_game);
-                                else echo '<p style="margin: 20px"><i>Không có game nào mới được cập nhật gần đây.</i></p>'
+                                foreach ($recently_updated_games as $tmp_game) echo echo_homepage_game($tmp_game);
                             ?>
                         </div>
                     </div>
+                    <?php endif; ?>
                     <div class="popular__product">
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
