@@ -221,7 +221,7 @@ class Nbhzvn_User {
 
     function uploaded_games() {
         $games = [];
-        $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `uploader` = ? AND `approved` = 1', $this->id);
+        $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `uploader` = ? AND `approved` = 1 ORDER BY `timestamp` DESC', $this->id);
         while ($row = $result->fetch_object()) {
             array_push($games, new Nbhzvn_Game($row));
         }
