@@ -1,4 +1,4 @@
-var gameFiles = {}, screenshots = {}, cancelling = {}, gameFilesIndex = 0, screenshotIndex = 0;
+var gameFiles = {}, screenshots = {}, betaGameFiles = {}, cancelling = {}, betaUsers = [], gameFilesIndex = 0, betaGameFilesIndex = 0, screenshotIndex = 0;
 
 /*
 ===========================================================
@@ -154,6 +154,227 @@ function deleteGameFile(id, permanent = true) {
 
 /*
 ===========================================================
+Beta game files uploading
+===========================================================
+*/
+
+function addBetaGameFile() {
+    betaGameFilesIndex++;
+    var input = document.createElement("input"), fileId = `bgf${betaGameFilesIndex.toString()}`;
+    input.type = "file";
+    input.id = `betaGameFileInput-${fileId}`;
+    input.classList.add("hidden");
+    input.setAttribute("file-id", fileId);
+    input.setAttribute("accept", ".zip, .rar, .7z");
+    input.onchange = function() {
+        processBetaGameFile(this.getAttribute("file-id"));
+    }
+    document.getElementById("files").appendChild(input);
+    input.click();
+}
+
+/**
+ * @param {string} id
+ */
+async function processBetaGameFile(id) {
+    try {
+        var file = document.getElementById(`betaGameFileInput-${id}`).files[0];
+        if (!file) return toastr.error("Vui lòng chọn một tệp tin.", "Lỗi");
+        betaGameFiles[id] = {
+            name: file.name,
+            path: null
+        };
+        createBetaGameFileElement(id, file);
+        const path = await uploadFile(file, document.getElementById(`betaGameFileProgressBar-${id}`), id);
+        if (betaGameFiles[id]) {
+            document.getElementById(`betaGameFileDisplay-${id}`).style.display = "block";
+            document.getElementById(`betaGameFileDisplay-${id}`).style.flexDirection = null;
+            document.getElementById(`betaGameFileDisplay-${id}`).style.textAlign = "right";
+            betaGameFiles[id].path = path;
+            AutoSave.save();
+            document.getElementById(`betaGameFileInput-${id}`).remove();
+        }
+    }
+    catch (err) {
+        console.error(err);
+        document.getElementById(`betaGameFileContainer-${id}`)?.remove();
+    }
+}
+
+/**
+ * @param {string} id 
+ * @param {File} file 
+ */
+function createBetaGameFileElement(id, file) {
+    var div = document.createElement("div");
+    div.classList.add("upload_game_file");
+    div.id = `betaGameFileContainer-${id}`;
+    div.innerHTML = `
+        <div class="row" style="color: #fff!important">
+            <div class="col-md-8 col-lg-8">
+                <div style="text-overflow: elipsis"><b>${file.name}</b></div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <div id="betaGameFileDisplay-${id}" style="display: flex; flex-direction: row; text-align: right">
+                    <div class="progressbar_container" id="betaGameFileProgressBar-${id}" style="width: 80%">
+                        <div class="progressbar"></div>
+                    </div>
+                    <button type="button" onclick="deleteBetaGameFile('${id}')" class="upload_close_btn">X</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.getElementById("betaGameFiles").appendChild(div);
+}
+
+/**
+ * 
+ * @param {string} id 
+ */
+function deleteBetaGameFile(id, permanent = true) {
+    cancelling[id] = true;
+    var path = betaGameFiles[id]?.path;
+    if (!betaGameFiles[id]?.path && requests[id]) {
+        requests[id].abort();
+        delete requests[id];
+        if (chunkName[id]) {
+            apiRequest({
+                url: "/api/delete_chunk",
+                type: "POST",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: JSON.stringify({
+                    chunk: chunkName[id]
+                }),
+                json: true
+            });
+            delete chunkName[id];
+        }
+        if (fileName[id]) window.localStorage.removeItem(fileName[id]);
+    }
+    delete cancelling[id];
+    delete betaGameFiles[id];
+    AutoSave.save();
+    if (permanent) {
+        try {
+            if (path) apiRequest({
+                url: "/api/delete_file",
+                type: "POST",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: JSON.stringify({file: path}),
+                json: true
+            })
+        }
+        catch (err) {
+            console.error(err);
+        }
+    }
+    document.getElementById(`betaGameFileContainer-${id}`).remove();
+}
+
+/*
+===========================================================
+Beta testers management
+===========================================================
+*/
+
+var modal = new Modal();
+
+function addBetaUser() {
+    modal.title = `Thêm Tester`;
+    modal.body = `
+        <div class="login__form page">
+            <p>Hãy tìm kiếm tên của thành viên bạn muốn thêm:</p>
+            <form action="" onsubmit="search(); return false">
+                <div class="input__item" style="width: 100%">
+                    <input type="text" id="query" placeholder="Tìm Kiếm Thành Viên">
+                    <span class="icon_profile"></span>
+                </div>
+                <button type="button" class="site-btn" onclick="search()">Tìm kiếm</button>
+            </form>
+            <div style="padding: 10px; margin-top: 10px" id="members"></div>
+        </div>
+    `;
+    modal.footer = `
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+    `;
+    modal.update();
+    modal.show();
+}
+
+async function search() {
+    var query = $("#query").val();
+    if (!query) return toastr.error("Vui lòng nhập từ khoá cần tìm kiếm.", "Lỗi");
+    $("#members").html(`<p><i>Đang tìm kiếm thành viên, vui lòng đợi...</i></p>`);
+    var response = await apiRequest({
+        url: `/api/users/?query=${encodeURIComponent(query)}`,
+        type: "GET",
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+    if (response?.success) $("#members").html(response.data.length ? response.data.map(user => {
+        return `
+            <div class="transfer_member">
+                <div>
+                    <h4>${user.display_name || user.username}</h4>
+                    <p><b>ID:</b> ${user.id}</p>
+                </div>
+                <div>
+                    <button onclick="processAddBetaUser(${user.id}, '${user.display_name || user.username}')"><i class="fa fa-check"></i></button>
+                </div>
+            </div>
+        `;
+    }) : "<p><i>Không tìm thấy thành viên nào.</i></p>")
+}
+
+function processAddBetaUser(userId, displayName) {
+    if (betaUsers.map(user => user.id).includes(userId)) return toastr.error("Thành viên này đã có trong danh sách tester rồi.", "Lỗi");
+    modal.hide();
+    betaUsers.push({id: userId, displayName});
+    createBetaUserElement(userId, displayName);
+    AutoSave.save();
+}
+
+/**
+ * @param {number} userId
+ * @param {string} displayName
+ */
+function createBetaUserElement(userId, displayName) {
+    var div = document.createElement("div");
+    div.classList.add("upload_game_file");
+    div.id = `betaUserContainer-${userId}`;
+    div.innerHTML = `
+        <div class="row" style="color: #fff!important">
+            <div class="col-md-8 col-lg-8">
+                <div style="text-overflow: elipsis"><b>${displayName}</b> (<b>ID:</b> ${userId})</div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <div style="display: block; text-align: right">
+                    <button type="button" onclick="deleteBetaUser(${userId})" class="upload_close_btn">X</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.getElementById("betaUsers").appendChild(div);
+}
+
+/**
+ * 
+ * @param {string} id 
+ */
+function deleteBetaUser(id) {
+    var index = betaUsers.findIndex(user => user.id == id);
+    if (index != -1) betaUsers.splice(index, 1);
+    document.getElementById(`betaUserContainer-${id}`).remove();
+    AutoSave.save();
+}
+
+/*
+===========================================================
 Screenshots uploading
 ===========================================================
 */
@@ -263,10 +484,14 @@ function alertNoSubmit(text) {
 }
 
 function processSubmit() {
-    var gameFilesArr = Object.values(gameFiles);
-    if (!gameFilesArr.length) return alertNoSubmit("Vui lòng tải lên một tệp tin trước.");
+    var gameFilesArr = Object.values(gameFiles),
+        betaGameFilesArr = Object.values(betaGameFiles);
+    if (!gameFilesArr.length && !betaGameFilesArr.length) return alertNoSubmit("Vui lòng tải lên một tệp tin trước.");
     for (var i = 0; i < gameFilesArr.length; i++) {
         if (!gameFilesArr[i]?.path) return alertNoSubmit(`Tệp tin số ${i + 1} bị lỗi trong quá trình tải lên, vui lòng xoá tệp tin đó và tải lên lại.`);
+    }
+    for (var i = 0; i < betaGameFilesArr.length; i++) {
+        if (!betaGameFilesArr[i]?.path) return alertNoSubmit(`Tệp tin beta số ${i + 1} bị lỗi trong quá trình tải lên, vui lòng xoá tệp tin đó và tải lên lại.`);
     }
     var screenshotArr = Object.values(screenshots);
     if (!screenshotArr.length) return alertNoSubmit("Vui lòng tải lên một ảnh chụp màn hình trước.");
@@ -274,6 +499,8 @@ function processSubmit() {
         if (!screenshotArr[i]) return alertNoSubmit(`Ảnh chụp màn hình số ${i + 1} bị lỗi trong quá trình tải lên, vui lòng xoá ảnh chụp đó và tải lên lại.`);
     }
     $("#linksInput").val(JSON.stringify(Object.values(gameFiles)));
+    $("#betaLinksInput").val(JSON.stringify(Object.values(betaGameFiles)));
+    $("#betaUsersInput").val(JSON.stringify(Object.values(betaUsers).map(user => user.id)));
     $("#screenshotsInput").val(JSON.stringify(Object.values(screenshots).map(obj => obj.path)));
     var checkboxes = document.getElementsByClassName("supported_os_checkbox"), supportedOS = [];
     for (var i = 0; i < checkboxes.length; i++) if (checkboxes[i].checked) supportedOS.push(checkboxes[i].value);
@@ -306,6 +533,25 @@ function createGameFileElementPreload(id, file) {
     document.getElementById("gameFiles").appendChild(div);
 }
 
+function createBetaGameFileElementPreload(id, file) {
+    var div = document.createElement("div");
+    div.classList.add("upload_game_file");
+    div.id = `betaGameFileContainer-${id}`;
+    div.innerHTML = `
+        <div class="row" style="color: #fff!important">
+            <div class="col-md-8 col-lg-8">
+                <div style="text-overflow: elipsis"><b>${file.name}</b></div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <div id="betaGameFileDisplay-${id}" style="text-align: right">
+                    <button type="button" onclick="deleteBetaGameFile('${id}', false)" class="upload_close_btn">X</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.getElementById("betaGameFiles").appendChild(div);
+}
+
 function createScreenshotElementPreload(id, path) {
     var div = document.createElement("div");
     div.classList.add("upload_screenshot");
@@ -328,6 +574,22 @@ function preload() {
             var id = `gf${gameFilesIndex.toString()}`;
             gameFiles[id] = item;
             createGameFileElementPreload(id, gameFiles[id]);
+        }
+    }
+    if ($(`#betaLinksInput`).val()) {
+        var items = JSON.parse($(`#betaLinksInput`).val());
+        for (var item of items) {
+            betaGameFilesIndex++;
+            var id = `gf${betaGameFilesIndex.toString()}`;
+            betaGameFiles[id] = item;
+            createBetaGameFileElementPreload(id, betaGameFiles[id]);
+        }
+    }
+    if ($(`#betaUsersInput`).val()) {
+        var items = JSON.parse($(`#betaUsersInput`).val());
+        betaUsers = JSON.parse(JSON.stringify(items));
+        for (var item of betaUsers) {
+            createBetaUserElement(item.id, item.displayName);
         }
     }
     if ($(`#screenshotsInput`).val()) {
@@ -372,7 +634,7 @@ var AutoSave = {
     changeColor: function(color) {
         this.div().style.backgroundColor = color;
     },
-    props: ["name", "image", "description", "engine", "tags", "release_year", "author", "language", "translator", "status", "links", "screenshots", "supported_os"],
+    props: ["name", "image", "description", "engine", "tags", "release_year", "author", "language", "translator", "status", "links", "beta_links", "beta_users", "screenshots", "supported_os"],
     elements: {
         description: "textarea",
         engine: "select",
@@ -383,6 +645,8 @@ var AutoSave = {
         this.show();
         this.changeText("Đang tiến hành lưu bản nháp...");
         $("#linksInput").val(JSON.stringify(Object.values(gameFiles).filter(obj => obj.path != null)));
+        $("#betaLinksInput").val(JSON.stringify(Object.values(betaGameFiles).filter(obj => obj.path != null)));
+        $("#betaUsersInput").val(JSON.stringify(Object.values(betaUsers)));
         $("#screenshotsInput").val(JSON.stringify(Object.values(screenshots).filter(obj => obj.path != null).map(obj => obj.path)));
         var checkboxes = document.getElementsByClassName("supported_os_checkbox"), supportedOS = [];
         for (var i = 0; i < checkboxes.length; i++) if (checkboxes[i].checked) supportedOS.push(checkboxes[i].value);

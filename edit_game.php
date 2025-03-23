@@ -5,16 +5,16 @@ require "api/users/cookies.php";
 require "api/games/functions.php";
 if (!$user || $user->type < 2 || !get("id")) redirect_to_home();
 
-$game = new Nbhzvn_Game(intval(get("id")));
+$game = new Nbhzvn_Game(intval(get("id")), true);
 if (!$game->id || $game->uploader != $user->id) redirect_to_home();
 
 $error = "";
 $notice = "";
 
-function clean_files($thumbnail = "none", $links = [], $screenshots = []) {
+function clean_files($thumbnail = "none", $links = [], $screenshots = [], $beta_links = []) {
     global $game;
     $time = 0;
-    $new_thumbnail = post("image"); $new_links = json_decode(post("links")); $new_screenshots = json_decode(post("screenshots"));
+    $new_thumbnail = post("image"); $new_links = json_decode(post("links")); $new_screenshots = json_decode(post("screenshots")); $new_beta_links = json_decode(post("beta_links"));
     if ($new_thumbnail != $thumbnail) unlink("./uploads/" . $thumbnail);
     foreach ($links as $link) {
         $path = $link->path;
@@ -22,7 +22,14 @@ function clean_files($thumbnail = "none", $links = [], $screenshots = []) {
             return $v->path;
         }, $new_links))) {
             unlink("./uploads/" . $path);
-            $file_updated = true;
+        }
+    }
+    foreach ($beta_links as $link) {
+        $path = $link->path;
+        if (!in_array($link->path, array_map(function($v) {
+            return $v->path;
+        }, $new_beta_links))) {
+            unlink("./uploads/" . $path);
         }
     }
     foreach ($screenshots as $screenshot) {
@@ -39,16 +46,19 @@ function process() {
     global $game;
     $prev_update_time = $game->file_updated_time;
     if (!check_csrf(post("csrf_token"))) return $error = "Mã xác thực CSRF không đúng.";
-    $inputs = ["name", "image", "links", "screenshots", "description", "engine", "release_year", "author", "language", "status", "supported_os"];
+    $inputs = ["name", "image", "links", "beta_links", "beta_users", "screenshots", "description", "engine", "release_year", "author", "language", "status", "supported_os"];
     $data = array();
     foreach ($inputs as $input) {
         if (!post($input)) return $error = "Vui lòng nhập đầy đủ thông tin.";
         $data[$input] = post($input);
     }
-    $links = json_decode($data["links"]);
-    if (count($links) < 1) return $error = "Vui lòng tải ít nhất một tệp tin game lên.";
+    $links = json_decode($data["links"]); $beta_links = json_decode($data["beta_links"]);
+    if (count($links) < 1 && count($beta_links) < 1) return $error = "Vui lòng tải ít nhất một tệp tin game lên.";
     foreach ($links as $link) {
         if (!$link || !$link->path) return $error = "Có ít nhất một tệp tin bị lỗi trong quá trình tải lên, vui lòng kiểm tra lại các tệp tin đã tải lên và thử lại.";
+    }
+    foreach ($beta_links as $beta_link) {
+        if (!$beta_link || !$beta_link->path) return $error = "Có ít nhất một tệp tin bị lỗi trong quá trình tải lên, vui lòng kiểm tra lại các tệp tin đã tải lên và thử lại.";
     }
     $screenshots = json_decode($data["screenshots"]);
     if (count($screenshots) < 1) return $error = "Vui lòng tải ít nhất một ảnh chụp màn hình lên.";
@@ -57,10 +67,10 @@ function process() {
     }
     if (post("tags")) $data["tags"] = post("tags");
     if (post("translator")) $data["translator"] = post("translator");
-    $thumbnail = $game->image; $links = $game->links; $screenshots = $game->screenshots;
+    $thumbnail = $game->image; $links = $game->links; $screenshots = $game->screenshots; $beta_links = $game->beta_links;
     $result = $game->edit($data);
     if ($result == SUCCESS) {
-        clean_files($thumbnail, $links, $screenshots);
+        clean_files($thumbnail, $links, $screenshots, $beta_links);
         if ($game->file_updated_time > $prev_update_time) {
             foreach ($game->followers() as $follower) {
                 if ($follower->id != $user->id) $follower->send_notification("/games/" . $game->id, "**" . $user->display_name() . "** vừa cập nhật game **" . $game->name . "**.");
@@ -148,6 +158,19 @@ refresh_csrf();
                         <button type="button" onclick="addScreenshot()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm ảnh</span></button>
                     </p>
                     <div id="screenshots" class="upload_screenshots"></div>
+                    <div style="border: 1px solid white; border-radius: 5px; padding: 15px">
+                        <p style="font-size: 16pt"><b>Danh Sách Tệp Tin Beta</b></p>
+                        <p>Bạn có bản beta của game mà chỉ muốn cho một số thành viên nhất định tải xuống? Bạn có thể thêm nó vào đây!</p>
+                        <p style="text-align: right">
+                            <button type="button" onclick="addBetaGameFile()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm tệp tin</span></button>
+                        </p>
+                        <div id="betaGameFiles"></div><br>
+                        <p style="font-size: 16pt"><b>Danh Sách Tester</b></p>
+                        <p style="text-align: right">
+                            <button type="button" onclick="addBetaUser()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm Tester</span></button>
+                        </p>
+                        <div id="betaUsers"></div>
+                    </div><br>
                     <p style="font-size: 16pt"><b>Mô Tả</b></p>
                     <div class="input__item input__item__textarea" style="width: 100%">
                         <textarea name="description" placeholder="Mô tả có hỗ trợ Markdown." required><?php echo $game->description ?></textarea>
@@ -214,6 +237,8 @@ refresh_csrf();
                             }
                         ?>
                     <input type="hidden" name="links" id="linksInput" value='<?php echo str_ireplace("'", "\\'", json_encode($game->links)) ?>' />
+                    <input type="hidden" name="beta_links" value='<?php echo str_ireplace("'", "\\'", json_encode($game->beta_links)) ?>' id="betaLinksInput" />
+                    <input type="hidden" name="beta_users" value='<?php echo str_ireplace("'", "\\'", json_encode($game->beta_users)) ?>' id="betaUsersInput" />
                     <input type="hidden" name="screenshots" id="screenshotsInput" value='<?php echo str_ireplace("'", "\\'", json_encode($game->screenshots)) ?>' />
                     <input type="hidden" name="supported_os" value="" id="supportedOSInput" />
                     <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
@@ -242,6 +267,7 @@ refresh_csrf();
     <script src="/js/main.js?v=<?=$res_version?>"></script>
     <script src="/js/toastr.js"></script>
     <script src="/js/api.js?v=<?=$res_version?>"></script>
+    <script src="/js/modal.js?v=<?=$res_version?>"></script>
     <script src="/js/uploader.js?v=<?=$res_version?>"></script>
 
 </body>

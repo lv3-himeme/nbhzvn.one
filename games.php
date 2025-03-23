@@ -244,20 +244,24 @@ else $repo = all_games();
                                 ?>
                             </div>
                         </div><br>
-                        <div id="downloadSection">
-                            <div class="section-title">
-                                <h5>Tải game xuống</h5>
-                            </div>
-                            <p><i><b>Sử dụng WinRAR hoặc 7-Zip để giải nén!</b> Trình giải nén mặc định của Windows có khả năng bị lỗi rất cao và mình không khuyến khích các bạn dùng nó để giải nén.<br>Đối với điện thoại thì bạn nên dùng ứng dụng RAR hoặc ZArchiver để giải nén.</i></p>
+                        <?php if ($game->has_beta): ?>
+                        <div id="downloadSection" class="nbhzvn_beta_zone">
+                            <?php if ($game->beta_links != null && count($game->beta_links) > 0): ?>
+                                <h5>Tải Phiên Bản Beta</h5>
+                                <p>Đây sẽ là phiên bản thử nghiệm trước dành cho những người dùng đã được người tải lên chọn, trước khi công bố công khai cho tất cả mọi người.</p>
+                            <?php else: ?>
+                                <h5>Phiên Bản Beta Có Sẵn</h5>
+                                <p>Người tải lên game này cũng tải lên phiên bản Beta, là các phiên bản trải nghiệm trước những thay đổi mới, tính năng mới của game dành cho những thành viên thử nghiệm (Tester) đã được người tải lên chọn.<br>Bạn có thể đăng nhập vào tài khoản đã được chọn để tải xuống bản Beta này.</p>
+                            <?php endif ?>
                             <?php
                                 $index = 0;
-                                foreach ($game->links as $link) {
+                                foreach ($game->beta_links as $link) {
                                     $index++;
                                     $path = "./uploads/" . $link->path;
                                     echo '
                                         <div class="game_file">
                                             <div class="row">
-                                                <div class="col-sm-9 game_file_name"><a href="/download/' . $game->id . '/' . $index . '">' . $link->name . '</a></div>
+                                                <div class="col-sm-9 game_file_name"><a href="/download_beta/' . $game->id . '/' . $index . '">' . $link->name . '</a></div>
                                                 <div class="col-sm-3 game_file_size">' . bytes_to_string(filesize($path)) .  '<br>
                                                     <small><b>CN lần cuối:</b> ' . timestamp_to_string(filemtime($path)) . '</small>
                                                 </div>
@@ -267,6 +271,33 @@ else $repo = all_games();
                                 }
                             ?>
                         </div><br>
+                        <?php endif ?>
+                        <div id="downloadSection">
+                            <div class="section-title">
+                                <h5>Tải game xuống</h5>
+                            </div>
+                            <p><i><b>Sử dụng WinRAR hoặc 7-Zip để giải nén!</b> Trình giải nén mặc định của Windows có khả năng bị lỗi rất cao và mình không khuyến khích các bạn dùng nó để giải nén.<br>Đối với điện thoại thì bạn nên dùng ứng dụng RAR hoặc ZArchiver để giải nén.</i></p>
+                            <?php
+                                if (count($game->links) > 0) {
+                                    $index = 0;
+                                    foreach ($game->links as $link) {
+                                        $index++;
+                                        $path = "./uploads/" . $link->path;
+                                        echo '
+                                            <div class="game_file">
+                                                <div class="row">
+                                                    <div class="col-sm-9 game_file_name"><a href="/download/' . $game->id . '/' . $index . '">' . $link->name . '</a></div>
+                                                    <div class="col-sm-3 game_file_size">' . bytes_to_string(filesize($path)) .  '<br>
+                                                        <small><b>CN lần cuối:</b> ' . timestamp_to_string(filemtime($path)) . '</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ';
+                                    }
+                                }
+                                else echo '<p>Chưa có tệp tin nào được tải lên.</p>';
+                            ?>
+                        </div><br>
                         <div class="anime__details__review">
                             <div class="section-title">
                                 <h5>Đánh giá game (<?php echo count($all_ratings) ?>)</h5>
@@ -274,12 +305,15 @@ else $repo = all_games();
                             <p style="font-size: 11pt"><i>Để đảm bảo an toàn, website sẽ không hiển thị tên đầy đủ của các thành viên đã đánh giá. Chỉ có Quản Trị Viên mới xem được tên hiển thị đầy đủ và thực hiện hành động đối với các đánh giá này.</i></p>
                             <div id="ratings">
                                 <?php
-                                    $i = 0;
-                                    foreach ($all_ratings as $rating) {
-                                        if ($i >= 5) break;
-                                        echo $rating->to_html($user);
-                                        $i++;
+                                    if (count($all_ratings) > 0) {
+                                        $i = 0;
+                                        foreach ($all_ratings as $rating) {
+                                            if ($i >= 5) break;
+                                            echo $rating->to_html($user);
+                                            $i++;
+                                        }
                                     }
+                                    else echo '<p>Chưa có đánh giá nào.</p>';
                                 ?>
                             </div>
                             <?php echo pagination(count($all_ratings), 5, 1, "Ratings"); ?>

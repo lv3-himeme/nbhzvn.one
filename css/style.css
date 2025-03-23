@@ -2733,3 +2733,25 @@ pre {
 	margin-top: 2px;
 	margin-bottom: 2px;
 }
+
+.nbhzvn_beta_zone {
+	margin: 15px 0px;
+	border-radius: 5px;
+	padding: 25px 15px;
+	background-color: #712626;
+}
+
+.nbhzvn_beta_zone > h5 {
+	font-size: 16pt;
+	font-weight: bold;
+	margin-bottom: 15px;
+	margin-left: 3px;
+}
+
+.nbhzvn_beta_zone .game_file {
+	background-color: #773939;
+}
+
+.nbhzvn_beta_zone .game_file_name > a {
+	color: #fff!important;
+}

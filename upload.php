@@ -16,16 +16,19 @@ function process() {
     global $conn;
     if (!check_csrf(post("csrf_token"))) return $error = "Mã xác thực CSRF không đúng.";
     if ($user->check_timeout("upload") && $user->type < 3) return $error = "Bạn cần đợi ít nhất 10 phút từ lần thêm cuối cùng trước khi thêm một game mới.";
-    $inputs = ["name", "image", "links", "screenshots", "description", "engine", "release_year", "author", "language", "status", "supported_os"];
+    $inputs = ["name", "image", "links", "beta_links", "beta_users", "screenshots", "description", "engine", "release_year", "author", "language", "status", "supported_os"];
     $data = array();
     foreach ($inputs as $input) {
         if (!post($input)) return $error = "Vui lòng nhập đầy đủ thông tin.";
         $data[$input] = post($input);
     }
-    $links = json_decode($data["links"]);
-    if (count($links) < 1) return $error = "Vui lòng tải ít nhất một tệp tin game lên.";
+    $links = json_decode($data["links"]); $beta_links = json_decode($data["beta_links"]);
+    if (count($links) < 1 && count($beta_links) < 1) return $error = "Vui lòng tải ít nhất một tệp tin game lên.";
     foreach ($links as $link) {
         if (!$link || !$link->path) return $error = "Có ít nhất một tệp tin bị lỗi trong quá trình tải lên, vui lòng kiểm tra lại các tệp tin đã tải lên và thử lại.";
+    }
+    foreach ($beta_links as $beta_link) {
+        if (!$beta_link || !$beta_link->path) return $error = "Có ít nhất một tệp tin bị lỗi trong quá trình tải lên, vui lòng kiểm tra lại các tệp tin đã tải lên và thử lại.";
     }
     $screenshots = json_decode($data["screenshots"]);
     if (count($screenshots) < 1) return $error = "Vui lòng tải ít nhất một ảnh chụp màn hình lên.";
@@ -126,6 +129,19 @@ refresh_csrf();
                         <button type="button" onclick="addScreenshot()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm ảnh</span></button>
                     </p>
                     <div id="screenshots" class="upload_screenshots"></div><br>
+                    <div style="border: 1px solid white; border-radius: 5px; padding: 15px">
+                        <p style="font-size: 16pt"><b>Danh Sách Tệp Tin Beta</b></p>
+                        <p>Bạn có bản beta của game mà chỉ muốn cho một số thành viên nhất định tải xuống? Bạn có thể thêm nó vào đây!</p>
+                        <p style="text-align: right">
+                            <button type="button" onclick="addBetaGameFile()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm tệp tin</span></button>
+                        </p>
+                        <div id="betaGameFiles"></div><br>
+                        <p style="font-size: 16pt"><b>Danh Sách Tester</b></p>
+                        <p style="text-align: right">
+                            <button type="button" onclick="addBetaUser()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm Tester</span></button>
+                        </p>
+                        <div id="betaUsers"></div>
+                    </div><br>
                     <p style="font-size: 16pt"><b>Mô Tả</b></p>
                     <div class="input__item input__item__textarea" style="width: 100%">
                         <textarea name="description" placeholder="Mô tả có hỗ trợ Markdown." required><?php echo post("description") ?></textarea>
@@ -192,6 +208,8 @@ refresh_csrf();
                             }
                         ?>
                     <input type="hidden" name="links" value='<?php echo str_ireplace("'", "\\'", post("links")) ?>' id="linksInput" />
+                    <input type="hidden" name="beta_links" value='<?php echo str_ireplace("'", "\\'", post("beta_links")) ?>' id="betaLinksInput" />
+                    <input type="hidden" name="beta_users" value='<?php echo str_ireplace("'", "\\'", post("beta_users")) ?>' id="betaUsersInput" />
                     <input type="hidden" name="screenshots" value='<?php echo str_ireplace("'", "\\'", post("screenshots")) ?>' id="screenshotsInput" />
                     <input type="hidden" name="supported_os" value='<?php echo str_ireplace("'", "\\'", post("supported_os")) ?>' id="supportedOSInput" />
                     <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
@@ -221,6 +239,7 @@ refresh_csrf();
     <script src="/js/main.js?v=<?=$res_version?>"></script>
     <script src="/js/toastr.js"></script>
     <script src="/js/api.js?v=<?=$res_version?>"></script>
+    <script src="/js/modal.js?v=<?=$res_version?>"></script>
     <script src="/js/uploader.js?v=<?=$res_version?>"></script>
 
 </body>
