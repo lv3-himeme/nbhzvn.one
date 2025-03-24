@@ -14,17 +14,18 @@ function delete_files($thumbnail = "none", $links, $screenshots) {
 }
 
 try {
-    $game = new Nbhzvn_Game(intval(get("id")));
+    $game = new Nbhzvn_Game(intval(get("id"))); $reason = post("reason");
     if (!$game->id || ($game->uploader != $user->id && $user->type < 3)) redirect_to_home();
     else if (post("submit")) {
         if (!check_csrf(post("csrf_token"))) $error = "Mã xác thực CSRF không đúng.";
         else if (!$user->verify_passphrase(post("password"))) $error = "Mật khẩu hiện tại không đúng.";
+        else if (!$reason) $error = "Hãy nhập lý do tại sao bạn muốn xóa game này.";
         else {
             $thumbnail = $game->image; $links = $game->links; $screenshots = $game->screenshots; $uploader = $game->uploader;
             $game->delete();
             delete_files($thumbnail, $links, $screenshots);
             $author = new Nbhzvn_User($uploader);
-            if ($author->id && $author->id != $user->id) $author->send_notification(null, "Một Quản Trị Viên vừa xoá game **" . $game->name . "** của bạn, nó đã không còn tồn tại trên trang web này nữa.");
+            if ($author->id && $author->id != $user->id) $author->send_notification(null, "Một Quản Trị Viên vừa xoá game **" . $game->name . "** của bạn với lý do: " . $reason . ".\n\nGame của bạn đã không còn tồn tại trên trang web này nữa.");
             $fatal_error = "Đã xoá game <b>" . htmlentities($game->name) . "</b> thành công.";
         }
     }
@@ -76,6 +77,10 @@ refresh_csrf();
                     <div class="input__item" style="width: 100%">
                         <input type="password" name="password" placeholder="Mật Khẩu Hiện Tại" required>
                         <span class="icon_lock"></span>
+                    </div>
+                    <div class="input__item" style="width: 100%">
+                        <input type="text" name="reason" placeholder="Lý Do" required>
+                        <span class="icon_pencil"></span>
                     </div>
                     <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
                     <p style="color: #e36666"><i><?php echo $error ?></i></p>
