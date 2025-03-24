@@ -25,7 +25,7 @@ try {
         else {
             $game->delete();
             delete_files($thumbnail, $links, $screenshots);
-            if ($author->id && $author->id != $user->id) $author->send_notification(null, "Một Quản Trị Viên vừa xoá game **" . $game->name . "** của bạn với lý do: " . $reason . ".\n\nGame của bạn đã không còn tồn tại trên trang web này nữa.");
+            if ($author->id && $author->id != $user->id) $author->send_notification(null, "Một Quản Trị Viên vừa xoá game **" . $game->name . "** của bạn với lý do: " . $reason . "\n\nGame của bạn đã không còn tồn tại trên trang web này nữa.");
             $fatal_error = "Đã xoá game <b>" . htmlentities($game->name) . "</b> thành công.";
         }
     }
