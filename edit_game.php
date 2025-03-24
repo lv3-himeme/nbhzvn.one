@@ -11,10 +11,10 @@ if (!$game->id || $game->uploader != $user->id) redirect_to_home();
 $error = "";
 $notice = "";
 
-function clean_files($thumbnail = "none", $links = [], $screenshots = [], $beta_links = []) {
+function finalize($thumbnail = "none", $links = [], $screenshots = [], $beta_links = [], $beta_users = []) {
     global $game;
     $time = 0;
-    $new_thumbnail = post("image"); $new_links = json_decode(post("links")); $new_screenshots = json_decode(post("screenshots")); $new_beta_links = json_decode(post("beta_links"));
+    $new_thumbnail = post("image"); $new_links = json_decode(post("links")); $new_screenshots = json_decode(post("screenshots")); $new_beta_links = json_decode(post("beta_links")); $new_beta_users = json_decode(post("beta_users"));
     if ($new_thumbnail != $thumbnail) unlink("./uploads/" . $thumbnail);
     foreach ($links as $link) {
         $path = $link->path;
@@ -34,6 +34,10 @@ function clean_files($thumbnail = "none", $links = [], $screenshots = [], $beta_
     }
     foreach ($screenshots as $screenshot) {
         if (!in_array($screenshot, $new_screenshots)) unlink("./uploads/" . $screenshot);
+    }
+    if (count($new_beta_links) > 0) {
+        beta_users_notifications($game, array_map(function($a) {return $a->id;}, $beta_users), $new_beta_users);
+        if (count(array_diff(array_map(function($a) {return $a->path;}, $beta_links), array_map(function($a) {return $a->path;}, $new_beta_links))) > 0) $game->send_beta_notifications();
     }
     foreach ($new_links as $link) $time = max($time, filemtime("./uploads/" . $link->path));
     $game->update_file_time($time);
@@ -67,10 +71,10 @@ function process() {
     }
     if (post("tags")) $data["tags"] = post("tags");
     if (post("translator")) $data["translator"] = post("translator");
-    $thumbnail = $game->image; $links = $game->links; $screenshots = $game->screenshots; $beta_links = $game->beta_links;
+    $thumbnail = $game->image; $links = $game->links; $screenshots = $game->screenshots; $beta_links = $game->beta_links; $beta_users = $game->beta_users;
     $result = $game->edit($data);
     if ($result == SUCCESS) {
-        clean_files($thumbnail, $links, $screenshots, $beta_links);
+        finalize($thumbnail, $links, $screenshots, $beta_links, $beta_users);
         if ($game->file_updated_time > $prev_update_time) {
             foreach ($game->followers() as $follower) {
                 if ($follower->id != $user->id) $follower->send_notification("/games/" . $game->id, "**" . $user->display_name() . "** vừa cập nhật game **" . $game->name . "**.");

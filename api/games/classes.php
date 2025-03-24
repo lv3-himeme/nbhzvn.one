@@ -301,6 +301,15 @@ class Nbhzvn_Game {
         }
         else return FAILED;
     }
+
+    function send_beta_notifications() {
+        global $user;
+        if ($this->beta_users == null) return;
+        foreach ($this->beta_users as $user_id) {
+            $tmp_tester = new Nbhzvn_User($user_id);
+            if ($tmp_tester->id) $tmp_tester->send_notification("/games/" . $this->id . "#betaDownloadSection", "**" . $user->display_name() . "** đã cập nhật bản Beta mới cho game **" . $this->name . "**.");
+        }
+    }
 }
 
 class Nbhzvn_Comment {

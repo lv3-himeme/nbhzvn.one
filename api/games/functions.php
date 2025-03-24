@@ -213,4 +213,22 @@ function echo_search_game($tmp_game, $col = false) {
     </div>
     ' . ($col ? '</div>' : "");
 }
+
+function beta_users_notifications(Nbhzvn_Game $game = new Nbhzvn_Game(0), $old_testers = [], $new_testers = []) {
+    global $user;
+    $removed_testers = array_filter($old_testers, function($a) use ($new_testers) {
+        return !in_array($a, $new_testers);
+    });
+    $added_testers = array_filter($new_testers, function($a) use ($old_testers) {
+        return !in_array($a, $old_testers);
+    });
+    foreach ($removed_testers as $user_id) {
+        $tmp_tester = new Nbhzvn_User($user_id);
+        if ($tmp_tester->id) $tmp_tester->send_notification("/games/" . $game->id, "**" . $user->display_name() . "** đã xóa bạn khỏi danh sách thành viên thử nghiệm bản Beta của game **" . $game->name . "**.");
+    }
+    foreach ($added_testers as $user_id) {
+        $tmp_tester = new Nbhzvn_User($user_id);
+        if ($tmp_tester->id) $tmp_tester->send_notification("/games/" . $game->id . "#betaDownloadSection", "**" . $user->display_name() . "** đã mời bạn tham gia thử nghiệm bản Beta của game **" . $game->name . "**.");
+    }
+}
 ?>

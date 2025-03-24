@@ -245,7 +245,7 @@ else $repo = all_games();
                             </div>
                         </div><br>
                         <?php if ($game->has_beta): ?>
-                        <div id="downloadSection" class="nbhzvn_beta_zone">
+                        <div id="betaDownloadSection" class="nbhzvn_beta_zone">
                             <?php if ($game->beta_links != null && count($game->beta_links) > 0): ?>
                                 <h5>Tải Phiên Bản Beta</h5>
                                 <p>Đây sẽ là phiên bản thử nghiệm trước dành cho những người dùng đã được người tải lên chọn, trước khi công bố công khai cho tất cả mọi người.</p>
