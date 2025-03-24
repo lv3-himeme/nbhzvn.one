@@ -120,28 +120,41 @@ refresh_csrf();
                         <div class="progressbar"></div>
                     </div><br>
                     <p style="font-size: 16pt"><b>Danh Sách Tệp Tin Game</b></p>
-                    <p style="text-align: right">
-                        <button type="button" onclick="addGameFile()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm tệp tin</span></button>
-                    </p>
-                    <div id="gameFiles"></div><br>
+                    <div style="border: 1px solid #aaa; border-radius: 5px; padding: 15px">
+                        <ul class="nav nav-tabs mb-3" id="tabList" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="gameFilesTab" data-toggle="pill" data-target="#gameFilesTabContent" type="button" role="tab" aria-controls="gameFilesTabContent" aria-selected="true">Chính Thức</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="betaGameFilesTab" data-toggle="pill" data-target="#betaGameFilesTabContent" type="button" role="tab" aria-controls="betaGameFilesTabContent" aria-selected="false">Thử Nghiệm (Beta)</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="tabContent">
+                            <div class="tab-pane fade show active" id="gameFilesTabContent" role="tabpanel" aria-labelledby="gameFilesTab">
+                                <p style="text-align: right">
+                                    <button type="button" onclick="addGameFile()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm tệp tin</span></button>
+                                </p>
+                                <div id="gameFiles"></div>
+                            </div>
+                            <div class="tab-pane fade" id="betaGameFilesTabContent" role="tabpanel" aria-labelledby="betaGameFilesTab">
+                                <p>Bạn có bản beta của game mà chỉ muốn cho một số thành viên nhất định tải xuống? Bạn có thể thêm nó vào đây!</p>
+                                <p style="text-align: right">
+                                    <button type="button" onclick="addBetaGameFile()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm tệp tin</span></button>
+                                </p>
+                                <div id="betaGameFiles"></div><br>
+                                <p style="font-size: 16pt"><b>Danh Sách Tester</b></p>
+                                <p style="text-align: right">
+                                    <button type="button" onclick="addBetaUser()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm Tester</span></button>
+                                </p>
+                                <div id="betaUsers"></div>
+                            </div>
+                        </div>
+                    </div><br>
                     <p style="font-size: 16pt"><b>Ảnh Chụp Màn Hình Game</b></p>
                     <p style="text-align: right">
                         <button type="button" onclick="addScreenshot()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm ảnh</span></button>
                     </p>
                     <div id="screenshots" class="upload_screenshots"></div><br>
-                    <div style="border: 1px solid white; border-radius: 5px; padding: 15px">
-                        <p style="font-size: 16pt"><b>Danh Sách Tệp Tin Beta</b></p>
-                        <p>Bạn có bản beta của game mà chỉ muốn cho một số thành viên nhất định tải xuống? Bạn có thể thêm nó vào đây!</p>
-                        <p style="text-align: right">
-                            <button type="button" onclick="addBetaGameFile()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm tệp tin</span></button>
-                        </p>
-                        <div id="betaGameFiles"></div><br>
-                        <p style="font-size: 16pt"><b>Danh Sách Tester</b></p>
-                        <p style="text-align: right">
-                            <button type="button" onclick="addBetaUser()" class="nbhzvn_btn"><span class="icon_plus"></span>&nbsp;&nbsp;<span>Thêm Tester</span></button>
-                        </p>
-                        <div id="betaUsers"></div>
-                    </div><br>
                     <p style="font-size: 16pt"><b>Mô Tả</b></p>
                     <div class="input__item input__item__textarea" style="width: 100%">
                         <textarea name="description" placeholder="Mô tả có hỗ trợ Markdown." required><?php echo post("description") ?></textarea>
