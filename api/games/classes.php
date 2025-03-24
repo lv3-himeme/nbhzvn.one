@@ -411,9 +411,10 @@ class Nbhzvn_Rating {
     }
 
     function delete($reason) {
+        global $user;
         db_query('DELETE FROM `nbhzvn_gameratings` WHERE `id` = ?', $this->id);
         $game = new Nbhzvn_Game($this->game_id);
-        $this->user->send_notification("/games/" . $this->game_id, "Quản Trị Viên đã xóa đánh giá game **" . $game->name . "** của bạn với lý do: " . $reason);
+        if ($this->user->id != $user->id) $this->user->send_notification("/games/" . $this->game_id, "Quản Trị Viên đã xóa đánh giá game **" . $game->name . "** của bạn với lý do: " . $reason);
     }
 
     function to_html($user = new Nbhzvn_User(0)) {
