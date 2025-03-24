@@ -38,11 +38,11 @@ try {
         case "DELETE": {
             if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập để có thể xóa đánh giá.", 401);
             $json = json_decode(file_get_contents("php://input"));
-            if (!$json->id) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
+            if (!$json->id || !$json->reason) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
             $rating = new Nbhzvn_Rating($json->id);
             if (!$rating->id) api_response(null, "Không tìm thấy đánh giá có ID này.", 404);
             if ($user->type < 3) api_response(null, "Bạn không thể xoá đánh giá này.", 403);
-            $rating->delete();
+            $rating->delete($json->reason);
             api_response(null, "Thực hiện thành công.");
             break;
         }

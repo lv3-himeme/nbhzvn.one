@@ -340,22 +340,54 @@ Delete rating function
 ===========================================================
 */
 
-async function deleteRating(id) {
-    if (!confirm("Xác nhận xoá đánh giá này?")) return;
-    var response = await apiRequest({
-        url: "/api/games/ratings",
-        type: "DELETE",
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: JSON.stringify({
-            id
-        }),
-        json: true
-    });
-    if (response?.success) {
-        toastr.success(response.message, "Thông báo");
-        $(`#rating-${id}`).remove();
+function updateDeleteRatingBody(id, reason) {
+    modal.title = "Xóa Đánh Giá";
+    modal.body = `
+        <p>Ghi rõ lý do tại sao bạn muốn xóa đánh giá này:</p>
+        <div class="anime__details__form">
+            <textarea id="deleteRatingReason" style="height: 300px">${reason || ""}</textarea>
+        </div>
+    `;
+    modal.footer = `
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+        <button type="button" class="btn btn-primary" style="background-color: #af1932; border: 1px solid rgb(209, 55, 81)" onclick="processDeleteRating(${id})">Xóa đánh giá</button>
+    `;
+    modal.update();
+}
+
+function deleteRating(id) {
+    updateDeleteRatingBody(id);
+    modal.show();
+}
+
+async function processDeleteRating(id) {
+    var reason = $("#deleteRatingReason").val();
+    modal.body = `<p><i>Đang xóa đánh giá, bạn vui lòng chờ một lát...</i></p>`;
+    modal.footer = ``;
+    modal.update();
+    try {
+        var response = await apiRequest({
+            url: "/api/games/ratings",
+            type: "DELETE",
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: JSON.stringify({
+                id,
+                reason
+            }),
+            json: true
+        });
+        if (response?.success) {
+            toastr.success(response.message, "Thông báo");
+            $(`#rating-${id}`).remove();
+            modal.hide();
+        }
+        else updateDeleteRatingBody(id, reason);
+    }
+    catch (err) {
+        console.error(err);
+        updateDeleteRatingBody(id, reason);
     }
 }
 
