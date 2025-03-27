@@ -63,7 +63,7 @@ class Nbhzvn_Game {
         unset($this->has_beta);
         unset($this->beta_links);
         unset($this->beta_users);
-        if ($user != null && $data->beta_users != null && $data->beta_links != null && (in_array($user->id, json_decode($data->beta_users)) || $user->id == $this->uploader)) {
+        if ($user != null && $data->beta_users != null && $data->beta_links != null && (in_array($user->id, json_decode($data->beta_users)) || $user->id == $this->uploader || $user->type > 2)) {
             $this->beta_links = json_decode($data->beta_links);
         }
         if ($data->beta_links != null && count(json_decode($data->beta_links)) > 0) $this->has_beta = true;
