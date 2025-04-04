@@ -24,6 +24,8 @@ This website uses PHP for backend, and MySQL for database management.
 
 5. The administrator login information will be the same as you provided in the `.env` file. Login using that information in the website and begin managing it!
 
+For more detailed instructions, head to [Wiki/Installation](https://github.com/Serena1432/NobihazaVietnamCollection/wiki/Installation).
+
 ## How to use
 
 See [FAQ.md](FAQ.md) (original Vietnamese version) for more details. This is also the content of the website's FAQ page.
