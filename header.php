@@ -56,7 +56,7 @@
                             <?php if ($user): ?>
                                 <li style="padding: 13px 0"><a href="/profile" class="nbhzvn_user_icon">
                                     <span class="nbhzvn_avatar_container"><span class="nbhzvn_avatar"><span class="nbhzvn_username"><?php echo substr($user->display_name(), 0, 1); ?></span></span> <span class="arrow_carrot-down"></span></span></a>
-                                    <ul class="dropdown nbhzvn_user_dropdown">
+                                    <ul class="dropdown nbhzvn_user_dropdown" style="left: -180px">
                                         <li><a href="/profile"><?php echo $user->display_name(); ?></a></li>
                                         <li><a href="/change_info">Thay Đổi Thông Tin</a></li>
                                         <li><a href="/logout">Đăng Xuất</a></li>
