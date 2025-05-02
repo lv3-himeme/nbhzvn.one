@@ -1,17 +1,14 @@
         <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
+            <div class="row align-items-center">
+                <div class="header-flex d-flex align-items-center flex-grow-1">
                     <div class="header__logo">
                         <a href="/">
                             <img src="/img/logo.png" alt="">
                         </a>
                     </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="header__nav">
+                    <div class="header__nav" style="margin-left: 20px">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a href="/">Trang Chủ</a></li>
                                 <li><a href="/games">Danh Sách Game <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
                                         <li><a href="/games?category=popular">Game Phổ Biến</a></li>
@@ -29,25 +26,49 @@
                                         <li><a href="https://discord.gg/QpMuX3gQ5u">Discord</a></li>
                                     </ul>
                                 </li>
+                                <li class="nbhzvn_mobile_user">
+                                    <?php if ($user): ?>
+                                    <a href="/profile"><?php echo $user->display_name(); ?></span></a>
+                                    <ul class="dropdown">
+                                        <li><a href="/profile">Thông Tin Cá Nhân</a></li>
+                                        <li><a href="/change_info">Thay Đổi Thông Tin</a></li>
+                                        <li><a href="/logout">Đăng Xuất</a></li>
+                                    </ul>
+                                    <?php else: ?>
+                                    <a href="/login">Đăng Nhập</a>
+                                    <?php endif; ?>
+                                </li>
                             </ul>
                         </nav>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="header__right">
-                        <a href="/search" title="Tìm kiếm" class="search-switch"><span class="icon_search"></span></a>
+                <div class="header__right d-flex align-items-center flex-shrink-0">
+                    <a href="/search" title="Tìm kiếm"><span class="icon_search"></span></a>
+                    <?php if ($user): ?>
                         <?php if ($user && $user->type >= 2): ?>
-                        <a href="/upload" title="Thêm game mới"><span class="icon_upload"></span></a>
+                            <a href="/upload" title="Thêm game mới"><span class="icon_upload"></span></a>
                         <?php endif ?>
-                        <?php if ($user): ?>
-                            <?php $unread_notifications = $user->unread_notifications() ?>
-                            <a href="/notifications" class="nbhzvn_notification<?php if (count($unread_notifications)) echo ' unread' ?>"><span class="fa fa-bell"></span><?php if (count($unread_notifications)) echo ' <span class="number">(' . count($unread_notifications) . ')</span>' ?></a>
-                            <a href="/profile"><span class="icon_profile"></span> <span class="nbhzvn_username"><?php echo $user->display_name(); ?></span></a>
-                        <?php else: ?>
-                            <a href="/login"><span class="icon_profile"></span></a>
-                        <?php endif; ?>
-                    </div>
+                        <?php $unread_notifications = $user->unread_notifications() ?>
+                        <a href="/notifications" class="nbhzvn_notification<?php if (count($unread_notifications)) echo ' unread' ?>"><span class="fa fa-bell"></span><?php if (count($unread_notifications)) echo ' (' . count($unread_notifications) . ')'; ?></a>
+                    <?php endif; ?>
+                    <nav class="header__menu">
+                        <ul>
+                            <?php if ($user): ?>
+                                <li style="padding: 13px 0"><a href="/profile" class="nbhzvn_user_icon">
+                                    <span class="nbhzvn_avatar_container"><span class="nbhzvn_avatar"><span class="nbhzvn_username"><?php echo substr($user->display_name(), 0, 1); ?></span></span> <span class="arrow_carrot-down"></span></span></a>
+                                    <ul class="dropdown nbhzvn_user_dropdown">
+                                        <li><a href="/profile"><?php echo $user->display_name(); ?></a></li>
+                                        <li><a href="/change_info">Thay Đổi Thông Tin</a></li>
+                                        <li><a href="/logout">Đăng Xuất</a></li>
+                                    </ul>
+                                </li>
+                            <?php else: ?>
+                                <li><a href="/login"><span class="icon_profile"></span> <span class="nbhzvn_username" style="margin-left: 10px">Đăng Nhập</span></a></li>
+                            <?php endif; ?>
+                        </ul>
+                    </nav>
                 </div>
             </div>
+            <div id="user-menu"></li>
             <div id="mobile-menu-wrap"></div>
         </div>

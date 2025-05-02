@@ -117,11 +117,6 @@ else {
                 </div>
                 <?php echo pagination(count($repo)) ?>
             <?php else: ?>
-            <?php if ($user->id == $profile_user->id): ?>
-            <div style="text-align: right">
-                <a href="/logout" class="nbhzvn_btn"><span>Đăng Xuất</span></a>
-            </div>
-            <?php endif ?>
             <div class="anime__details__content">
                 <div class="anime__details__text">
                     <div class="anime__details__title">
