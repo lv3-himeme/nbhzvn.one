@@ -69,6 +69,5 @@
                     </nav>
                 </div>
             </div>
-            <div id="user-menu"></li>
             <div id="mobile-menu-wrap"></div>
         </div>
