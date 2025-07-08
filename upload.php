@@ -22,6 +22,10 @@ function process() {
         if (!post($input)) return $error = "Vui lòng nhập đầy đủ thông tin.";
         $data[$input] = post($input);
     }
+    $data["links"] = base64_decode($data["links"]);
+    $data["beta_links"] = base64_decode($data["beta_links"]);
+    $data["beta_users"] = base64_decode($data["beta_users"]);
+    $data["screenshots"] = base64_decode($data["screenshots"]);
     $links = json_decode($data["links"]); $beta_links = json_decode($data["beta_links"]);
     if (count($links) < 1 && count($beta_links) < 1) return $error = "Vui lòng tải ít nhất một tệp tin game lên.";
     foreach ($links as $link) {
@@ -220,11 +224,11 @@ refresh_csrf();
                                 echo '<div><input type="checkbox" class="supported_os_checkbox" value="' . $value . '"' . (in_array($value, $supported_oses) ? " checked" : "") . '> <label style="color: #fff; margin-left: 10px">' . $vocab . '</label></input></div>';
                             }
                         ?>
-                    <input type="hidden" name="links" value='<?php echo str_ireplace("'", "\\'", post("links")) ?>' id="linksInput" />
-                    <input type="hidden" name="beta_links" value='<?php echo str_ireplace("'", "\\'", post("beta_links")) ?>' id="betaLinksInput" />
-                    <input type="hidden" name="beta_users" value='<?php echo str_ireplace("'", "\\'", post("beta_users")) ?>' id="betaUsersInput" />
-                    <input type="hidden" name="screenshots" value='<?php echo str_ireplace("'", "\\'", post("screenshots")) ?>' id="screenshotsInput" />
-                    <input type="hidden" name="supported_os" value='<?php echo str_ireplace("'", "\\'", post("supported_os")) ?>' id="supportedOSInput" />
+                    <input type="hidden" name="links" value='<?php echo post("links") ?>' id="linksInput" />
+                    <input type="hidden" name="beta_links" value='<?php echo post("beta_links") ?>' id="betaLinksInput" />
+                    <input type="hidden" name="beta_users" value='<?php echo post("beta_users") ?>' id="betaUsersInput" />
+                    <input type="hidden" name="screenshots" value='<?php echo post("screenshots") ?>' id="screenshotsInput" />
+                    <input type="hidden" name="supported_os" value='<?php echo post("supported_os") ?>' id="supportedOSInput" />
                     <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
                     <p style="color: #e36666"><i><?php echo $error ?></i></p>
                     <button type="submit" name="submit" class="site-btn" value="Submit">Thêm Game Mới</button>

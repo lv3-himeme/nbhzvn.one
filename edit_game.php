@@ -14,7 +14,7 @@ $notice = "";
 function finalize($thumbnail = "none", $links = [], $screenshots = [], $beta_links = [], $beta_users = []) {
     global $game;
     $time = 0;
-    $new_thumbnail = post("image"); $new_links = json_decode(post("links")); $new_screenshots = json_decode(post("screenshots")); $new_beta_links = json_decode(post("beta_links")); $new_beta_users = json_decode(post("beta_users"));
+    $new_thumbnail = post("image"); $new_links = json_decode(base64_decode(post("links"))); $new_screenshots = json_decode(base64_decode(post("screenshots"))); $new_beta_links = json_decode(base64_decode(post("beta_links"))); $new_beta_users = json_decode(base64_decode(post("beta_users")));
     if ($new_thumbnail != $thumbnail) unlink("./uploads/" . $thumbnail);
     foreach ($links as $link) {
         $path = $link->path;
@@ -56,6 +56,10 @@ function process() {
         if (!post($input)) return $error = "Vui lòng nhập đầy đủ thông tin.";
         $data[$input] = post($input);
     }
+    $data["links"] = base64_decode($data["links"]);
+    $data["beta_links"] = base64_decode($data["beta_links"]);
+    $data["beta_users"] = base64_decode($data["beta_users"]);
+    $data["screenshots"] = base64_decode($data["screenshots"]);
     $links = json_decode($data["links"]); $beta_links = json_decode($data["beta_links"]);
     if (count($links) < 1 && count($beta_links) < 1) return $error = "Vui lòng tải ít nhất một tệp tin game lên.";
     foreach ($links as $link) {
@@ -252,10 +256,10 @@ refresh_csrf();
                                 echo '<div><input type="checkbox" class="supported_os_checkbox" value="' . $value . '"' . (in_array($value, $supported_oses) ? " checked" : "") . '> <label style="color: #fff; margin-left: 10px">' . $vocab . '</label></input></div>';
                             }
                         ?>
-                    <input type="hidden" name="links" id="linksInput" value='<?php echo str_ireplace("'", "\\'", json_encode($game->links)) ?>' />
-                    <input type="hidden" name="beta_links" value='<?php echo str_ireplace("'", "\\'", json_encode($game->beta_links)) ?>' id="betaLinksInput" />
-                    <input type="hidden" name="beta_users" value='<?php echo str_ireplace("'", "\\'", json_encode($game->beta_users)) ?>' id="betaUsersInput" />
-                    <input type="hidden" name="screenshots" id="screenshotsInput" value='<?php echo str_ireplace("'", "\\'", json_encode($game->screenshots)) ?>' />
+                    <input type="hidden" name="links" id="linksInput" value='<?php echo base64_encode(json_encode($game->links)) ?>' />
+                    <input type="hidden" name="beta_links" value='<?php echo base64_encode(json_encode($game->beta_links)) ?>' id="betaLinksInput" />
+                    <input type="hidden" name="beta_users" value='<?php echo base64_encode(json_encode($game->beta_users)) ?>' id="betaUsersInput" />
+                    <input type="hidden" name="screenshots" id="screenshotsInput" value='<?php echo base64_encode(json_encode($game->screenshots)) ?>' />
                     <input type="hidden" name="supported_os" value="" id="supportedOSInput" />
                     <input type="hidden" name="csrf_token" value="<?php echo get_csrf(); ?>" />
                     <p style="color: #e36666"><i><?php echo $error ?></i></p>

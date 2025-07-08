@@ -498,10 +498,10 @@ function processSubmit() {
     for (var i = 0; i < screenshotArr.length; i++) {
         if (!screenshotArr[i]) return alertNoSubmit(`Ảnh chụp màn hình số ${i + 1} bị lỗi trong quá trình tải lên, vui lòng xoá ảnh chụp đó và tải lên lại.`);
     }
-    $("#linksInput").val(JSON.stringify(Object.values(gameFiles)));
-    $("#betaLinksInput").val(JSON.stringify(Object.values(betaGameFiles)));
-    $("#betaUsersInput").val(JSON.stringify(Object.values(betaUsers).map(user => user.id)));
-    $("#screenshotsInput").val(JSON.stringify(Object.values(screenshots).map(obj => obj.path)));
+    $("#linksInput").val(btoa(JSON.stringify(Object.values(gameFiles))));
+    $("#betaLinksInput").val(btoa(JSON.stringify(Object.values(betaGameFiles))));
+    $("#betaUsersInput").val(btoa(JSON.stringify(Object.values(betaUsers).map(user => user.id))));
+    $("#screenshotsInput").val(btoa(JSON.stringify(Object.values(screenshots).map(obj => obj.path))));
     var checkboxes = document.getElementsByClassName("supported_os_checkbox"), supportedOS = [];
     for (var i = 0; i < checkboxes.length; i++) if (checkboxes[i].checked) supportedOS.push(checkboxes[i].value);
     $("#supportedOSInput").val(supportedOS.join(","));
@@ -568,7 +568,7 @@ function createScreenshotElementPreload(id, path) {
 function preload() {
     if ($(`#thumbnail`).val()) showThumbnailImage($(`#thumbnail`).val());
     if ($(`#linksInput`).val()) {
-        var items = JSON.parse($(`#linksInput`).val());
+        var items = JSON.parse(atob($(`#linksInput`).val()));
         for (var item of items) {
             gameFilesIndex++;
             var id = `gf${gameFilesIndex.toString()}`;
@@ -577,7 +577,7 @@ function preload() {
         }
     }
     if ($(`#betaLinksInput`).val()) {
-        var items = JSON.parse($(`#betaLinksInput`).val());
+        var items = JSON.parse(atob($(`#betaLinksInput`).val()));
         for (var item of items) {
             betaGameFilesIndex++;
             var id = `gf${betaGameFilesIndex.toString()}`;
@@ -586,14 +586,14 @@ function preload() {
         }
     }
     if ($(`#betaUsersInput`).val()) {
-        var items = JSON.parse($(`#betaUsersInput`).val());
+        var items = JSON.parse(atob($(`#betaUsersInput`).val()));
         betaUsers = JSON.parse(JSON.stringify(items));
         for (var item of betaUsers) {
             createBetaUserElement(item.id, item.displayName);
         }
     }
     if ($(`#screenshotsInput`).val()) {
-        var items = JSON.parse($(`#screenshotsInput`).val());
+        var items = JSON.parse(atob($(`#screenshotsInput`).val()));
         for (var item of items) {
             screenshotIndex++;
             var id = `scr${screenshotIndex.toString()}`;
@@ -644,10 +644,10 @@ var AutoSave = {
     save: function() {
         this.show();
         this.changeText("Đang tiến hành lưu bản nháp...");
-        $("#linksInput").val(JSON.stringify(Object.values(gameFiles).filter(obj => obj.path != null)));
-        $("#betaLinksInput").val(JSON.stringify(Object.values(betaGameFiles).filter(obj => obj.path != null)));
-        $("#betaUsersInput").val(JSON.stringify(Object.values(betaUsers)));
-        $("#screenshotsInput").val(JSON.stringify(Object.values(screenshots).filter(obj => obj.path != null).map(obj => obj.path)));
+        $("#linksInput").val(btoa(JSON.stringify(Object.values(gameFiles).filter(obj => obj.path != null))));
+        $("#betaLinksInput").val(btoa(JSON.stringify(Object.values(betaGameFiles).filter(obj => obj.path != null))));
+        $("#betaUsersInput").val(btoa(JSON.stringify(Object.values(betaUsers))));
+        $("#screenshotsInput").val(btoa(JSON.stringify(Object.values(screenshots).filter(obj => obj.path != null).map(obj => obj.path))));
         var checkboxes = document.getElementsByClassName("supported_os_checkbox"), supportedOS = [];
         for (var i = 0; i < checkboxes.length; i++) if (checkboxes[i].checked) supportedOS.push(checkboxes[i].value);
         var save = {};
