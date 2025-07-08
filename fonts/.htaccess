@@ -1,0 +1,41 @@
+RewriteEngine on
+
+ErrorDocument 403 /error.php?code=403
+ErrorDocument 404 /error.php?code=404
+ErrorDocument 500 /error.php?code=500
+
+RewriteBase /
+RewriteRule ^ban/([0-9]+)$ ban.php?id=$1 [L,QSA]
+RewriteRule ^unban/([0-9]+)$ unban.php?id=$1 [L,QSA]
+RewriteRule ^assign/([0-9]+)$ assign.php?id=$1 [L,QSA]
+RewriteRule ^profile/([0-9]+)$ profile.php?id=$1 [L,QSA]
+RewriteRule ^follows/([0-9]+)$ profile.php?id=$1&repo=follows [L,QSA]
+RewriteRule ^uploads/([0-9]+)$ profile.php?id=$1&repo=uploads [L,QSA]
+RewriteRule ^unapproved/([0-9]+)$ profile.php?id=$1&repo=unapproved [L,QSA]
+RewriteRule ^popular/([0-9]+)$ profile.php?id=$1&repo=popular [L,QSA]
+RewriteRule ^games/([0-9]+)$ games.php?id=$1 [L,QSA]
+RewriteRule ^download/([0-9]+)/([0-9]+)$ download.php?id=$1&index=$2 [L,QSA]
+RewriteRule ^download_beta/([0-9]+)/([0-9]+)$ download_beta.php?id=$1&index=$2 [L,QSA]
+RewriteRule ^edit_game/([0-9]+)$ edit_game.php?id=$1 [L,QSA]
+RewriteRule ^approve/([0-9]+)$ approve.php?id=$1 [L,QSA]
+RewriteRule ^unapprove/([0-9]+)$ unapprove.php?id=$1 [L,QSA]
+RewriteRule ^feature/([0-9]+)$ feature.php?id=$1 [L,QSA]
+RewriteRule ^delete_game/([0-9]+)$ delete_game.php?id=$1 [L,QSA]
+RewriteRule ^transfer/([0-9]+)$ transfer.php?id=$1 [L,QSA]
+RewriteRule ^send_notification/([0-9]+)$ send_notification.php?id=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule !.*\.php$ %{REQUEST_URI}.php [QSA,L]
+
+Options All -Indexes
+IndexOptions Charset=UTF-8
+AddCharset UTF-8 .txt .html .css .js
+
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+<FilesMatch "\.(ttf|otf|eot|woff|woff2|css)$">
+  Header set Access-Control-Allow-Origin "*"
+</FilesMatch>
