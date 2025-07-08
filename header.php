@@ -1,3 +1,6 @@
+        <?php if (true): ?>
+        <div style="width: 100%; padding: 10px; background-color: #af1932; color: #ddd; text-align: center">Đã bắt đầu đợt đăng ký của sự kiện Speedrun trên cộng đồng Nobihaza Việt Nam. Nếu bạn có mong muốn tham gia, bạn có thể truy cập vào <a style="color: #b7b7b7" href="https://speedrun.nbhzvn.one" target="_blank">trang web chính thức của sự kiện</a>.</div>
+        <?php endif ?>
         <div class="container">
             <div class="row align-items-center">
                 <div class="header-flex d-flex align-items-center flex-grow-1">
@@ -20,12 +23,20 @@
                                     </ul>
                                 </li>
                                 <li><a href="/faq">FAQ</a></li>
+                                <li><a href="/tools">Phần Mềm Chơi Game <span class="arrow_carrot-down"></span></a>
+                                    <ul class="dropdown">
+                                        <li><a href="https://github.com/The-Firefly-Project/EasyRPGPlayer-Vietnamese/releases/tag/0.8.1.1">EasyRPG</a></li>
+                                        <li><a href="/tools/JoiPlay">JoiPlay</a></li>
+                                        <li><a href="/tools/MKXP">MKXP</a></li>
+                                    </ul>
+                                </li>
                                 <li><a href="javascript:void(0)">Liên Kết Nhóm <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
                                         <li><a href="https://www.facebook.com/groups/nobihazavietnam">Facebook</a></li>
                                         <li><a href="https://discord.gg/QpMuX3gQ5u">Discord</a></li>
                                     </ul>
                                 </li>
+                                <li><a href="https://speedrun.nbhzvn.one">Sự Kiện Speedrun</a></li>
                                 <li class="nbhzvn_mobile_user">
                                     <?php if ($user): ?>
                                     <a href="/profile"><?php echo $user->display_name(); ?></span></a>
