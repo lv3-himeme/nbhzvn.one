@@ -1,0 +1,4 @@
+RewriteEngine on
+
+RewriteRule ^check$ check.php [L,QSA]
+RewriteRule ^participate$ participate.php [L,QSA]
