@@ -17,7 +17,7 @@ try {
             $result = $game->toggle_follow($user->id);
             $response = new stdClass();
             $response->type = $result == ACTION_FOLLOW ? "follow" : "unfollow";
-            $response->followers = $game->follows();
+            $response->followers = $game->follow_count();
             $user->update_timeout("follow", time() + 5);
             api_response($response, "Đã " . ($result == ACTION_FOLLOW ? "thêm game này vào danh sách theo dõi" : "bỏ game này ra khỏi danh sách theo dõi") . ".");
             break;

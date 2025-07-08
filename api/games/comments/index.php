@@ -8,8 +8,8 @@ require __DIR__ . "/../functions.php";
 try {
     switch ($_SERVER["REQUEST_METHOD"]) {
         case "GET": {
-            if (!get("id")) api_response(null, "Vui lòng nhập ID của game.", 400);
-            $game = new Nbhzvn_Game(intval(get("id")));
+            if (!get("game_id")) api_response(null, "Vui lòng nhập ID của game.", 400);
+            $game = new Nbhzvn_Game(intval(get("game_id")));
             if (!$game->id) api_response(null, "Không tìm thấy game có ID này.", 404);
             $result = $game->comments(); $comments = [];
             $page = is_numeric(get("page")) ? intval(get("page")) : 1;
@@ -28,8 +28,8 @@ try {
             if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập để có thể bình luận.", 401);
             if ($user->check_timeout("comment")) api_response(null, "Bạn cần đợi ít nhất 1 phút từ lần bình luận cuối cùng trước khi có thể bình luận một lần nữa.", 429);
             $json = json_decode(file_get_contents("php://input"));
-            if (!$json->id || !$json->content) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
-            $game = new Nbhzvn_Game($json->id);
+            if (!$json->game_id || !$json->content) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
+            $game = new Nbhzvn_Game($json->game_id);
             if (!$game->id) api_response(null, "Không tìm thấy game có ID này.", 404);
             if ($json->replied_to) {
                 $reply_comment = new Nbhzvn_Comment($json->replied_to);
@@ -48,8 +48,8 @@ try {
         case "POST": {
             if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập để có thể bình luận.", 401);
             $json = json_decode(file_get_contents("php://input"));
-            if (!$json->comment_id || !$json->content) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
-            $comment = new Nbhzvn_Comment($json->comment_id);
+            if (!$json->id || !$json->content) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
+            $comment = new Nbhzvn_Comment($json->id);
             if (!$comment->id) api_response(null, "Không tìm thấy bình luận có ID này.", 404);
             if ($comment->author != $user->id) api_response(null, "Không thể chỉnh sửa bình luận này.", 403);
             $comment->edit($json->content);
@@ -59,8 +59,8 @@ try {
         case "DELETE": {
             if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập để có thể bình luận.", 401);
             $json = json_decode(file_get_contents("php://input"));
-            if (!$json->comment_id) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
-            $comment = new Nbhzvn_Comment($json->comment_id);
+            if (!$json->id) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
+            $comment = new Nbhzvn_Comment($json->id);
             if (!$comment->id) api_response(null, "Không tìm thấy bình luận có ID này.", 404);
             if ($comment->author != $user->id && $user->type < 3) api_response(null, "Không thể xoá bình luận này.", 403);
             $comment->delete();

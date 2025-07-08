@@ -66,7 +66,7 @@ async function processTransfer(id, displayName) {
             contentType: false,
             processData: false,
             data: JSON.stringify({
-                id: gameId,
+                game_id: gameId,
                 owner_id: id,
                 password
             }),

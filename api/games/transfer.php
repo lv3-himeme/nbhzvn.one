@@ -8,11 +8,11 @@ require __DIR__ . "/functions.php";
 try {
     switch ($_SERVER["REQUEST_METHOD"]) {
         case "POST": {
-            if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập để có thể bình luận.", 401);
+            if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập để có thể chuyển quyền quản lý game.", 401);
             $json = json_decode(file_get_contents("php://input"));
-            if (!$json->id || !$json->owner_id || !$json->password) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
+            if (!$json->game_id || !$json->owner_id || !$json->password) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
             if (!$user->verify_passphrase($json->password)) api_response(null, "Mật khẩu xác thực không chính xác.", 401);
-            $game = new Nbhzvn_Game(intval($json->id));
+            $game = new Nbhzvn_Game(intval($json->game_id));
             if (!$game->id) api_response(null, "Không tìm thấy game có ID này.", 404);
             $target = new Nbhzvn_User(intval($json->owner_id));
             if (!$target->id) api_response(null, "Không tìm thấy thành viên có ID này.", 404);

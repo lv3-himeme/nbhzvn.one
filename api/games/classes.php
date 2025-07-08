@@ -133,7 +133,7 @@ class Nbhzvn_Game {
         return new stdClass();
     }
 
-    function follows() {
+    function follow_count() {
         $result = db_query('SELECT g.`id`, COUNT(f.`game_id`) AS follow_count FROM `nbhzvn_gamefollows` f LEFT JOIN `nbhzvn_games` g ON f.`game_id` = g.`id` WHERE g.`id` = ?', $this->id);
         while ($row = $result->fetch_object()) return $row->follow_count;
         return 0;

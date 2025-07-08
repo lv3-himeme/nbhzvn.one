@@ -47,7 +47,7 @@ async function toggleFollow(id) {
         contentType: false,
         processData: false,
         data: JSON.stringify({
-            id
+            game_id
         }),
         json: true
     });
@@ -75,7 +75,7 @@ async function comment() {
             contentType: false,
             processData: false,
             data: JSON.stringify({
-                id: gameId,
+                game_id: gameId,
                 content
             }),
             json: true
@@ -129,7 +129,7 @@ async function deleteComment(id) {
         contentType: false,
         processData: false,
         data: JSON.stringify({
-            comment_id: id
+            id
         }),
         json: true
     });
@@ -168,7 +168,7 @@ async function processCommentEdit(id) {
         contentType: false,
         processData: false,
         data: JSON.stringify({
-            comment_id: id,
+            id,
             content
         }),
         json: true
@@ -212,7 +212,7 @@ async function processCommentReply(id) {
         contentType: false,
         processData: false,
         data: JSON.stringify({
-            id: gameId,
+            game_id: gameId,
             content,
             replied_to: id
         }),
@@ -231,21 +231,21 @@ async function previousPage(distantId = "") {
     var elementId = `#${distantId.toLowerCase() || "comments"}`, api = `${distantId.toLowerCase() || "comments/"}`;
     if (Pagination.page(distantId) < 2) return;
     $(elementId).html("");
-    $(elementId).html(await Pagination.previous(`/api/games/${api}?id=${gameId}&page={page}&html=true`, distantId));
+    $(elementId).html(await Pagination.previous(`/api/games/${api}?game_id=${gameId}&page={page}&html=true`, distantId));
 }
 
 async function nextPage(distantId = "") {
     var elementId = `#${distantId.toLowerCase() || "comments"}`, api = `${distantId.toLowerCase() || "comments/"}`;
     if (Pagination.page(distantId) >= Pagination.maxPages(distantId)) return;
     $(elementId).html("");
-    $(elementId).html(await Pagination.next(`/api/games/${api}?id=${gameId}&page={page}&html=true`, distantId));
+    $(elementId).html(await Pagination.next(`/api/games/${api}?game_id=${gameId}&page={page}&html=true`, distantId));
 }
 
 async function jumpToPage(distantId = "") {
     var elementId = `#${distantId.toLowerCase() || "comments"}`, api = `${distantId.toLowerCase() || "comments/"}`;
     if (Pagination.page(distantId) >= Pagination.maxPages(distantId)) return;
     $(elementId).html("");
-    $(elementId).html(await Pagination.jump(`/api/games/${api}?id=${gameId}&page={page}&html=true`, Pagination.page(distantId), distantId));
+    $(elementId).html(await Pagination.jump(`/api/games/${api}?game_id=${gameId}&page={page}&html=true`, Pagination.page(distantId), distantId));
 }
 
 /*
@@ -300,7 +300,7 @@ async function processRate(id, rating) {
             contentType: false,
             processData: false,
             data: JSON.stringify({
-                id,
+                game_id,
                 rating,
                 reason
             }),
@@ -470,7 +470,7 @@ async function editChangelog(id) {
     modal.update();
     modal.show();
     var response = await apiRequest({
-        url: `/api/games/changelogs?id=${id}`,
+        url: `/api/games/changelogs?game_id=${id}`,
         type: "GET",
         cache: false,
         contentType: false,

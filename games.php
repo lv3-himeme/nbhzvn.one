@@ -14,7 +14,7 @@ if (is_numeric(get("id"))) {
     $title = $game->name;
     $game->add_views();
     $comments = $game->comments();
-    $follows = $game->follows();
+    $follows = $game->follow_count();
     $ratings = $game->ratings();
     $all_ratings = $game->all_ratings();
     $changelogs = $game->changelogs();
