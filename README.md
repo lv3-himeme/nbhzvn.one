@@ -1,3 +1,10 @@
+> ⚠️ **Important Notice**
+>
+> This repository is a 1:1 copy of the [nbhzvn.one](https://nbhzvn.one) website and contains additional content from our community that is **not freely reusable** or **redistributable without proper attribution**, and **must not be used for commercial purposes**.
+>
+> If you are looking for a fully open-source version of this project (under the MIT License) without any community-specific content, please visit the original repository:  
+> 👉 [Serena1432/NobihazaVietnamCollection](https://github.com/Serena1432/NobihazaVietnamCollection)
+
 # Nobihaza Vietnam Community Collection
 
 ![Screenshot](screenshot.png)
@@ -57,6 +64,12 @@ As an open-source repository, any contributions are greatly appreciated!
 4. Create a pull request and wait for me to review and merge it!
 
 ## License
+
+### Community content
+
+**Community content** (images, text, audio, game data, etc.) is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
+
+If you want to reuse community content for non-commercial purposes, you must provide proper attribution. Commercial use is not permitted without explicit permission.
 
 ### Back-end PHP source code
 
