@@ -39,3 +39,6 @@ bulletin_files/
 tools/
 bulletin.php
 bulletin.md
+
+# Ignore special websites
+speedrun/
