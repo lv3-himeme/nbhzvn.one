@@ -37,6 +37,13 @@ class Nbhzvn_Speedrunner {
         $this->ranking = $data->ranking;
         $this->ban_reason = $data->ban_reason;
     }
+
+    function start_game() {
+        $time = time();
+        $this->start_timestamp = $time;
+        db_query("UPDATE `nbhzvn_speedrunners` SET `start_timestamp` = ? WHERE `id` = ?", $time, $this->id);
+        return $time;
+    }
 }
 
 function add_speedrunner($user_id, $discord_id, $os) {
