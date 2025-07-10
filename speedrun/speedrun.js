@@ -4,7 +4,7 @@ async function check() {
     try {
         $("#registerBtn").prop("disabled", "true");
         var response = await apiRequest({
-            url: "./check",
+            url: "./api/check",
             cache: false,
             method: "GET"
         });
@@ -93,7 +93,7 @@ async function register() {
     try {
         $("#registerModalBtn").prop("disabled", "true");
         var response = await apiRequest({
-            url: `./participate?os=${$("#speedrunOS").val()}`,
+            url: `./api/participate?os=${$("#speedrunOS").val()}`,
             cache: false,
             method: "GET"
         });

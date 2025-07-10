@@ -2,7 +2,7 @@
 require __DIR__ . "/../api/functions.php";
 require __DIR__ . "/../api/users/functions.php";
 require __DIR__ . "/../api/users/cookies.php";
-require __DIR__ . "/init.php";
+require __DIR__ . "/api/init.php";
 
 /*
 ============================================================

@@ -1,19 +1,20 @@
 <?php
 $is_api = true;
-require __DIR__ . "/../api/functions.php";
-require __DIR__ . "/../api/users/functions.php";
-require __DIR__ . "/../api/users/cookies.php";
+require __DIR__ . "/../../api/functions.php";
+require __DIR__ . "/../../api/users/functions.php";
+require __DIR__ . "/../../api/users/cookies.php";
 require __DIR__ . "/init.php";
 
 try {
     if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập tài khoản để có thể đăng ký tham gia.", 401);
     switch ($_SERVER["REQUEST_METHOD"]) {
         case "GET": {
-            if (time() >= 1752253200) api_response(null, "Đợt đăng ký tham gia đã kết thúc. Hẹn gặp lại bạn ở sự kiện năm sau nhé!", 200);
-            if (!$user->discord_id) api_response(null, "Bạn chưa liên kết với tài khoản Discord. Hãy liên kết ở phần <a href='https://nbhzvn.one/change_info'>Thay Đổi Thông Tin</a> của tài khoản và thử lại.", 200);
+            if (!in_array(get("os"), ["windows", "mac", "linux", "android", "ios"])) api_response(null, "Hãy chọn một thiết bị hợp lệ.", 400);
+            if (time() >= 1752253200) api_response(null, "Đợt đăng ký tham gia đã kết thúc. Hẹn gặp lại bạn ở sự kiện năm sau nhé!", 403);
+            if (!$user->discord_id) api_response(null, "Bạn chưa liên kết với tài khoản Discord. Hãy liên kết ở phần <a href='https://nbhzvn.one/change_info'>Thay Đổi Thông Tin</a> của tài khoản và thử lại.", 403);
             $speedrunner = new Nbhzvn_Speedrunner($user->id);
-            if ($speedrunner->id) api_response(null, "Bạn đã đăng ký tham gia sự kiện speedrun từ trước đó rồi.", 200);
-            $check_response = check_speedrun_user($user->discord_id);
+            if ($speedrunner->id) api_response(null, "Bạn đã đăng ký tham gia sự kiện speedrun từ trước đó rồi.", 403);
+            $check_response = check_speedrun_user($user->discord_id, true);
             if (!$check_response->pass) {
                 $reason = array(
                     "SERVER_ERROR" => "Không thể kết nối tới máy chủ của Discord. Vui lòng thử lại sau.",
@@ -24,10 +25,11 @@ try {
                     "MEMBER_IS_A_HOST" => "Bạn đang là thành viên của Ban Tổ Chức nên bạn không thể đăng ký tham gia sự kiện. Nếu đây là sự nhầm lẫn, hãy báo cáo với Ban Giám Hiệu của máy chủ.",
                     "MEMBER_IS_ALREADY_SPEEDRUNNER" => "Bạn đã đăng ký tham gia sự kiện speedrun từ trước đó rồi. Nếu đây là sự nhầm lẫn, hãy báo cáo với Ban Giám Hiệu của máy chủ.",
                 );
-                api_response(null, $reason[$check_response->reason], 200);
+                api_response(null, $reason[$check_response->reason], 403);
             }
             else {
-                api_response(true, "Bạn đã đạt đủ điều kiện.", 200);
+                add_speedrunner($user->id, $user->discord_id, get("os"));
+                api_response(null, "Bạn đã đăng ký tham gia sự kiện thành công. Chúc bạn may mắn và đạt kết quả tốt nhất trong sự kiện sắp tới!", 200);
             }
             break;
         }

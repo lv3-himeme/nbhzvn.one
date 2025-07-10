@@ -1,5 +1,5 @@
 <?php
-db_query("CREATE TABLE IF NOT EXISTS `nbhzvn_speedrunners` (`id` INT NOT NULL AUTO_INCREMENT , `user_id` INT NOT NULL , `discord_id` TEXT NOT NULL , `os` TEXT NOT NULL , `start_timestamp` BIGINT NULL , `playtime` BIGINT NULL , `real_playtime` BIGINT NULL , `saves` INT NULL , `ranking` INT NULL , PRIMARY KEY (`id`) , FOREIGN KEY (user_id) REFERENCES nbhzvn_users(id)) ENGINE = InnoDB");
+db_query("CREATE TABLE IF NOT EXISTS `nbhzvn_speedrunners` (`id` INT NOT NULL AUTO_INCREMENT , `user_id` INT NOT NULL , `discord_id` TEXT NOT NULL , `os` TEXT NOT NULL , `start_timestamp` BIGINT NULL , `playtime` BIGINT NULL , `real_playtime` BIGINT NULL , `saves` INT NULL , `ranking` INT NULL , `ban_reason` TEXT NULL , PRIMARY KEY (`id`) , FOREIGN KEY (user_id) REFERENCES nbhzvn_users(id)) ENGINE = InnoDB");
 
 class Nbhzvn_Speedrunner {
     public $id;
@@ -11,6 +11,7 @@ class Nbhzvn_Speedrunner {
     public $real_playtime;
     public $saves;
     public $ranking;
+    public $ban_reason;
 
     function __construct($id) {
         $this->id = null; $data = new stdClass();
@@ -34,6 +35,7 @@ class Nbhzvn_Speedrunner {
         $this->real_playtime = $data->real_playtime;
         $this->saves = $data->saves;
         $this->ranking = $data->ranking;
+        $this->ban_reason = $data->ban_reason;
     }
 }
 
@@ -59,5 +61,10 @@ function check_speedrun_user($discord_id, $participate = false) {
         curl_close($ch);
         return json_decode($response);
     }
+}
+
+function authenticate() {
+    $headers = getallheaders();
+    if ($_ENV["SPEEDRUN_TOKEN"] != $headers["Authorization"]) api_response(null, "Mã xác thực không đúng.", 401);
 }
 ?>
