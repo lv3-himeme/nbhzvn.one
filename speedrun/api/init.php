@@ -44,6 +44,24 @@ class Nbhzvn_Speedrunner {
         db_query("UPDATE `nbhzvn_speedrunners` SET `start_timestamp` = ? WHERE `id` = ?", $time, $this->id);
         return $time;
     }
+
+    function ban($reason) {
+        $this->ban_reason = $reason;
+        db_query("UPDATE `nbhzvn_speedrunners` SET `ban_reason` = ? WHERE `id` = ?", $reason, $this->id);
+    }
+
+    function unban() {
+        $this->ban_reason = null;
+        db_query("UPDATE `nbhzvn_speedrunners` SET `ban_reason` = NULL WHERE `id` = ?", $this->id);
+    }
+
+    function submit($playtime, $real_playtime, $saves, $ranking) {
+        $this->playtime = $playtime;
+        $this->real_playtime = $real_playtime;
+        $this->saves = $saves;
+        $this->ranking = $ranking;
+        db_query("UPDATE `nbhzvn_speedrunners` SET `playtime` = ?, `real_playtime` = ?, `saves` = ?, `ranking` = ? WHERE `id` = ?", $playtime, $real_playtime, $saves, $ranking, $this->id);
+    }
 }
 
 function add_speedrunner($user_id, $discord_id, $os) {

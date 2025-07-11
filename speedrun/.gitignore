@@ -1,1 +1,4 @@
-test/
+play/games/
+play/index.html
+play/index.js
+play/index.wasm
