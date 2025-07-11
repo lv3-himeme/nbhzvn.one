@@ -186,11 +186,24 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                             <p style="text-align: center; padding: 20px"><i>Bạn cần đăng nhập để có thể đăng ký tham gia.</i></p>
                             <?php endif ?>
                             <?php elseif ($stage > 1 && $stage < 5): ?>
+                            <?php if ($user->id && $speedrun_user->id): ?>
+                                <?php if ($speedrun_user->playtime): ?>
+                                    <p style="text-align: center; padding: 20px"><a href="./completed"><button class="site-btn">Xem Thông Tin Phần Chơi</button></a></p>
+                                <?php else: ?>
+                                    <?php if ($stage == 2 && time() < 1752361200): ?>
+                                        <p style="text-align: center; padding: 20px"><i>Bạn có thể nhấn nút bên dưới để tham gia thử nghiệm hệ thống trước sự kiện chính thức.</i></p>
+                                        <p style="text-align: center; padding: 20px"><a href="./play/?language=Vietnamese"><button class="site-btn">Tham Gia Thử Nghiệm</button></a></p>
+                                    <?php elseif ($stage == 3): ?>
+                                        <p style="text-align: center; padding: 20px"><i>Nhấn nút bên dưới để bắt đầu tham gia.</i></p>
+                                        <p style="text-align: center; padding: 20px"><a href="./play/?language=Vietnamese"><button class="site-btn">Bắt Đầu</button></a></p>
+                                    <?php endif ?>
+                                <?php endif ?>
+                            <?php endif ?>
                             <p style="text-align: center; padding: 20px"><a href="https://discord.gg/QpMuX3gQ5u"><button class="site-btn">Tham gia máy chủ Discord</button></a></p>
                             <?php elseif ($stage == 5): ?>
                             <p style="text-align: center; padding: 20px"><a href="/ranking"><button class="site-btn">Xem thứ hạng</button></a></p>
                             <?php endif ?>
-                            <?php if ($stage < 3): ?>
+                            <?php if ($stage < 2): ?>
                             <p>Nếu bạn đang muốn thử nghiệm trước game sẽ được sử dụng trong sự kiện, bạn có thể truy cập nó <a href="https://speedrun.nbhzvn.one/test/?language=Vietnamese">tại đây</a>.</p>
                             <?php endif; ?>
                             <h3>Nội dung</h3>
