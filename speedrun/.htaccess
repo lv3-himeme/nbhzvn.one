@@ -1,0 +1,5 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteBase /
+RewriteRule !.*\.php$ %{REQUEST_URI}.php [QSA,L]
