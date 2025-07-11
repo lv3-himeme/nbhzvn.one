@@ -98,7 +98,7 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                         <nav class="header__menu mobile-menu">
                             <ul>
                                 <li><a href="https://nbhzvn.one">Về Trang Chính</a></li>
-                                <?php if ($stage < 3): ?>
+                                <?php if ($stage < 2): ?>
                                 <li><a href="https://speedrun.nbhzvn.one/test/?language=Vietnamese">Thi Thử</a></li>
                                 <?php endif; ?>
                                 <li class="nbhzvn_mobile_user">

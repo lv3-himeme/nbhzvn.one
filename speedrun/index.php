@@ -114,7 +114,7 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                         <nav class="header__menu mobile-menu">
                             <ul>
                                 <li><a href="https://nbhzvn.one">Về Trang Chính</a></li>
-                                <?php if ($stage < 3): ?>
+                                <?php if ($stage < 2): ?>
                                 <li><a href="https://speedrun.nbhzvn.one/test/?language=Vietnamese">Thi Thử</a></li>
                                 <?php endif; ?>
                                 <li class="nbhzvn_mobile_user">
@@ -238,7 +238,6 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                             <p>Nếu bạn trở thành thành viên của Ban Tổ Chức sau khi đã đăng ký, đơn đăng ký của bạn sẽ bị hủy bỏ.</p>
                             <p>Còn nếu bạn không trở thành thành viên Ban Tổ Chức thì cho dù bạn có là chủ server, hay là thành viên Ban Giám Hiệu thì bạn cũng có thể tham gia nếu đáp ứng đủ các điều kiện còn lại!</p>
                             <h3>Thành viên Ban Tổ Chức</h3>
-                            <p><i>Danh sách này vẫn chưa phải là danh sách cuối cùng. Có thể sẽ có thêm người tham gia trước khi đợt đăng ký kết thúc.</i></p>
                             <h4>Trưởng Ban</h4>
                             <ul>
                                 <li><b>Serena1432</b> (s1432_nbhz)<br>Hiệu Trưởng / Lập trình viên / Quản lý, giám sát cuộc thi / Người cung cấp giải thưởng phụ</li>
@@ -255,15 +254,16 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                             </ul>
                             <h4>Các thành viên đã đóng góp vật phẩm</h4>
                             <ul>
+                                <li><b>J.H</b> (dooley1802) - 4.000.000 Cowoncy</li>
                                 <li><b>Ser</b> (knzkser0817) - 1.245.311 Cowoncy + 1 gói Nitro Basic 1 tháng</li>
                                 <li><b>Maliss</b> (shado2k9) - 2.000.000 Cowoncy</li>
                                 <li><b>Yui</b> (yui_vollerei_030) - 799.999 Cowoncy</li>
                                 <li><b>Pucci</b> (pucci3953) - 600.000 Cowoncy</li>
                                 <li><b>Leia</b> (smeraldo.leia) - 500.000 Cowoncy</li>
+                                <li><b>Remind</b> (remindcute) - 500.000 Cowoncy</li>
                             </ul>
                             <h3>Giải thưởng</h3>
-                            <p><i>Giải thưởng sẽ có thể thay đổi nếu như có thêm thành viên đóng góp trước khi đợt đăng ký kết thúc.</i></p>
-                            <p>Sự kiện lần này sẽ chia thành hai bảng: một bảng dành cho người chơi trên máy tính và một bảng dành cho người chơi trên thiết bị di động. Phần thưởng của cả hai bảng sẽ là như nhau.</p>
+                            <p><i>Do toàn bộ thành viên đã đăng ký đều sử dụng máy tính, nên sự kiện đã quay về thành một bảng duy nhất. Các phần thưởng cũng đã được quyết định.</i></p>
                             <h4>Giải Nhất</h4>
                             <ul>
                                 <li>1 tháng Discord Nitro Boost</li>
