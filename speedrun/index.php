@@ -267,19 +267,19 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                             <h4>Giải Nhất</h4>
                             <ul>
                                 <li>1 tháng Discord Nitro Boost</li>
-                                <li>1.500.000 Cowoncy</li>
+                                <li>5.000.000 Cowoncy</li>
                                 <li>Vai trò <b>Quán Quân Event Lần 3</b> trên máy chủ NobiRE Community</li>
                                 <li>1 vai trò riêng vô thời hạn với tên và màu tùy chỉnh do bạn tự chọn. Có thể thay đổi bất cứ lúc nào.</li>
                             </ul>
                             <h4>Giải Nhì</h4>
                             <ul>
                                 <li>1 tháng Discord Nitro Basic (không có boost và một số đặc quyền nhất định)</li>
-                                <li>1.000.000 Cowoncy</li>
+                                <li>3.000.000 Cowoncy</li>
                                 <li>Vai trò <b>Á Quân Event Lần 3</b> trên máy chủ NobiRE Community</li>
                                 <li>1 vai trò riêng vô thời hạn với tên và màu tùy chỉnh do bạn tự chọn. Có thể thay đổi bất cứ lúc nào.</li>
                             </ul>
                             <h4>Giải Ba</h4>
-                            <p>500.000 Cowoncy. Cảm ơn bạn đã có tinh thần tham gia sự kiện này!</p>
+                            <p>1.500.000 Cowoncy. Cảm ơn bạn đã có tinh thần tham gia sự kiện này!</p>
                             <h3>Quy định của sự kiện</h3>
                             <h4>Về cách thức tham gia</h4>
                             <ul>
