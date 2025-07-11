@@ -62,6 +62,15 @@ class Nbhzvn_Speedrunner {
         $this->ranking = $ranking;
         db_query("UPDATE `nbhzvn_speedrunners` SET `playtime` = ?, `real_playtime` = ?, `saves` = ?, `ranking` = ? WHERE `id` = ?", $playtime, $real_playtime, $saves, $ranking, $this->id);
     }
+
+    function reset() {
+        $this->start_timestamp = null;
+        $this->playtime = null;
+        $this->real_playtime = null;
+        $this->saves = null;
+        $this->ranking = null;
+        db_query("UPDATE `nbhzvn_speedrunners` SET `start_timestamp` = NULL, `playtime` = NULL, `real_playtime` = NULL, `saves` = NULL, `ranking` = NULL WHERE `id` = ?", $this->id);
+    }
 }
 
 function add_speedrunner($user_id, $discord_id, $os) {

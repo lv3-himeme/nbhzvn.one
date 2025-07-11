@@ -17,6 +17,11 @@ if (!$user) redirect_to_home();
 if ($user) $speedrun_user = new Nbhzvn_Speedrunner($user->id);
 if (!$speedrun_user->playtime) redirect_to_home();
 
+if (time() < 1752386400 && get("reset")) {
+    $speedrun_user->reset();
+    die('<script>alert("Đã xóa toàn bộ phần chơi trước đó của bạn. Bạn có thể bắt đầu chơi một phần chơi mới."); document.location.href = "./"</script>');
+}
+
 $ranking = array(
     1 => "D",
     2 => "C",
@@ -173,6 +178,10 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                                     <div style="font-size: 20pt; margin-top: 10px;"><?php echo $speedrun_user->saves ?></div>
                                 </div>
                             </div>
+                            <?php if (time() < 1752386400): ?>
+                                <p>Bạn cũng có thể xóa phần chơi này và bắt đầu lại từ đầu trong quá trình thử nghiệm hệ thống.</p>
+                                <p style="text-align: center; padding: 20px"><a href="./completed?reset=1"><button class="site-btn">Bắt Đầu Lại Từ Đầu</button></a></p>
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>

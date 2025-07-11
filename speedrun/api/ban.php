@@ -8,6 +8,7 @@ require __DIR__ . "/init.php";
 try {
     switch ($_SERVER["REQUEST_METHOD"]) {
         case "POST": {
+            if (!(time() >= 1752386400 && time() < 1752399000)) api_response(null, "Chưa thể cấm thành viên này vào lúc này.", 200);
             authenticate();
             $json = json_decode(file_get_contents("php://input"));
             if (!$json->user_id || !$json->ban_reason) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);

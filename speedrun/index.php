@@ -193,6 +193,7 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                                     <?php if ($stage == 2 && time() < 1752361200): ?>
                                         <p style="text-align: center; padding: 20px"><i>Bạn có thể nhấn nút bên dưới để tham gia thử nghiệm hệ thống trước sự kiện chính thức.</i></p>
                                         <p style="text-align: center; padding: 20px"><a href="./play/?language=Vietnamese"><button class="site-btn">Tham Gia Thử Nghiệm</button></a></p>
+                                        <p>Thời gian thử nghiệm sẽ bắt đầu từ <b>0:00 ngày 12/7/2025</b> đến <b>12:00 ngày 13/7/2025</b>.</p>
                                     <?php elseif ($stage == 3): ?>
                                         <p style="text-align: center; padding: 20px"><i>Nhấn nút bên dưới để bắt đầu tham gia.</i></p>
                                         <p style="text-align: center; padding: 20px"><a href="./play/?language=Vietnamese"><button class="site-btn">Bắt Đầu</button></a></p>
