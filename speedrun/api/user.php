@@ -18,6 +18,7 @@ try {
             if (!$speedrun_data->id) api_response(null, "Bạn không có trong danh sách đăng ký tham gia sự kiện.", 404);
             if ($speedrun_data->playtime) api_response(null, "Bạn đã hoàn thành phần chơi của mình rồi.", 403);
             $res = new stdClass();
+            if (!$user->display_name) $user->display_name = $user->display_name();
             $res->user = $user;
             $res->speedrun_data = $speedrun_data;
             api_response($res, "Thực hiện thành công.");

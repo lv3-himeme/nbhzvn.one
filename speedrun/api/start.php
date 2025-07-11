@@ -26,7 +26,7 @@ try {
             $res = new stdClass();
             $res->current_time = time();
             $res->timestamp = $timestamp;
-            $res->display_name = $user->display_name;
+            $res->display_name = $user->display_name();
             api_response($res, ($new == true) ? "Đã bắt đầu phần chơi của bạn. Chúc bạn may mắn!" : "Đã tiếp tục phần chơi trước đó của bạn.");
             break;
         }

@@ -22,7 +22,7 @@ try {
             $res = new stdClass();
             $res->current_time = time();
             $res->timestamp = $speedrun_data->start_timestamp;
-            $res->display_name = $user->display_name;
+            $res->display_name = $user->display_name();
             api_response($res, "Đã tiếp tục phần chơi trước đó của bạn.");
             break;
         }
