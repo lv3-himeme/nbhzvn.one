@@ -1,6 +1,13 @@
 <?php
 db_query("CREATE TABLE IF NOT EXISTS `nbhzvn_speedrunners` (`id` INT NOT NULL AUTO_INCREMENT , `user_id` INT NOT NULL , `discord_id` TEXT NOT NULL , `discord_username` TEXT NOT NULL , `os` TEXT NOT NULL , `start_timestamp` BIGINT NULL , `playtime` BIGINT NULL , `real_playtime` BIGINT NULL , `saves` INT NULL , `ranking` INT NULL , `ban_reason` TEXT NULL , PRIMARY KEY (`id`) , FOREIGN KEY (user_id) REFERENCES nbhzvn_users(id)) ENGINE = InnoDB");
 
+const REGISTRATION_OPENING_TIME = 1751850000;
+const REGISTRATION_CLOSING_TIME = 1752253200;
+const TEST_CLOSING_TIME = 1752382800;
+const ONGOING_TIME = 1752386400;
+const RANKING_TIME = 1752399000;
+const ENDING_TIME = 1752404400;
+
 class Nbhzvn_Speedrunner {
     public $id;
     public $user_id;
@@ -107,6 +114,10 @@ function check_speedrun_user($discord_id, $participate = false) {
 function authenticate() {
     $headers = getallheaders();
     if ($_ENV["SPEEDRUN_TOKEN"] != $headers["Authorization"]) api_response(null, "Mã xác thực không đúng.", 401);
+}
+
+function web_authenticate() {
+    if ($_ENV["SPEEDRUN_WEB_TOKEN"] != get("token")) api_response(null, "Mã xác thực không đúng.", 401);
 }
 
 function get_ranking($sort = "playtime ASC, real_playtime ASC, saves ASC, ranking DESC") {

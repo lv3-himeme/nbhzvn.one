@@ -4,7 +4,7 @@ require __DIR__ . "/../api/users/functions.php";
 require __DIR__ . "/../api/users/cookies.php";
 require __DIR__ . "/api/init.php";
 
-if (time() < 1752404400 && (!$user || $user->type < ADMINISTRATOR_TYPE)) redirect_to_home();
+if (time() < ENDING_TIME && (!$user || $user->type < ADMINISTRATOR_TYPE)) redirect_to_home();
 
 function seconds_to_string($seconds) {
     $hours = floor($seconds / 3600);

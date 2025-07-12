@@ -16,24 +16,24 @@ Stage
 5: End
 */
 
-$stage = 0; $current_time = time(); $ending_time = 1751850000;
-if ($current_time >= 1751850000 && $current_time < 1752253200) {
+$stage = 0; $current_time = time(); $ending_time = REGISTRATION_OPENING_TIME;
+if ($current_time >= REGISTRATION_OPENING_TIME && $current_time < REGISTRATION_CLOSING_TIME) {
     $stage = 1;
-    $ending_time = 1752253200;
+    $ending_time = REGISTRATION_CLOSING_TIME;
 }
-else if ($current_time >= 1752253200 && $current_time < 1752386400) {
+else if ($current_time >= REGISTRATION_CLOSING_TIME && $current_time < ONGOING_TIME) {
     $stage = 2;
-    $ending_time = 1752386400;
+    $ending_time = ONGOING_TIME;
 }
-else if ($current_time >= 1752386400 && $current_time < 1752399000) {
+else if ($current_time >= ONGOING_TIME && $current_time < RANKING_TIME) {
     $stage = 3;
-    $ending_time = 1752399000;
+    $ending_time = RANKING_TIME;
 }
-else if ($current_time >= 1752399000 && $current_time < 1752404400) {
+else if ($current_time >= RANKING_TIME && $current_time < ENDING_TIME) {
     $stage = 4;
-    $ending_time = 1752404400;
+    $ending_time = ENDING_TIME;
 }
-else if ($current_time >= 1752404400) $stage = 5;
+else if ($current_time >= ENDING_TIME) $stage = 5;
 
 $stage_text = [
     "Đợt đăng ký sắp mở rồi, bạn hãy đợi một chút nhé!",
@@ -46,7 +46,7 @@ $stage_text = [
 
 if ($user) $speedrun_user = new Nbhzvn_Speedrunner($user->id);
 
-if (time() < 1752382800 && get("reset")) {
+if (time() < TEST_CLOSING_TIME && get("reset")) {
     $speedrun_user->reset();
     die('<script>alert("Đã xóa toàn bộ phần chơi trước đó của bạn. Bạn có thể bắt đầu chơi một phần chơi mới."); document.location.href = "./"</script>');
 }
@@ -195,7 +195,7 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                                 <?php if ($speedrun_user->playtime): ?>
                                     <p style="text-align: center; padding: 20px"><a href="./completed"><button class="site-btn">Xem Thông Tin Phần Chơi</button></a></p>
                                 <?php else: ?>
-                                    <?php if ($stage == 2 && time() < 1752382800): ?>
+                                    <?php if ($stage == 2 && time() < TEST_CLOSING_TIME): ?>
                                         <p style="text-align: center; padding: 20px"><i>Bạn có thể nhấn nút bên dưới để tham gia thử nghiệm hệ thống trước sự kiện chính thức.</i></p>
                                         <p style="text-align: center; padding: 20px"><a href="./play/?language=Vietnamese"><button class="site-btn">Tham Gia Thử Nghiệm</button></a></p>
                                         <p style="text-align: center; padding: 20px"><a href="./?reset=1"><button class="site-btn">Xóa Dữ Liệu Chơi</button></a></p>

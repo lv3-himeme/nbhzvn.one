@@ -17,7 +17,7 @@ if (!$user) redirect_to_home();
 if ($user) $speedrun_user = new Nbhzvn_Speedrunner($user->id);
 if (!$speedrun_user->playtime) redirect_to_home();
 
-if (time() < 1752382800 && get("reset")) {
+if (time() < TEST_CLOSING_TIME && get("reset")) {
     $speedrun_user->reset();
     die('<script>alert("Đã xóa toàn bộ phần chơi trước đó của bạn. Bạn có thể bắt đầu chơi một phần chơi mới."); document.location.href = "./"</script>');
 }
@@ -149,7 +149,7 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                     <div class="blog__details__content">
                         <div class="blog__details__text faq">
                             <h2>Đã Hoàn Thành Phần Chơi</h2>
-                            <?php if (time() >= 1752386400): ?>
+                            <?php if (time() >= ONGOING_TIME): ?>
                                 <p>Chúc mừng bạn đã hoàn thành xuất sắc phần chơi của mình. Phần chơi của bạn đã được hệ thống ghi nhận và sẽ được sử dụng để xét hạng.</p>
                                 <p>Cho dù kết quả cuối cùng có như thế nào thì bạn cũng đã cố gắng hết sức rồi. Cảm ơn bạn rất nhiều vì đã tham gia sự kiện này!</p>
                                 <p>Hẹn gặp lại bạn ở sự kiện tiếp theo!</p>
@@ -178,7 +178,7 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                                     <div style="font-size: 20pt; margin-top: 10px;"><?php echo $speedrun_user->saves ?></div>
                                 </div>
                             </div>
-                            <?php if (time() < 1752386400): ?>
+                            <?php if (time() < ONGOING_TIME): ?>
                                 <p>Bạn cũng có thể xóa phần chơi này và bắt đầu lại từ đầu trong quá trình thử nghiệm hệ thống.</p>
                                 <p style="text-align: center; padding: 20px"><a href="./completed?reset=1"><button class="site-btn">Bắt Đầu Lại Từ Đầu</button></a></p>
                             <?php endif ?>

@@ -9,7 +9,7 @@ try {
     if (!$user || !$user->id) api_response(null, "Bạn cần đăng nhập tài khoản để có thể đăng ký tham gia.", 401);
     switch ($_SERVER["REQUEST_METHOD"]) {
         case "GET": {
-            if (time() >= 1752253200) api_response(null, "Đợt đăng ký tham gia đã kết thúc. Hẹn gặp lại bạn ở sự kiện năm sau nhé!", 200);
+            if (time() >= REGISTRATION_CLOSING_TIME) api_response(null, "Đợt đăng ký tham gia đã kết thúc. Hẹn gặp lại bạn ở sự kiện năm sau nhé!", 200);
             if (!$user->discord_id) api_response(null, "Bạn chưa liên kết với tài khoản Discord. Hãy liên kết ở phần <a href='https://nbhzvn.one/change_info'>Thay Đổi Thông Tin</a> của tài khoản và thử lại.", 200);
             $speedrunner = new Nbhzvn_Speedrunner($user->id);
             if ($speedrunner->id) api_response(null, "Bạn đã đăng ký tham gia sự kiện speedrun từ trước đó rồi.", 200);
