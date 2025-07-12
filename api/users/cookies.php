@@ -7,6 +7,7 @@ function get_user_from_cookie() {
         setcookie("nbhzvn_username", "", time() - 3600, "/", "." . $_SERVER["HTTP_HOST"]);
         setcookie("nbhzvn_login_token", "", time() - 3600, "/", "." . $_SERVER["HTTP_HOST"]);
         header("Refresh: 0");
+        exit;
         return null;
     }
     return $user;
