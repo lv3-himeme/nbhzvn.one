@@ -6,7 +6,7 @@ require __DIR__ . "/mail.php";
 require __DIR__ . "/classes.php";
 
 $http = (empty($_SERVER["HTTPS"]) ? "http" : "https");
-$host = $_SERVER["HTTP_HOST"];
+$host = get_root_domain();
 
 function check_email_validity($email) {
     return filter_var($email, FILTER_VALIDATE_EMAIL) &&

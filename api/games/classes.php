@@ -239,7 +239,7 @@ class Nbhzvn_Game {
 
     function discord_embed() {
         $http = (empty($_SERVER["HTTPS"]) ? "http" : "https");
-        $host = $_SERVER["HTTP_HOST"];
+        $host = get_root_domain();
         global $engine_vocab;
         global $language_vocab;
         $site = $http . "://" . $host;

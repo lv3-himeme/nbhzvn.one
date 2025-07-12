@@ -96,4 +96,9 @@ function comment_time($timestamp) {
 function remove_special_chars($str) {
 	return preg_replace('/[^a-zA-Z0-9_ -]/s', '', $str);
 }
+
+function get_root_domain() {
+    $parts = explode('.', explode(':', get_root_domain())[0]);
+    $rootDomain = implode('.', array_slice($parts, -2));
+}
 ?>
