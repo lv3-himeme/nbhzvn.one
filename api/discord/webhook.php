@@ -61,7 +61,7 @@ function send_moderation_webhook(Nbhzvn_Game $game) {
     $mentions = process_webhook_mentions("moderation");
     $webhook = new Discord_Webhook($moderation_webhook_url);
     $http = (empty($_SERVER["HTTPS"]) ? "http" : "https");
-    $host = $_SERVER["HTTP_HOST"];
+    $host = get_root_domain();
     $site = $http . "://" . $host;
     $message = new Discord_Message();
     $message->content = $mentions . " Một game mới vừa mới được tải lên và đang chờ Quản Trị Viên phê duyệt.";
@@ -92,7 +92,7 @@ function send_newgame_webhook(Nbhzvn_Game $game) {
     $mentions = process_webhook_mentions("new_game");
     $webhook = new Discord_Webhook($new_game_webhook_url);
     $http = (empty($_SERVER["HTTPS"]) ? "http" : "https");
-    $host = $_SERVER["HTTP_HOST"];
+    $host = get_root_domain();
     $site = $http . "://" . $host;
     $message = new Discord_Message();
     if ($config["threads"]) {
