@@ -9,7 +9,7 @@ try {
     switch ($_SERVER["REQUEST_METHOD"]) {
         case "POST": {
             authenticate();
-            if (!((time() >= 1752253200 && time() < 1752361200) || (time() >= 1752386400 && time() < 1752399000))) api_response(null, "Chưa đến thời gian tham gia sự kiện. Bạn hãy quay lại sau nhé!", 403);
+            if (!((time() >= 1752253200 && time() < 1752382800) || (time() >= 1752386400 && time() < 1752399000))) api_response(null, "Chưa đến thời gian tham gia sự kiện. Bạn hãy quay lại sau nhé!", 403);
             $json = json_decode(file_get_contents("php://input"));
             if (!$json->user_id || !$json->playtime != null || $json->saves != null || !$json->ranking != null) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
             $speedrun_data = new Nbhzvn_Speedrunner($json->user_id);

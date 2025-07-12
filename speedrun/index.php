@@ -45,6 +45,11 @@ $stage_text = [
 ];
 
 if ($user) $speedrun_user = new Nbhzvn_Speedrunner($user->id);
+
+if (time() < 1752382800 && get("reset")) {
+    $speedrun_user->reset();
+    die('<script>alert("Đã xóa toàn bộ phần chơi trước đó của bạn. Bạn có thể bắt đầu chơi một phần chơi mới."); document.location.href = "./"</script>');
+}
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -190,9 +195,10 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                                 <?php if ($speedrun_user->playtime): ?>
                                     <p style="text-align: center; padding: 20px"><a href="./completed"><button class="site-btn">Xem Thông Tin Phần Chơi</button></a></p>
                                 <?php else: ?>
-                                    <?php if ($stage == 2 && time() < 1752361200): ?>
+                                    <?php if ($stage == 2 && time() < 1752382800): ?>
                                         <p style="text-align: center; padding: 20px"><i>Bạn có thể nhấn nút bên dưới để tham gia thử nghiệm hệ thống trước sự kiện chính thức.</i></p>
                                         <p style="text-align: center; padding: 20px"><a href="./play/?language=Vietnamese"><button class="site-btn">Tham Gia Thử Nghiệm</button></a></p>
+                                        <p style="text-align: center; padding: 20px"><a href="./?reset=1"><button class="site-btn">Xóa Dữ Liệu Chơi</button></a></p>
                                         <p>Thời gian thử nghiệm sẽ bắt đầu từ <b>0:00 ngày 12/7/2025</b> đến <b>12:00 ngày 13/7/2025</b>.</p>
                                     <?php elseif ($stage == 3): ?>
                                         <p style="text-align: center; padding: 20px"><i>Nhấn nút bên dưới để bắt đầu tham gia.</i></p>

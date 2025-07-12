@@ -9,7 +9,7 @@ try {
     switch ($_SERVER["REQUEST_METHOD"]) {
         case "GET": {
             authenticate();
-            if (!((time() >= 1752253200 && time() < 1752361200) || (time() >= 1752386400 && time() < 1752399000))) api_response(null, "Chưa đến thời gian tham gia sự kiện. Bạn hãy quay lại sau nhé!", 403);
+            if (!((time() >= 1752253200 && time() < 1752382800) || (time() >= 1752386400 && time() < 1752399000))) api_response(null, "Chưa đến thời gian tham gia sự kiện. Bạn hãy quay lại sau nhé!", 403);
             if (!get("username") || !get("token")) api_response(null, "Bạn đã bị đăng xuất, vui lòng đăng nhập lại.", 400);
             $username = get("username"); $token = get("token");
             $user = new Nbhzvn_User($username, true);

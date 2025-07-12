@@ -1,10 +1,11 @@
 <?php
-db_query("CREATE TABLE IF NOT EXISTS `nbhzvn_speedrunners` (`id` INT NOT NULL AUTO_INCREMENT , `user_id` INT NOT NULL , `discord_id` TEXT NOT NULL , `os` TEXT NOT NULL , `start_timestamp` BIGINT NULL , `playtime` BIGINT NULL , `real_playtime` BIGINT NULL , `saves` INT NULL , `ranking` INT NULL , `ban_reason` TEXT NULL , PRIMARY KEY (`id`) , FOREIGN KEY (user_id) REFERENCES nbhzvn_users(id)) ENGINE = InnoDB");
+db_query("CREATE TABLE IF NOT EXISTS `nbhzvn_speedrunners` (`id` INT NOT NULL AUTO_INCREMENT , `user_id` INT NOT NULL , `discord_id` TEXT NOT NULL , `discord_username` TEXT NOT NULL , `os` TEXT NOT NULL , `start_timestamp` BIGINT NULL , `playtime` BIGINT NULL , `real_playtime` BIGINT NULL , `saves` INT NULL , `ranking` INT NULL , `ban_reason` TEXT NULL , PRIMARY KEY (`id`) , FOREIGN KEY (user_id) REFERENCES nbhzvn_users(id)) ENGINE = InnoDB");
 
 class Nbhzvn_Speedrunner {
     public $id;
     public $user_id;
     public $discord_id;
+    public $discord_username;
     public $os;
     public $start_timestamp;
     public $playtime;
@@ -29,6 +30,7 @@ class Nbhzvn_Speedrunner {
         $this->id = $data->id;
         $this->user_id = $data->user_id;
         $this->discord_id = $data->discord_id;
+        $this->discord_username = $data->discord_username;
         $this->os = $data->os;
         $this->start_timestamp = $data->start_timestamp;
         $this->playtime = $data->playtime;
@@ -71,6 +73,11 @@ class Nbhzvn_Speedrunner {
         $this->ranking = null;
         db_query("UPDATE `nbhzvn_speedrunners` SET `start_timestamp` = NULL, `playtime` = NULL, `real_playtime` = NULL, `saves` = NULL, `ranking` = NULL WHERE `id` = ?", $this->id);
     }
+
+    function set_discord_username($username) {
+        $this->discord_username = $username;
+        db_query("UPDATE `nbhzvn_speedrunners` SET `discord_username` = ? WHERE `id` = ?", $username, $this->id);
+    }
 }
 
 function add_speedrunner($user_id, $discord_id, $os) {
@@ -100,5 +107,12 @@ function check_speedrun_user($discord_id, $participate = false) {
 function authenticate() {
     $headers = getallheaders();
     if ($_ENV["SPEEDRUN_TOKEN"] != $headers["Authorization"]) api_response(null, "Mã xác thực không đúng.", 401);
+}
+
+function get_ranking($sort = "playtime ASC, real_playtime ASC, saves ASC, ranking DESC") {
+    $res = db_query('SELECT * FROM `nbhzvn_speedrunners` WHERE `playtime` IS NOT NULL ORDER BY ' . $sort);
+    $items = [];
+    while ($row = $res->fetch_object()) array_push($items, new Nbhzvn_Speedrunner($row));
+    return $items;
 }
 ?>

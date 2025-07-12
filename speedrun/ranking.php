@@ -4,6 +4,8 @@ require __DIR__ . "/../api/users/functions.php";
 require __DIR__ . "/../api/users/cookies.php";
 require __DIR__ . "/api/init.php";
 
+if (time() < 1752404400 && (!$user || $user->type < ADMINISTRATOR_TYPE)) redirect_to_home();
+
 function seconds_to_string($seconds) {
     $hours = floor($seconds / 3600);
     $seconds -= $hours * 3600;
@@ -13,15 +15,6 @@ function seconds_to_string($seconds) {
     return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
 }
 
-if (!$user) redirect_to_home();
-if ($user) $speedrun_user = new Nbhzvn_Speedrunner($user->id);
-if (!$speedrun_user->playtime) redirect_to_home();
-
-if (time() < 1752382800 && get("reset")) {
-    $speedrun_user->reset();
-    die('<script>alert("Đã xóa toàn bộ phần chơi trước đó của bạn. Bạn có thể bắt đầu chơi một phần chơi mới."); document.location.href = "./"</script>');
-}
-
 $ranking = array(
     1 => "D",
     2 => "C",
@@ -29,6 +22,13 @@ $ranking = array(
     4 => "A",
     5 => "S"
 );
+
+$sort = array(
+    "real_playtime" => "real_playtime ASC, playtime ASC, saves ASC, ranking DESC",
+    "saves" => "saves ASC, playtime ASC, real_playtime ASC, ranking DESC",
+    "ranking" => "ranking DESC, playtime ASC, real_playtime ASC, saves ASC",
+);
+$sort_by = $sort[get("sort_by")] ? $sort[get("sort_by")] : "playtime ASC, real_playtime ASC, saves ASC, ranking DESC";
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -80,6 +80,26 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
     <link rel="stylesheet" href="https://nbhzvn.one/css/style.css?v=<?=$res_version?>" type="text/css">
     <link rel="stylesheet" href="./speedrun.css?v=<?=time()?>" type="text/css">
     <link rel="stylesheet" href="./time_counter.css?v=<?=time()?>" type="text/css">
+    <style>
+        select {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            background-color: #27292a;
+            border-radius: 23px;
+            border: 1px solid #666;
+            color: #ddd;
+            font-size: 14px;
+            padding: 5px;
+        }
+        .ranking {
+            min-width: 1080px;
+            width: 100%;
+            color: #eee;
+        }
+        td, th {
+            padding: 20px 10px;
+        }
+    </style>
 
 </head>
 
@@ -148,40 +168,48 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                 <div class="col-lg-8">
                     <div class="blog__details__content">
                         <div class="blog__details__text faq">
-                            <h2>Đã Hoàn Thành Phần Chơi</h2>
-                            <?php if (time() >= 1752386400): ?>
-                                <p>Chúc mừng bạn đã hoàn thành xuất sắc phần chơi của mình. Phần chơi của bạn đã được hệ thống ghi nhận và sẽ được sử dụng để xét hạng.</p>
-                                <p>Cho dù kết quả cuối cùng có như thế nào thì bạn cũng đã cố gắng hết sức rồi. Cảm ơn bạn rất nhiều vì đã tham gia sự kiện này!</p>
-                                <p>Hẹn gặp lại bạn ở sự kiện tiếp theo!</p>
-                                <p>Thứ hạng cuối cùng sẽ được công bố vào <b>18:00 ngày 13/7/2025</b>.</p>
-                            <?php else: ?>
-                                <p>Bạn đã kết thúc phần chơi thử nghiệm của mình. Cảm ơn bạn vì đã tham gia thử nghiệm!</p>
-                                <p>Hãy chuẩn bị tinh thần thật tốt để tham gia sự kiện chính thức vào <b>13:00 ngày 13/7/2025</b> nhé!</p>
-                                <p>Phần chơi này của bạn sẽ bị xóa khi sự kiện chính thức bắt đầu. Sau đó thì bạn sẽ tiến hành chơi lại từ đầu.</p>
-                            <?php endif ?>
-                            <h3>Thông tin phần chơi của bạn</h3>
-                            <div style="margin: 20px 0; display: grid; text-align: center; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px">
-                                <div>
-                                    <div style="font-size: 14pt"><b>Thứ hạng</b></div>
-                                    <div style="font-size: 20pt; margin-top: 10px;"><?php echo $ranking[$speedrun_user->ranking] ?></div>
-                                </div>
-                                <div>
-                                    <div style="font-size: 14pt"><b>Thời gian chơi</b></div>
-                                    <div style="font-size: 20pt; margin-top: 10px;"><?php echo seconds_to_string($speedrun_user->playtime) ?></div>
-                                </div>
-                                <div>
-                                    <div style="font-size: 14pt"><b>Thời gian chơi thực</b></div>
-                                    <div style="font-size: 20pt; margin-top: 10px;"><?php echo seconds_to_string($speedrun_user->real_playtime) ?></div>
-                                </div>
-                                <div>
-                                    <div style="font-size: 14pt"><b>Số lần lưu game</b></div>
-                                    <div style="font-size: 20pt; margin-top: 10px;"><?php echo $speedrun_user->saves ?></div>
-                                </div>
+                            <h2>Xếp Hạng</h2>
+                            <p>Đây là bảng xếp hạng cuối cùng của sự kiện này. Quá trình trao giải cũng sẽ được diễn ra sớm.</p>
+                            <p style="text-align: right" class="line">Sắp xếp theo: 
+                                <select id="sortBy" onchange="window.location.href = './ranking?sort_by=' + this.value">
+                                    <option value="playtime"<?php if (!get("sort_by") || get("sort_by") == "playtime") echo ' selected' ?>>Thứ hạng chính thức</option>
+                                    <option value="real_playtime"<?php if (get("sort_by") == "real_playtime") echo ' selected' ?>>Thời gian chơi thực</option>
+                                    <option value="saves"<?php if (get("sort_by") == "saves") echo ' selected' ?>>Số lần lưu game</option>
+                                    <option value="ranking"<?php if (get("sort_by") == "ranking") echo ' selected' ?>>Thứ hạng trong game</option>
+                                </select>
+                            </p>
+                            <div style="overflow-x: auto">
+                                <table class="ranking">
+                                    <tr>
+                                        <th>Hạng</th>
+                                        <th>Người chơi</th>
+                                        <th>Tên tài khoản Discord</th>
+                                        <th>Thời gian chơi</th>
+                                        <th>Thời gian chơi thực(*)</th>
+                                        <th>Số lần lưu game</th>
+                                        <th>Thứ hạng trong game</th>
+                                    </tr>
+                                    <?php
+                                        $rank = 1;
+                                        foreach (get_ranking($sort_by) as $speedrun_user_tmp) {
+                                            echo '
+                                        <tr>
+                                            <td>' . $rank . '</td>
+                                            <td>' . (new Nbhzvn_User($speedrun_user_tmp->user_id))->display_name() . '</td>
+                                            <td>' . ($speedrun_user_tmp->discord_username ? $speedrun_user_tmp->discord_username : "Không xác định") . '</td>
+                                            <td>' . seconds_to_string($speedrun_user_tmp->playtime) . '</td>
+                                            <td>' . seconds_to_string($speedrun_user_tmp->real_playtime) . '</td>
+                                            <td>' . $speedrun_user_tmp->saves . '</td>
+                                            <td>' . $ranking[$speedrun_user_tmp->ranking] . '</td>
+                                        </tr>
+                                            ';
+                                            $rank++;
+                                        }
+                                    ?>
+
+                                </table>
                             </div>
-                            <?php if (time() < 1752386400): ?>
-                                <p>Bạn cũng có thể xóa phần chơi này và bắt đầu lại từ đầu trong quá trình thử nghiệm hệ thống.</p>
-                                <p style="text-align: center; padding: 20px"><a href="./completed?reset=1"><button class="site-btn">Bắt Đầu Lại Từ Đầu</button></a></p>
-                            <?php endif ?>
+                            <p class="line" style="margin-top: 15px"><i>(*) "Thời gian chơi thực" sẽ bắt đầu tính kể từ khi người chơi bắt đầu nhấn nút "Bắt đầu chơi" lần đầu tiên khi cuộc thi đã được bắt đầu, và sẽ được tính xuyên suốt thời gian speedrun (kể cả khi bị crash game hay tải lại tiến trình), và sẽ là yếu tố thứ 2 để xếp hạng speedrun. Thời gian chơi thực càng gần với thời gian chơi trong game thì kết quả speedrun càng minh bạch.</i></p>
                         </div>
                     </div>
                 </div>
