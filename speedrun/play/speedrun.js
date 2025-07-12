@@ -8,12 +8,14 @@ function secondsToString(seconds) {
 
 const Speedrun = {
     infobox: null,
+    overlay: null,
     module: null,
     username: "",
     playtime: 0,
     realPlaytime: 0,
     altTabCount: Number(window.localStorage.getItem("altTabCount") || 0),
     altTabSwitch: false,
+    stopPlaytime: false,
     interval: null,
     createInfobox: function() {
         if (this.infobox) return;
@@ -26,6 +28,36 @@ const Speedrun = {
             <div style="font-size: 12pt; text-align: center; margin: 5px"><b>Số lần chuyển đổi cửa sổ:</b> <span id="speedrunAltTabCount"></span></div>
         `;
         document.body.appendChild(infobox);
+    },
+    createOverlay: function() {
+        if (this.overlay) return;
+        var overlay = this.overlay = document.createElement("div");
+        overlay.style = `position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); display: none`;
+        overlay.innerHTML = `
+            <div style="position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 600px; text-align: center; color: #fff">
+                <p><img style="width: 20%" src="./x-mark.png"/></p>
+                <p style="font-size: 24pt"><b>Quá trình speedrun của bạn đã bị tạm dừng.</b></p>
+                <p style="font-size: 18pt" id="pauseContent"></p>
+                <p style="font-size: 12pt"><img style="width: 16px; height: 16px; margin-right: 5px" src="./loading.svg"/> Quá trình chơi của bạn sẽ được lưu cho đến khi tải lại trang. Thời gian chơi trong game của bạn sẽ không bị ảnh hưởng.</p>
+                <p><b>Không tải lại trang nếu bạn chưa lưu tiến trình game, vì bạn có thể sẽ mất tiến trình chơi của mình.</b></p>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+    },
+    pause: function(reason) {
+        if (!this.overlay) this.createOverlay();
+        document.getElementById("pauseContent").innerText = reason;
+        this.overlay.style.display = "block";
+    },
+    resume: function(playtime) {
+        if (!this.overlay) this.createOverlay();
+        this.overlay.style.display = "none";
+        this.playtime = playtime;
+        this.updateTime();
+    },
+    updatePlaytime: function(playtime) {
+        this.playtime = playtime;
+        this.updateTime();
     },
     showInfobox: function() {
         if (!this.infobox) this.createInfobox();
@@ -51,7 +83,7 @@ const Speedrun = {
         this.updateTime();
     },
     addTime: function() {
-        this.playtime++;
+        if (!this.stopPlaytime) this.playtime++;
         this.realPlaytime++;
         this.updateTime();
     },
@@ -96,4 +128,3 @@ document.addEventListener("visibilitychange", () => {
         Speedrun.altTabSwitch = false;
     }
 });
-

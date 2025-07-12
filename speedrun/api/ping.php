@@ -10,7 +10,7 @@ try {
         case "GET": {
             authenticate();
             if (!((time() >= REGISTRATION_CLOSING_TIME && time() < TEST_CLOSING_TIME) || (time() >= ONGOING_TIME && time() < RANKING_TIME))) api_response(null, "Đã hết thời gian diễn ra sự kiện. Cảm ơn bạn đã tham gia!", 403);
-            if (!get("username") || !get("token")) api_response(null, "Bạn đã bị đăng xuất, vui lòng đăng nhập lại.", 400);
+            if (!get("username") || !get("token")) api_response(null, "Bạn đã bị đăng xuất, vui lòng đăng nhập lại.", 403);
             $username = get("username"); $token = get("token");
             $user = new Nbhzvn_User($username, true);
             if (!$user->id || !$user->check_login_token($token)) api_response(null, "Dữ liệu đăng nhập không chính xác, vui lòng đăng nhập lại.", 403);
