@@ -99,6 +99,6 @@ function remove_special_chars($str) {
 
 function get_root_domain() {
     $parts = explode('.', explode(':', $_SERVER["HTTP_HOST"])[0]);
-    $rootDomain = implode('.', array_slice($parts, -2));
+    return implode('.', array_slice($parts, -2));
 }
 ?>
