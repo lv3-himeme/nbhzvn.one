@@ -16,6 +16,7 @@ try {
             if (!$user->id || !$user->check_login_token($token)) api_response(null, "Dữ liệu đăng nhập không chính xác, vui lòng đăng nhập lại.", 403);
             $speedrun_data = new Nbhzvn_Speedrunner($user->id);
             if (!$speedrun_data->id) api_response(null, "Bạn không có trong danh sách đăng ký tham gia sự kiện.", 404);
+            if (time() >= ONGOING_TIME && !check_stream($speedrun_data->discord_id)->pass) api_response(null, "Bạn chưa stream màn hình của mình lên kênh Discord đã được chỉ định.", 403);
             if ($speedrun_data->ban_reason) api_response(null, "Bạn đã bị Ban Tổ Chức tạm dừng tham gia sự kiện với lý do:\n" . $speedrun_data->ban_reason . "\n\nNếu bạn cho rằng đây là sự nhầm lẫn, hãy liên hệ với Ban Tổ Chức để được xử lý.", 403);
             if (!$speedrun_data->start_timestamp) api_response(null, "Bạn hãy bắt đầu phần chơi của bạn bằng nút New Game trước.", 403);
             if ($speedrun_data->playtime) api_response(null, "Bạn đã hoàn thành phần chơi của mình rồi.", 403);

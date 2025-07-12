@@ -111,9 +111,46 @@ function check_speedrun_user($discord_id, $participate = false) {
     }
 }
 
+function check_stream($discord_id) {
+    $url = "http://52.69.122.165:10108/checkStream/" . $discord_id;
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        $data = new stdClass();
+        $data->pass = false;
+        $data->reason = "SERVER_ERROR";
+        return $data;
+    }
+    else {
+        curl_close($ch);
+        return json_decode($response);
+    }
+}
+
+function get_username() {
+    $url = "http://52.69.122.165:10108/username";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        $data = new stdClass();
+        $data->error = "SERVER_ERROR";
+        return $data;
+    }
+    else {
+        curl_close($ch);
+        return json_decode($response);
+    }
+}
+
 function authenticate() {
     $headers = getallheaders();
-    if ($_ENV["SPEEDRUN_TOKEN"] != $headers["Authorization"]) api_response(null, "Mã xác thực không đúng.", 401);
+    if ($_ENV["SPEEDRUN_TOKEN"] != $headers["Authorization"] && $_ENV["SPEEDRUN_TOKEN"] != $headers["authorization"]) api_response(null, "Mã xác thực không đúng.", 401);
 }
 
 function web_authenticate() {
