@@ -22,7 +22,7 @@ try {
         case "DELETE": {
             authenticate();
             $json = json_decode(file_get_contents("php://input"));
-            if (!$json->user_id || !$json->ban_reason) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
+            if (!$json->user_id) api_response(null, "Vui lòng nhập đầy đủ thông tin.", 400);
             $speedrun_data = new Nbhzvn_Speedrunner($json->user_id);
             if (!$speedrun_data->id) api_response(null, "Không tìm thấy thông tin của thành viên này.", 404);
             if (!$speedrun_data->ban_reason) api_response(null, "Thành viên này chưa bị tạm dừng.", 200);

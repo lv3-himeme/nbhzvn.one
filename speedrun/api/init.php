@@ -29,6 +29,11 @@ class Nbhzvn_Speedrunner {
                 while ($row = $result->fetch_object()) $data = $row;
                 break;
             }
+            case "string": {
+                $result = db_query('SELECT * FROM `nbhzvn_speedrunners` WHERE `discord_id` = ?', $id);
+                while ($row = $result->fetch_object()) $data = $row;
+                break;
+            }
             default: {
                 $data = $id;
                 break;
