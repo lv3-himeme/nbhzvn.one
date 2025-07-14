@@ -174,12 +174,14 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                             <?php if ($stage < 3): ?>
                             <p>Hiện tại đã có <b><?php echo db_query("SELECT `id` FROM `nbhzvn_speedrunners` WHERE 1")->num_rows ?></b> người đã đăng ký tham gia sự kiện.</p>
                             <?php endif ?>
+                            <?php if (time() < ENDING_TIME): ?>
                             <div class="time-container">
                                 <div><div class="time-number" id="countdownDays">--</div><div class="time-text">ngày</div></div>
                                 <div><div class="time-number" id="countdownHours">--</div><div class="time-text">giờ</div></div>
                                 <div><div class="time-number" id="countdownMinutes">--</div><div class="time-text">phút</div></div>
                                 <div><div class="time-number" id="countdownSeconds">--</div><div class="time-text">giây</div></div>
                             </div><br>
+                            <?php endif ?>
                             <?php if ($stage == 1): ?>
                             <?php if ($user): ?>
                             <?php if ($speedrun_user->id): ?>
@@ -370,8 +372,10 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
     <script src="https://nbhzvn.one/js/modal.js"></script>
     <script src="https://nbhzvn.one/js/main.js?v=<?=$res_version?>"></script>
     <script>let endingTime = <?php echo $ending_time ?></script>
+    <?php if (time() < ENDING_TIME): ?>
     <script src="./time_counter.js?v=<?=time()?>"></script>
     <script src="./speedrun.js?v=<?=time()?>"></script>
+    <?php endif ?>
 
 </body>
 

@@ -20,6 +20,7 @@ class Nbhzvn_Speedrunner {
     public $saves;
     public $ranking;
     public $ban_reason;
+    public $points;
 
     function __construct($id) {
         $this->id = null; $data = new stdClass();
@@ -50,6 +51,9 @@ class Nbhzvn_Speedrunner {
         $this->saves = $data->saves;
         $this->ranking = $data->ranking;
         $this->ban_reason = $data->ban_reason;
+        if ($this->playtime && $this->real_playtime) {
+            $this->points = 15000 - $this->playtime - floor(($this->real_playtime - $this->playtime) / 10);
+        }
     }
 
     function start_game() {

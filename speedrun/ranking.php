@@ -23,6 +23,8 @@ $ranking = array(
     5 => "S"
 );
 
+
+
 $sort = array(
     "real_playtime" => "real_playtime ASC, playtime ASC, saves ASC, ranking DESC",
     "saves" => "saves ASC, playtime ASC, real_playtime ASC, ranking DESC",
@@ -172,7 +174,8 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                             <p>Đây là bảng xếp hạng cuối cùng của sự kiện này. Quá trình trao giải cũng sẽ được diễn ra sớm.</p>
                             <p style="text-align: right" class="line">Sắp xếp theo: 
                                 <select id="sortBy" onchange="window.location.href = './ranking?sort_by=' + this.value">
-                                    <option value="playtime"<?php if (!get("sort_by") || get("sort_by") == "playtime") echo ' selected' ?>>Thứ hạng chính thức</option>
+                                    <option value="ranking"<?php if (!get("sort_by") || get("sort_by") == "ranking") echo ' selected' ?>>Thứ hạng chính thức</option>
+                                    <option value="playtime"<?php if (get("sort_by") == "playtime") echo ' selected' ?>>Thời gian chơi</option>
                                     <option value="real_playtime"<?php if (get("sort_by") == "real_playtime") echo ' selected' ?>>Thời gian chơi thực</option>
                                     <option value="saves"<?php if (get("sort_by") == "saves") echo ' selected' ?>>Số lần lưu game</option>
                                     <option value="ranking"<?php if (get("sort_by") == "ranking") echo ' selected' ?>>Thứ hạng trong game</option>
@@ -188,10 +191,17 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                                         <th>Thời gian chơi thực(*)</th>
                                         <th>Số lần lưu game</th>
                                         <th>Thứ hạng trong game</th>
+                                        <th>Điểm cuối cùng</th>
                                     </tr>
                                     <?php
                                         $rank = 1;
-                                        foreach (get_ranking($sort_by) as $speedrun_user_tmp) {
+                                        $ranking_list = get_ranking($sort_by);
+                                        if (!get("sort_by") || get("sort_by") == "ranking") {
+                                            usort($ranking_list, function($a, $b) {
+                                                return $b->points <=> $a->points;
+                                            });
+                                        }
+                                        foreach ($ranking_list as $speedrun_user_tmp) {
                                             echo '
                                         <tr>
                                             <td>' . $rank . '</td>
@@ -201,6 +211,7 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                                             <td>' . seconds_to_string($speedrun_user_tmp->real_playtime) . '</td>
                                             <td>' . $speedrun_user_tmp->saves . '</td>
                                             <td>' . $ranking[$speedrun_user_tmp->ranking] . '</td>
+                                            <td>' . $speedrun_user_tmp->points . '</td>
                                         </tr>
                                             ';
                                             $rank++;
