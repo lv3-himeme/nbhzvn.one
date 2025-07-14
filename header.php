@@ -36,7 +36,6 @@
                                         <li><a href="https://discord.gg/QpMuX3gQ5u">Discord</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="https://speedrun.nbhzvn.one">Sự Kiện Speedrun</a></li>
                                 <li class="nbhzvn_mobile_user">
                                     <?php if ($user): ?>
                                     <a href="/profile"><?php echo $user->display_name(); ?></span></a>
