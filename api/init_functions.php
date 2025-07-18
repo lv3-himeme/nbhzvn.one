@@ -98,7 +98,8 @@ function remove_special_chars($str) {
 }
 
 function get_root_domain() {
-    $parts = explode('.', explode(':', $_SERVER["HTTP_HOST"])[0]);
-    return implode('.', array_slice($parts, -2));
+    $host = $_SERVER["HTTP_HOST"];
+    $parts = explode('.', explode(':', $host)[0]);
+    return (filter_var($host, FILTER_VALIDATE_IP) || $host == "localhost") ? $host : implode('.', array_slice($parts, -2));
 }
 ?>
