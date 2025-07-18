@@ -691,6 +691,15 @@ var AutoSave = {
     }
 }
 
+function base64ToUtf8(base64) {
+    const binary = atob(base64);
+    const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+    return new TextDecoder('utf-8').decode(bytes);
+}
+
+if ($(`input[name="name"]`).val()) {
+    $(`input[name="name"]`).val(base64ToUtf8($(`input[name="name"]`).val()));
+}
 if (document.location.pathname.includes("upload")) {
     AutoSave.load();
     AutoSave.events();

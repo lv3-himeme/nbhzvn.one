@@ -111,7 +111,7 @@ refresh_csrf();
                 <form action="" method="POST" onsubmit="return processSubmit()">
                     <p style="font-size: 16pt"><b>Tên Game</b></p>
                     <div class="input__item" style="width: 100%">
-                        <input type="name" name="name" placeholder="Tên Game" required value="<?php echo post("name") ?>">
+                        <input type="name" name="name" placeholder="Tên Game" required value="<?php echo base64_encode(post("name")) ?>">
                         <span class="icon_document"></span>
                     </div>
                     <p style="font-size: 16pt"><b>Ảnh Đại Diện</b></p>
