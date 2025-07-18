@@ -21,7 +21,7 @@ function finalize($thumbnail = "none", $links = [], $screenshots = [], $beta_lin
         if (!in_array($link->path, array_map(function($v) {
             return $v->path;
         }, $new_links))) {
-            unlink("./uploads/" . $path);
+            rmdir("./uploads/" . $path);
         }
     }
     foreach ($beta_links as $link) {
@@ -29,7 +29,7 @@ function finalize($thumbnail = "none", $links = [], $screenshots = [], $beta_lin
         if (!in_array($link->path, array_map(function($v) {
             return $v->path;
         }, $new_beta_links))) {
-            unlink("./uploads/" . $path);
+            rmdir("./uploads/" . $path);
         }
     }
     foreach ($screenshots as $screenshot) {
@@ -143,7 +143,7 @@ refresh_csrf();
                 <form action="" method="POST" onsubmit="return processSubmit()">
                     <p style="font-size: 16pt"><b>Tên Game</b></p>
                     <div class="input__item" style="width: 100%">
-                        <input type="name" name="name" placeholder="Tên Game" required value="<?php echo $game->name ?>">
+                        <input type="name" name="name" placeholder="Tên Game" required value="<?php echo base64_encode($game->name) ?>">
                         <span class="icon_document"></span>
                     </div>
                     <p style="font-size: 16pt"><b>Ảnh Đại Diện</b></p>

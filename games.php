@@ -257,7 +257,7 @@ else $repo = all_games();
                                 $index = 0;
                                 foreach ($game->beta_links as $link) {
                                     $index++;
-                                    $path = "./uploads/" . $link->path;
+                                    $path = "./uploads/" . $link->path . "/" . $link->name;
                                     echo '
                                         <div class="game_file">
                                             <div class="row">
@@ -272,7 +272,16 @@ else $repo = all_games();
                             ?>
                         </div><br>
                         <?php endif ?>
-                        <div id="downloadSection">
+                        <div id="downloadSection"><br>
+                            <?php if ($changelogs[0]): ?>
+                            <div class="section-title">
+                                <h5>Cập nhật mới nhất</h5>
+                            </div>
+                            <?php
+                                echo $changelogs[0]->to_html(new Nbhzvn_User(0));
+                            ?>
+                            <?php endif ?>
+                            <br>
                             <div class="section-title">
                                 <h5>Tải game xuống</h5>
                             </div>
@@ -282,7 +291,7 @@ else $repo = all_games();
                                     $index = 0;
                                     foreach ($game->links as $link) {
                                         $index++;
-                                        $path = "./uploads/" . $link->path;
+                                        $path = "./uploads/" . $link->path . "/" . $link->name;
                                         echo '
                                             <div class="game_file">
                                                 <div class="row">
