@@ -272,7 +272,16 @@ else $repo = all_games();
                             ?>
                         </div><br>
                         <?php endif ?>
-                        <div id="downloadSection">
+                        <div id="downloadSection"><br>
+                            <?php if ($changelogs[0]): ?>
+                            <div class="section-title">
+                                <h5>Cập nhật mới nhất</h5>
+                            </div>
+                            <?php
+                                echo $changelogs[0]->to_html(new Nbhzvn_User(0));
+                            ?>
+                            <?php endif ?>
+                            <br>
                             <div class="section-title">
                                 <h5>Tải game xuống</h5>
                             </div>
