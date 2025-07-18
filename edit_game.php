@@ -21,7 +21,7 @@ function finalize($thumbnail = "none", $links = [], $screenshots = [], $beta_lin
         if (!in_array($link->path, array_map(function($v) {
             return $v->path;
         }, $new_links))) {
-            unlink("./uploads/" . $path);
+            rmdir("./uploads/" . $path);
         }
     }
     foreach ($beta_links as $link) {
@@ -29,7 +29,7 @@ function finalize($thumbnail = "none", $links = [], $screenshots = [], $beta_lin
         if (!in_array($link->path, array_map(function($v) {
             return $v->path;
         }, $new_beta_links))) {
-            unlink("./uploads/" . $path);
+            rmdir("./uploads/" . $path);
         }
     }
     foreach ($screenshots as $screenshot) {

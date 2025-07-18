@@ -257,7 +257,7 @@ else $repo = all_games();
                                 $index = 0;
                                 foreach ($game->beta_links as $link) {
                                     $index++;
-                                    $path = "./uploads/" . $link->path;
+                                    $path = "./uploads/" . $link->path . "/" . $link->name;
                                     echo '
                                         <div class="game_file">
                                             <div class="row">
@@ -282,7 +282,7 @@ else $repo = all_games();
                                     $index = 0;
                                     foreach ($game->links as $link) {
                                         $index++;
-                                        $path = "./uploads/" . $link->path;
+                                        $path = "./uploads/" . $link->path . "/" . $link->name;
                                         echo '
                                             <div class="game_file">
                                                 <div class="row">

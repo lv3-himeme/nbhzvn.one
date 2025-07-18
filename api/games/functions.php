@@ -231,4 +231,46 @@ function beta_users_notifications(Nbhzvn_Game $game = new Nbhzvn_Game(0), $old_t
         if ($tmp_tester->id) $tmp_tester->send_notification("/games/" . $game->id . "#betaDownloadSection", "**" . $user->display_name() . "** đã mời bạn tham gia thử nghiệm bản Beta của game **" . $game->name . "**.");
     }
 }
+
+function migrate_1() {
+    $folder = __DIR__ . "/../../uploads";
+    if (!file_exists($folder)) {
+        if (!mkdir($folder, 0775, true)) return -1;
+    }
+    if (file_exists($folder . "/" . ".migrate_1")) return 0;
+    $games = all_games();
+    $count = 0;
+    foreach ($games as $game) {
+        $count2 = 0;
+        for ($i = 0; $i < count($game->links); $i++) {
+            $link = $game->links[$i];
+            $old_name = $folder . "/" . $link->path;
+            $new_folder = $folder . "/" . pathinfo($link->path, PATHINFO_FILENAME);
+            $new_name = $new_folder . "/" . $link->name;
+            if (file_exists($old_name) && !file_exists($new_name)) {
+                if (!mkdir($new_folder, 0755, true)) return $new_folder;
+                rename($old_name, $new_name);
+                $count++; $count2++;
+                $game->links[$i]->path = pathinfo($link->path, PATHINFO_FILENAME);
+            }
+        }
+        for ($i = 0; $i < count($game->beta_links); $i++) {
+            $link = $game->beta_links[$i];
+            $old_name = $folder . "/" . $link->path;
+            $new_folder = $folder . "/" . pathinfo($link->path, PATHINFO_FILENAME);
+            $new_name = $new_folder . "/" . $link->name;
+            if (file_exists($old_name) && !file_exists($new_name)) {
+                if (!mkdir($new_folder, 0755, true)) return $new_folder;
+                rename($old_name, $new_name);
+                $count++; $count2++;
+                $game->beta_links[$i]->path = pathinfo($link->path, PATHINFO_FILENAME);
+            }
+        }
+        if ($count2 > 0) $game->update_links($game->links, $game->beta_links);
+    }
+    touch($folder . "/" . ".migrate_1");
+    return $count;
+}
+
+migrate_1();
 ?>

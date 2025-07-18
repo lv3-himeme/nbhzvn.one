@@ -310,6 +310,12 @@ class Nbhzvn_Game {
             if ($tmp_tester->id) $tmp_tester->send_notification("/games/" . $this->id . "#betaDownloadSection", "**" . $user->display_name() . "** đã cập nhật bản Beta mới cho game **" . $this->name . "**.");
         }
     }
+
+    function update_links($links, $beta_links) {
+        $this->links = $links;
+        $this->beta_links = $beta_links;
+        db_query("UPDATE `nbhzvn_games` SET `links` = ?, `beta_links` = ? WHERE id = ?", json_encode($links), json_encode($beta_links), $this->id);
+    }
 }
 
 class Nbhzvn_Comment {

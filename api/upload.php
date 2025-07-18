@@ -38,8 +38,8 @@ try {
                 else {
                     $chunk_path = $path . "/" . strval($cursor);
                     if (!move_uploaded_file($_FILES["chunk"]["tmp_name"], $chunk_path) || !chmod($chunk_path, 0775) || !file_exists($chunk_path)) api_response(null, "Không thể tải tệp tin lên vào thời gian này, vui lòng thử lại.", 500);
-                    $file_name = $generated_name . "." . strtolower(pathinfo(post("file_name"), PATHINFO_EXTENSION));
-                    $file_path = $folder . "/" . $file_name;
+                    $file_name = post("file_name");
+                    $file_path = $path . "/" . $file_name;
                     $file = fopen($file_path, "wb");
                     if (!$file) api_response(null, "Không thể tải tệp tin lên vào thời gian này, vui lòng thử lại. 4", 500);
                     for ($i = 0; $i < $chunks; $i++) {
@@ -49,8 +49,7 @@ try {
                         unlink($chunk_path_tmp);
                     }
                     fclose($file);
-                    rmdir($path);
-                    api_response($file_name, "Tải lên thành công.");
+                    api_response($generated_name, "Tải lên thành công.");
                 }
             }
             else {
@@ -58,10 +57,11 @@ try {
                 $extension = strtolower(pathinfo("./uploads/" . basename($_FILES["file"]["name"]), PATHINFO_EXTENSION));
                 $types = ["zip", "rar", "7z", "jpg", "png", "webp", "jpeg", "gz"];
                 if (!in_array($extension, $types)) api_response(null, "Định dạng tệp tin không được hỗ trợ.", 400);
-                $name = random_string(64) . "." . $extension;
-                $path = $folder . "/" . $name;
+                $generated_name = random_string(64);
+                mkdir($folder . "/" . $generated_name, 0775, true);
+                $path = $folder . "/" . $generated_name . "/" . basename($_FILES["file"]["name"]);
                 if (!move_uploaded_file($_FILES["file"]["tmp_name"], $path) || !file_exists($path)) api_response(null, "Không thể tải tệp tin lên vào thời gian này, vui lòng thử lại.", 500);
-                api_response($name, "Tải lên thành công.");
+                api_response($generated_name, "Tải lên thành công.");
             }
             break;
         }

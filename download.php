@@ -12,7 +12,7 @@ $game->add_downloads_count();
 
 switch (intval($_ENV["DOWNLOAD_TYPE"])) {
     case 1: {
-        $path = "./uploads/" . $link->path;
+        $path = "./uploads/" . $link->path . "/" . $link->name;
         $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
         header('Pragma: public');
         header('Expires: 0');
@@ -31,7 +31,7 @@ switch (intval($_ENV["DOWNLOAD_TYPE"])) {
         break;
     }
     case 2: {
-        $path = "/uploads/" . $link->path;
+        $path = "/uploads/" . $link->path . "/" . $link->name;
         header("Location: " . $path);
         break;
     }

@@ -12,7 +12,7 @@ $games = all_games();
 try {
     foreach ($games as $game) {
         $time = 1;
-        foreach ($game->links as $link) $time = max($time, filemtime("./uploads/" . $link->path));
+        foreach ($game->links as $link) $time = max($time, filemtime("./uploads/" . $link->path . "/" . $link->name));
         $game->update_file_time($time);
     }
     $notice = "Cập nhật lại thời gian cập nhật cuối cùng của các tệp tin trong toàn bộ game thành công.";
