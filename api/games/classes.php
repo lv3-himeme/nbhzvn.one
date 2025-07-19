@@ -29,7 +29,7 @@ class Nbhzvn_Game {
     public $is_featured;
     public $approved;
 
-    function __construct($id, $editMode = false) {
+    function __construct($id, $editMode = false, $beta = false) {
         global $user;
         if (is_object($id)) $data = $id;
         else {
@@ -63,10 +63,10 @@ class Nbhzvn_Game {
         unset($this->has_beta);
         unset($this->beta_links);
         unset($this->beta_users);
-        if ($user != null && $data->beta_users != null && $data->beta_links != null && (in_array($user->id, json_decode($data->beta_users)) || $user->id == $this->uploader || $user->type > 2)) {
+        if ($user != null && $data->beta_users != null && $data->beta_links != null && (in_array($user->id, json_decode($data->beta_users)) || $user->id == $this->uploader || $user->type > 2 || $beta == true)) {
             $this->beta_links = json_decode($data->beta_links);
         }
-        if ($data->beta_links != null && count(json_decode($data->beta_links)) > 0) $this->has_beta = true;
+        if (json_decode($data->beta_links) != null && count(json_decode($data->beta_links)) > 0) $this->has_beta = true;
         if ($editMode && $user != null && $user->id == $this->uploader) {
             $this->beta_links = json_decode($data->beta_links);
             $this->beta_users = array_map(function($a) {
@@ -311,7 +311,7 @@ class Nbhzvn_Game {
         }
     }
 
-    function update_links($links, $beta_links) {
+    function update_links($links = [], $beta_links = []) {
         $this->links = $links;
         $this->beta_links = $beta_links;
         db_query("UPDATE `nbhzvn_games` SET `links` = ?, `beta_links` = ? WHERE id = ?", json_encode($links), json_encode($beta_links), $this->id);
