@@ -232,17 +232,24 @@ function beta_users_notifications(Nbhzvn_Game $game = new Nbhzvn_Game(0), $old_t
     }
 }
 
+function all_migrate_games() {
+    $games = [];
+    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE 1');
+    while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row, false, true));
+    return $games;
+}
+
 function migrate_1() {
     $folder = __DIR__ . "/../../uploads";
     if (!file_exists($folder)) {
         if (!mkdir($folder, 0775, true)) return -1;
     }
     if (file_exists($folder . "/" . ".migrate_1")) return 0;
-    $games = all_games();
+    $games = all_migrate_games();
     $count = 0;
     foreach ($games as $game) {
         $count2 = 0;
-        for ($i = 0; $i < count($game->links); $i++) {
+        if ($game->links != null) for ($i = 0; $i < count($game->links); $i++) {
             $link = $game->links[$i];
             $old_name = $folder . "/" . $link->path;
             $new_folder = $folder . "/" . pathinfo($link->path, PATHINFO_FILENAME);
@@ -254,7 +261,7 @@ function migrate_1() {
                 $game->links[$i]->path = pathinfo($link->path, PATHINFO_FILENAME);
             }
         }
-        for ($i = 0; $i < count($game->beta_links); $i++) {
+        if ($game->beta_links != null) for ($i = 0; $i < count($game->beta_links); $i++) {
             $link = $game->beta_links[$i];
             $old_name = $folder . "/" . $link->path;
             $new_folder = $folder . "/" . pathinfo($link->path, PATHINFO_FILENAME);
