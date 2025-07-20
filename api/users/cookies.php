@@ -6,6 +6,8 @@ function get_user_from_cookie() {
     if (!$user->id || !$user->check_login_token($login_token)) {
         setcookie("nbhzvn_username", "", time() - 3600, "/", "." . get_root_domain());
         setcookie("nbhzvn_login_token", "", time() - 3600, "/", "." . get_root_domain());
+        setcookie("nbhzvn_username", "", time() - 3600);
+        setcookie("nbhzvn_login_token", "", time() - 3600);
         header("Refresh: 0");
         exit;
         return null;
