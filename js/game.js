@@ -300,7 +300,7 @@ async function processRate(id, rating) {
             contentType: false,
             processData: false,
             data: JSON.stringify({
-                game_id,
+                game_id: id,
                 rating,
                 reason
             }),
