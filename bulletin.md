@@ -5,7 +5,7 @@ Chào tất cả mọi người, mình là Serena1432 - nhà phát triển của
 
 Đầu tiên là mình muốn cảm ơn **Phê Game** vì đã làm video về Nobihaza, cũng như là nhắc đến cộng đồng của bọn mình và cả bản thân trang web này! Vì lý do đó nên lượt truy cập của website trong ngày hôm nay cũng đang tăng lên so với những hôm trước!
 
-![](images/image.png)
+![](bulletin_files/image.png)
 
 Bọn mình vẫn luôn chào đón tất cả mọi người có thể trải nghiệm và chơi các game do bọn mình làm ra, kể cả những người mới.
 
