@@ -34,8 +34,5 @@ uploads/
 # Ignore config files
 webhook_config.php
 
-# Ignore spme files/folders due to them being specific to NbhzVN Community
-bulletin_files/
+# Ignore tool files
 tools/
-bulletin.php
-bulletin.md

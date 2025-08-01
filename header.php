@@ -1,5 +1,5 @@
-        <?php if (false): ?>
-        <div style="width: 100%; padding: 10px; background-color: #af1932; color: #ddd; text-align: center">Đã bắt đầu đợt đăng ký của sự kiện Speedrun trên cộng đồng Nobihaza Việt Nam. Nếu bạn có mong muốn tham gia, bạn có thể truy cập vào <a style="color: #b7b7b7" href="https://speedrun.nbhzvn.one" target="_blank">trang web chính thức của sự kiện</a>.</div>
+        <?php if (true): ?>
+        <div style="width: 100%; padding: 10px; background-color: #af1932; color: #ddd; text-align: center">Nhân dịp đặc biệt vừa mới xảy ra với cộng đồng Nobihaza Việt Nam, nhà phát triển của website có một chút lời muốn nói. <a style="color: #b7b7b7" href="/bulletin">Bạn có thể xem lời nhắn tại đây</a>.</div>
         <?php endif ?>
         <div class="container">
             <div class="row align-items-center">
