@@ -30,7 +30,7 @@ switch (intval($_ENV["DOWNLOAD_TYPE"])) {
         break;
     }
     case 2: {
-        $path = "/uploads/" . $link->path . "/" . $link->name;
+        $path = "/uploads/" . $link->path . "/" . str_replace("%29", ".", urlencode($link->name));
         header("Location: " . $path);
         break;
     }
