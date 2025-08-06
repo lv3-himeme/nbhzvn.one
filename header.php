@@ -1,5 +1,5 @@
         <?php if (true): ?>
-        <div style="width: 100%; padding: 10px; background-color: #af1932; color: #ddd; text-align: center">Nobihaza Vietnam Community đã ra mắt một trang hướng dẫn cài đặt và chơi game chi tiết. <a style="color: #b7b7b7" href="/bulletin" target="_blank">Bạn có thể đọc hướng dẫn tại đây</a>.</div>
+        <div style="width: 100%; padding: 10px; background-color: #af1932; color: #ddd; text-align: center">Nobihaza Vietnam Community đã ra mắt một trang hướng dẫn cài đặt và chơi game chi tiết. <a style="color: #b7b7b7" href="https://guides.nbhzvn.one" target="_blank">Bạn có thể đọc hướng dẫn tại đây</a>.</div>
         <?php endif ?>
         <div class="container">
             <div class="row align-items-center">
