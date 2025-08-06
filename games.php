@@ -205,6 +205,12 @@ else $repo = all_games();
                         </ul>
                         <div class="tab-content" id="tabContent">
                             <div class="tab-pane fade show active" id="descriptionTabContent" role="tabpanel" aria-labelledby="descriptionTab">
+                                <?php if (str_contains($game->tags, "easyrpg")): ?>
+                                <div id="betaDownloadSection" class="nbhzvn_beta_zone">
+                                    <h5>Khuyên Dùng EasyRPG</h5>
+                                    <p>Game này hỗ trợ EasyRPG, nên nó được khuyên dùng thay cho <b>RPG_RT.exe</b> truyền thống (hoặc bắt buộc sử dụng nếu là trên điện thoại). Tải EasyRPG <a href="https://github.com/The-Firefly-Project/EasyRPGPlayer-Vietnamese/releases/tag/0.8.1.1" target="_blank">tại đây</a>.<br>Bạn cũng có thể qua trang <a href="https://guides.nbhzvn.one" target="_blank">hướng dẫn chi tiết</a> nếu có khúc mắc.</p>
+                                </div>
+                                <?php endif ?>
                                 <div class="game_description"><?php echo $parsedown->text($game->description) ?></div>
                             </div>
                             <div class="tab-pane fade" id="changelogsTabContent" role="tabpanel" aria-labelledby="changelogsTab">
@@ -331,6 +337,7 @@ else $repo = all_games();
                             <div class="section-title">
                                 <h5>Bình luận (<?php echo count($comments) ?>)</h5>
                             </div>
+                            <p><b>Bạn có thể thử đọc <a href="https://guides.nbhzvn.one" target="_blank">hướng dẫn cài đặt và chơi game chi tiết</a> của bọn mình trước khi bình luận.</b></p>
                             <div id="comments">
                                 <?php
                                     $highlighted_comment_id = is_numeric(get("highlighted_comment")) ? intval(get("highlighted_comment")) : 0;

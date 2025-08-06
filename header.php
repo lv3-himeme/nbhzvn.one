@@ -1,5 +1,5 @@
         <?php if (true): ?>
-        <div style="width: 100%; padding: 10px; background-color: #af1932; color: #ddd; text-align: center">Nhân dịp đặc biệt vừa mới xảy ra với cộng đồng Nobihaza Việt Nam, nhà phát triển của website có một chút lời muốn nói. <a style="color: #b7b7b7" href="/bulletin">Bạn có thể xem lời nhắn tại đây</a>.</div>
+        <div style="width: 100%; padding: 10px; background-color: #af1932; color: #ddd; text-align: center">Nobihaza Vietnam Community đã ra mắt một trang hướng dẫn cài đặt và chơi game chi tiết. <a style="color: #b7b7b7" href="/bulletin" target="_blank">Bạn có thể đọc hướng dẫn tại đây</a>.</div>
         <?php endif ?>
         <div class="container">
             <div class="row align-items-center">
@@ -22,7 +22,7 @@
                                         <li><a href="/search?engine=3">Game RPG Maker MV/MZ</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://guides.nbhzvn.one" target="_blank">Hướng Dẫn Chơi</a></li>
                                 <li><a href="/tools">Phần Mềm Chơi Game <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
                                         <li><a href="https://github.com/The-Firefly-Project/EasyRPGPlayer-Vietnamese/releases/tag/0.8.1.1">EasyRPG</a></li>
