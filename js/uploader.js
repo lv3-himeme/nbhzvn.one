@@ -498,10 +498,10 @@ function processSubmit() {
     for (var i = 0; i < screenshotArr.length; i++) {
         if (!screenshotArr[i]) return alertNoSubmit(`Ảnh chụp màn hình số ${i + 1} bị lỗi trong quá trình tải lên, vui lòng xoá ảnh chụp đó và tải lên lại.`);
     }
-    $("#linksInput").val(btoa(JSON.stringify(Object.values(gameFiles))));
-    $("#betaLinksInput").val(btoa(JSON.stringify(Object.values(betaGameFiles))));
-    $("#betaUsersInput").val(btoa(JSON.stringify(Object.values(betaUsers).map(user => user.id))));
-    $("#screenshotsInput").val(btoa(JSON.stringify(Object.values(screenshots).map(obj => obj.path))));
+    $("#linksInput").val(Base64.decode(JSON.stringify(Object.values(gameFiles))));
+    $("#betaLinksInput").val(Base64.decode(JSON.stringify(Object.values(betaGameFiles))));
+    $("#betaUsersInput").val(Base64.decode(JSON.stringify(Object.values(betaUsers).map(user => user.id))));
+    $("#screenshotsInput").val(Base64.decode(JSON.stringify(Object.values(screenshots).map(obj => obj.path))));
     var checkboxes = document.getElementsByClassName("supported_os_checkbox"), supportedOS = [];
     for (var i = 0; i < checkboxes.length; i++) if (checkboxes[i].checked) supportedOS.push(checkboxes[i].value);
     $("#supportedOSInput").val(supportedOS.join(","));
@@ -644,10 +644,10 @@ var AutoSave = {
     save: function() {
         this.show();
         this.changeText("Đang tiến hành lưu bản nháp...");
-        $("#linksInput").val(btoa(JSON.stringify(Object.values(gameFiles).filter(obj => obj.path != null))));
-        $("#betaLinksInput").val(btoa(JSON.stringify(Object.values(betaGameFiles).filter(obj => obj.path != null))));
-        $("#betaUsersInput").val(btoa(JSON.stringify(Object.values(betaUsers))));
-        $("#screenshotsInput").val(btoa(JSON.stringify(Object.values(screenshots).filter(obj => obj.path != null).map(obj => obj.path))));
+        $("#linksInput").val(Base64.decode(JSON.stringify(Object.values(gameFiles).filter(obj => obj.path != null))));
+        $("#betaLinksInput").val(Base64.decode(JSON.stringify(Object.values(betaGameFiles).filter(obj => obj.path != null))));
+        $("#betaUsersInput").val(Base64.decode(JSON.stringify(Object.values(betaUsers))));
+        $("#screenshotsInput").val(Base64.decode(JSON.stringify(Object.values(screenshots).filter(obj => obj.path != null).map(obj => obj.path))));
         var checkboxes = document.getElementsByClassName("supported_os_checkbox"), supportedOS = [];
         for (var i = 0; i < checkboxes.length; i++) if (checkboxes[i].checked) supportedOS.push(checkboxes[i].value);
         var save = {};
