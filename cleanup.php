@@ -2,7 +2,7 @@
 require "api/functions.php";
 require "api/games/functions.php";
 if (!get("token") || get("token") != $_ENV["CLEANUP_TOKEN"]) api_response(null, "Mã xác thực không đúng.", 401);
-$games = all_games();
+$games = all_games(0, true);
 $collected_files = [];
 // Collect all game files
 foreach ($games as $game) {
