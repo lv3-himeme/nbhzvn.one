@@ -7,13 +7,13 @@ function add_game(stdClass $data, bool $pre_approved = false) {
     return SUCCESS;
 }
 
-function all_games($limit = 0) {
+function all_games($limit = 0, $include_unapproved = false) {
     $games = []; $limit_query = ""; $limit_args = [];
     if ($limit) {
         $limit_query = " LIMIT ?";
         $limit_args = [$limit];
     }
-    $result = db_query('SELECT * FROM `nbhzvn_games` WHERE `approved` = 1' . $limit_query, ...$limit_args);
+    $result = db_query('SELECT * FROM `nbhzvn_games`' . ($include_unapproved ? ' WHERE `approved` = 1' : '') . $limit_query, ...$limit_args);
     while ($row = $result->fetch_object()) array_push($games, new Nbhzvn_Game($row));
     return $games;
 }

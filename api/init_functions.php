@@ -102,4 +102,15 @@ function get_root_domain() {
     $parts = explode('.', explode(':', $host)[0]);
     return (filter_var($host, FILTER_VALIDATE_IP) || $host == "localhost") ? $host : implode('.', array_slice($parts, -2));
 }
+
+function delete_folder($dir) {
+    if (!is_dir($dir)) return false;
+    $items = array_diff(scandir($dir), array('.', '..'));
+    foreach ($items as $item) {
+        $path = $dir . "/" . $item;
+        if (is_dir($path)) delete_folder($path);
+        else unlink($path);
+    }
+    return rmdir($dir);
+}
 ?>
