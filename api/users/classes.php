@@ -212,7 +212,7 @@ class Nbhzvn_User {
 
     function comments() {
         $comments = [];
-        $result = db_query('SELECT `id` FROM `nbhzvn_comments` WHERE `author` = ? ORDER BY TIMESTAMP DESC', $this->id);
+        $result = db_query('SELECT c.`id` FROM `nbhzvn_comments` AS c LEFT JOIN `nbhzvn_games` AS g ON c.`game_id` = g.`id` WHERE c.`author` = ? AND g.`approved` = 1 ORDER BY c.`timestamp` DESC', $this->id);
         while ($row = $result->fetch_object()) {
             array_push($comments, new Nbhzvn_Comment($row->id));
         }
