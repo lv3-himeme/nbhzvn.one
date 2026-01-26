@@ -6,6 +6,7 @@ require "api/games/functions.php";
 $parsedown = new Parsedown();
 $parsedown->setSafeMode(true);
 $parsedown->setMarkupEscaped(true);
+$parsedown->setBreaksEnabled(true);
 
 if (is_numeric(get("id"))) {
     $game = new Nbhzvn_Game(intval(get("id")));
@@ -392,10 +393,9 @@ else $repo = all_games();
             <?php require "footer.php" ?>
           </footer>
           <!-- Footer Section End -->
-
         <!-- Js Plugins -->
         <script src="/js/jquery-3.3.1.min.js"></script>
-    <script src="/js/base64.min.js"></script>
+        <script src="/js/base64.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/mixitup.min.js"></script>
         <script src="/js/jquery.slicknav.js"></script>
@@ -410,6 +410,11 @@ else $repo = all_games();
         <?php else: ?>
         <script>repo = "<?php echo addslashes(get("category")) ?>"</script>
         <script src="/js/game_list.js?v=<?=$res_version?>"></script>
+        <?php endif ?>
+        <?php if ($comments && count($comments)): ?>
+        <script>
+            let commentData = JSON.parse(Base64.decode(`<?= base64_encode(json_encode($comments)) ?>`));
+        </script>
         <?php endif ?>
 
     </body>
