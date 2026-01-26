@@ -1,4 +1,4 @@
-        <?php if (true): ?>
+        <?php if (false): ?>
         <div style="width: 100%; padding: 10px; background-color: #af1932; color: #ddd; text-align: center">Quá trình bảo trì ngày 26/9/2025 đã hoàn tất, lỗi không thể tải được game lên cũng đã được sửa!</div>
         <?php endif ?>
         <div class="container">
