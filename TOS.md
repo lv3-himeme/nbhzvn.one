@@ -1,15 +1,15 @@
 # Điều Khoản Sử Dụng
-*Cập nhật lần cuối vào ngày 20/2/2025.*
+*Cập nhật lần cuối vào ngày 6/8/2026.*
 
 **Nobihaza Vietnam Community Collection** ("Trang Web") là một nền tảng được thiết lập nhằm tổng hợp, lưu trữ và chia sẻ các game Nobihaza trên mọi ngôn ngữ và thể loại, miễn là nội dung của chúng có liên quan đến Nobihaza. Trang Web này được phát triển và quản lý bởi **Serena1432** ("Nhà Phát Triển"), và thuộc quyền sở hữu của **Cộng Đồng Nobihaza Việt Nam** ("Cộng Đồng").  
 
 Bằng việc đăng ký Tài Khoản hoặc tải xuống bất kỳ Tài Nguyên nào trên Trang Web, bạn đồng ý tuân thủ toàn bộ Điều Khoản Sử Dụng. Nếu bạn không đồng ý với bất kỳ điều khoản nào, vui lòng ngừng sử dụng Trang Web ngay lập tức.  
 
-Các Điều Khoản này chỉ áp dụng cho Trang Web với tên miền chính thức là **nbhzvn.one**. Bất kỳ trang web nào không sử dụng tên miền này **không thuộc quyền quản lý của Nhà Phát Triển và Cộng Đồng**, do đó sẽ không bị ràng buộc bởi các Điều Khoản này.  
+Các Điều Khoản này chỉ áp dụng cho Trang Web với tên miền chính thức là **nbhzvn.com**. Bất kỳ trang web nào không sử dụng tên miền này **không thuộc quyền quản lý của Nhà Phát Triển và Cộng Đồng**, do đó sẽ không bị ràng buộc bởi các Điều Khoản này.  
 
 ## 1. Định Nghĩa và Thuật Ngữ
 
-* **Trang Web:** Là trang chính thức của Nobihaza Vietnam Community Collection, có địa chỉ tên miền là **nbhzvn.one**.
+* **Trang Web:** Là trang chính thức của Nobihaza Vietnam Community Collection, có địa chỉ tên miền là **nbhzvn.com**.
 * **Nhà Phát Triển:** [Serena1432](https://s1432.org), là nhà phát triển chính của Trang Web.
 * **Cộng Đồng:** [Cộng Đồng Nobihaza Việt Nam](https://www.facebook.com/groups/nobihazavietnam), là nhóm cộng đồng đại diện và cũng là chủ sở hữu chung của Trang Web.
 * **Người Dùng/Bạn:** Là bất kì ai đang truy cập vào các trang thông tin của game và tải xuống các game được lưu trữ trên trang, bao gồm cả những người đăng ký và chưa đăng ký Tài Khoản.
@@ -144,7 +144,7 @@ Các Điều Khoản này chỉ áp dụng cho Trang Web với tên miền chín
 
 ### 4.5. API
 - Trang Web cung cấp API miễn phí và không yêu cầu đăng nhập, cho phép các nhà phát triển ứng dụng, chatbot hoặc hệ thống tự động hợp pháp có thể truy xuất thông tin từ Trang Web một cách hợp lệ.
-- API có địa chỉ chính thức tại **nbhzvn.one/api** và trả về dữ liệu dưới dạng **JSON (REST API)**. API này chỉ cho phép truy xuất thông tin công khai, không cung cấp dữ liệu cá nhân hoặc dữ liệu riêng tư của người dùng.
+- API có địa chỉ chính thức tại **nbhzvn.com/api** và trả về dữ liệu dưới dạng **JSON (REST API)**. API này chỉ cho phép truy xuất thông tin công khai, không cung cấp dữ liệu cá nhân hoặc dữ liệu riêng tư của người dùng.
 - Để tránh lạm dụng API, hệ thống sẽ giới hạn tần suất gửi yêu cầu ở mức **10 yêu cầu/10 giây** cho mỗi địa chỉ IP.
   - Nếu bạn vô tình vượt quá giới hạn, API có thể tạm thời từ chối yêu cầu mới từ địa chỉ IP của bạn.
   - Nếu phát hiện cố tình vượt quá giới hạn bằng cách sử dụng bot hoặc phương pháp gian lận (ví dụ: sử dụng proxy để gửi yêu cầu ẩn danh), địa chỉ IP hoặc máy chủ của bạn có thể bị chặn vĩnh viễn.
@@ -220,7 +220,7 @@ Vì Trang Web được phát triển và vận hành bởi Nhà Phát Triển, Q
 - Nếu có sự xung đột giữa luật pháp Việt Nam và luật pháp nước ngoài liên quan đến Tài Nguyên, việc giải quyết sẽ dựa trên **các hiệp định quốc tế hiện hành và luật pháp quốc tế nếu có hiệu lực**.  
 
 ## 8. Phạm Vi Hiệu Lực
-- Các Điều Khoản được đề cập ở trang này sẽ áp dụng cho toàn bộ các trang ở trong Trang Web với tên miền là **nbhzvn.one**.
+- Các Điều Khoản được đề cập ở trang này sẽ áp dụng cho toàn bộ các trang ở trong Trang Web với tên miền là **nbhzvn.com**.
 - Trang Web có quyền sửa đổi, cập nhật hoặc bổ sung nội dung của Điều Khoản này bất kỳ lúc nào mà không cần thông báo trước. Mọi thay đổi sẽ có hiệu lực ngay khi được cập nhật trên Trang Web. Người dùng có trách nhiệm tự kiểm tra Điều Khoản Sử Dụng định kỳ. Nếu tiếp tục sử dụng Trang Web sau khi Điều Khoản được cập nhật, bạn được xem như đã đồng ý với các thay đổi đó.
 
 ## 9. Liên Hệ

@@ -30,9 +30,6 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php if (!$title) echo 'Nobihaza Vietnam Collection'; else echo $title; ?></title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Reddit+Sans" rel="stylesheet">
-
     <!-- Css Styles -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">

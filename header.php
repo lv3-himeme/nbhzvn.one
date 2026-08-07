@@ -22,7 +22,7 @@
                                         <li><a href="/search?engine=3">Game RPG Maker MV/MZ</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="https://guides.nbhzvn.one" target="_blank">Hướng Dẫn Chơi</a></li>
+                                <li><a href="https://guides.nbhzvn.com" target="_blank">Hướng Dẫn Chơi</a></li>
                                 <li><a href="/tools">Phần Mềm Chơi Game <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
                                         <li><a href="https://github.com/The-Firefly-Project/EasyRPGPlayer-Vietnamese/releases/tag/0.8.1.1">EasyRPG</a></li>

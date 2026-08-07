@@ -50,7 +50,7 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
     <meta name="application-name" content="Nobihaza Vietnam Community Collection" />
     <meta property="og:title" content="<?php echo $meta_title ?>" />
     <meta property="og:type" content="article" />
-    <meta property="og:image" content="<?php echo ($game && str_contains($_SERVER["REQUEST_URI"], "games")) ? ("/uploads/" . $game->image) : "https://nbhzvn.one/img/logo.png" ?>" />
+    <meta property="og:image" content="<?php echo ($game && str_contains($_SERVER["REQUEST_URI"], "games")) ? ("/uploads/" . $game->image) : "https://nbhzvn.com/img/logo.png" ?>" />
     <meta property="og:url" content="<?php echo $http . "://" . $host . $_SERVER["REQUEST_URI"] ?>" />
     <meta property="og:description" content="<?php echo $meta_description ?>" />
     <meta name="twitter:card" content="summary" />
@@ -60,9 +60,9 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="https://nbhzvn.one/img/icon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="https://nbhzvn.one/img/icon/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="https://nbhzvn.one/img/icon/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="https://nbhzvn.com/img/icon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://nbhzvn.com/img/icon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://nbhzvn.com/img/icon/android-chrome-512x512.png">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php if (!$title) echo 'Nobihaza Vietnam Collection'; else echo $title; ?></title>
 
@@ -70,14 +70,14 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
     <link href="https://fonts.googleapis.com/css2?family=Geologica" rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="https://nbhzvn.one/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="https://nbhzvn.one/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="https://nbhzvn.one/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="https://nbhzvn.one/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="https://nbhzvn.one/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="https://nbhzvn.one/css/bootstrap-darkly.min.css" type="text/css">
-    <link rel="stylesheet" href="https://nbhzvn.one/css/toastr.css" type="text/css">
-    <link rel="stylesheet" href="https://nbhzvn.one/css/style.css?v=<?=$res_version?>" type="text/css">
+    <link rel="stylesheet" href="https://nbhzvn.com/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="https://nbhzvn.com/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="https://nbhzvn.com/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="https://nbhzvn.com/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="https://nbhzvn.com/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="https://nbhzvn.com/css/bootstrap-darkly.min.css" type="text/css">
+    <link rel="stylesheet" href="https://nbhzvn.com/css/toastr.css" type="text/css">
+    <link rel="stylesheet" href="https://nbhzvn.com/css/style.css?v=<?=$res_version?>" type="text/css">
     <link rel="stylesheet" href="./speedrun.css?v=<?=time()?>" type="text/css">
     <link rel="stylesheet" href="./time_counter.css?v=<?=time()?>" type="text/css">
 
@@ -91,26 +91,26 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                 <div class="header-flex d-flex align-items-center flex-grow-1">
                     <div class="header__logo">
                         <a href="/">
-                            <img src="https://nbhzvn.one/img/logo.png" alt="">
+                            <img src="https://nbhzvn.com/img/logo.png" alt="">
                         </a>
                     </div>
                     <div class="header__nav" style="margin-left: 20px">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li><a href="https://nbhzvn.one">Về Trang Chính</a></li>
+                                <li><a href="https://nbhzvn.com">Về Trang Chính</a></li>
                                 <?php if ($stage < 2): ?>
-                                <li><a href="https://speedrun.nbhzvn.one/test/?language=Vietnamese">Thi Thử</a></li>
+                                <li><a href="https://speedrun.nbhzvn.com/test/?language=Vietnamese">Thi Thử</a></li>
                                 <?php endif; ?>
                                 <li class="nbhzvn_mobile_user">
                                     <?php if ($user): ?>
-                                    <a href="https://nbhzvn.one/profile"><?php echo $user->display_name(); ?></span></a>
+                                    <a href="https://nbhzvn.com/profile"><?php echo $user->display_name(); ?></span></a>
                                     <ul class="dropdown">
-                                        <li><a href="https://nbhzvn.one/profile">Thông Tin Cá Nhân</a></li>
-                                        <li><a href="https://nbhzvn.one/change_info">Thay Đổi Thông Tin</a></li>
-                                        <li><a href="https://nbhzvn.one/logout?speedrun=1">Đăng Xuất</a></li>
+                                        <li><a href="https://nbhzvn.com/profile">Thông Tin Cá Nhân</a></li>
+                                        <li><a href="https://nbhzvn.com/change_info">Thay Đổi Thông Tin</a></li>
+                                        <li><a href="https://nbhzvn.com/logout?speedrun=1">Đăng Xuất</a></li>
                                     </ul>
                                     <?php else: ?>
-                                    <a href="https://nbhzvn.one/login?speedrun=1">Đăng Nhập</a>
+                                    <a href="https://nbhzvn.com/login?speedrun=1">Đăng Nhập</a>
                                     <?php endif; ?>
                                 </li>
                             </ul>
@@ -124,13 +124,13 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
                                 <li style="padding: 13px 0"><a href="/profile" class="nbhzvn_user_icon">
                                     <span class="nbhzvn_avatar_container"><span class="nbhzvn_avatar"><span class="nbhzvn_username"><?php echo substr($user->display_name(), 0, 1); ?></span></span> <span class="arrow_carrot-down"></span></span></a>
                                     <ul class="dropdown nbhzvn_user_dropdown" style="left: -180px">
-                                        <li><a href="https://nbhzvn.one/profile"><b><?php echo $user->display_name(); ?></b></a></li>
-                                        <li><a href="https://nbhzvn.one/change_info">Thay Đổi Thông Tin</a></li>
-                                        <li><a href="https://nbhzvn.one/logout?speedrun=1">Đăng Xuất</a></li>
+                                        <li><a href="https://nbhzvn.com/profile"><b><?php echo $user->display_name(); ?></b></a></li>
+                                        <li><a href="https://nbhzvn.com/change_info">Thay Đổi Thông Tin</a></li>
+                                        <li><a href="https://nbhzvn.com/logout?speedrun=1">Đăng Xuất</a></li>
                                     </ul>
                                 </li>
                             <?php else: ?>
-                                <li><a href="https://nbhzvn.one/login?speedrun=1"><span class="icon_profile"></span> <span class="nbhzvn_username" style="margin-left: 10px">Đăng Nhập</span></a></li>
+                                <li><a href="https://nbhzvn.com/login?speedrun=1"><span class="icon_profile"></span> <span class="nbhzvn_username" style="margin-left: 10px">Đăng Nhập</span></a></li>
                             <?php endif; ?>
                         </ul>
                     </nav>
@@ -195,7 +195,7 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
         <div class="row">
             <div class="col-lg-3">
                 <div class="footer__logo">
-                    <a href="./index.html"><img src="https://nbhzvn.one/img/logo.png" alt=""></a>
+                    <a href="./index.html"><img src="https://nbhzvn.com/img/logo.png" alt=""></a>
                 </div>
                 <p style="margin-top: 10px">Gia nhập máy chủ Discord của cộng đồng <a href="https://discord.gg/QpMuX3gQ5u" target="__blank">tại đây</a>.</p>
             </div>
@@ -213,15 +213,15 @@ $meta_description = $game ? explode("\n", Html2Text::convert($parsedown->text($g
       <!-- Footer Section End -->
 
     <!-- Js Plugins -->
-    <script src="https://nbhzvn.one/js/jquery-3.3.1.min.js"></script>
-    <script src="https://nbhzvn.one/js/bootstrap.min.js"></script>
-    <script src="https://nbhzvn.one/js/mixitup.min.js"></script>
-    <script src="https://nbhzvn.one/js/jquery.slicknav.js"></script>
-    <script src="https://nbhzvn.one/js/owl.carousel.min.js"></script>
-    <script src="https://nbhzvn.one/js/toastr.js"></script>
-    <script src="https://nbhzvn.one/js/api.js"></script>
-    <script src="https://nbhzvn.one/js/modal.js"></script>
-    <script src="https://nbhzvn.one/js/main.js?v=<?=$res_version?>"></script>
+    <script src="https://nbhzvn.com/js/jquery-3.3.1.min.js"></script>
+    <script src="https://nbhzvn.com/js/bootstrap.min.js"></script>
+    <script src="https://nbhzvn.com/js/mixitup.min.js"></script>
+    <script src="https://nbhzvn.com/js/jquery.slicknav.js"></script>
+    <script src="https://nbhzvn.com/js/owl.carousel.min.js"></script>
+    <script src="https://nbhzvn.com/js/toastr.js"></script>
+    <script src="https://nbhzvn.com/js/api.js"></script>
+    <script src="https://nbhzvn.com/js/modal.js"></script>
+    <script src="https://nbhzvn.com/js/main.js?v=<?=$res_version?>"></script>
 
 </body>
 

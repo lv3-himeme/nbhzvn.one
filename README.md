@@ -1,6 +1,6 @@
 > ⚠️ **Important Notice**
 >
-> This repository is a 1:1 copy of the [nbhzvn.one](https://nbhzvn.one) website and contains additional content from our community that is **not freely reusable** or **redistributable without proper attribution**, and **must not be used for commercial purposes**.
+> This repository is a 1:1 copy of the [nbhzvn.com](https://nbhzvn.com) website and contains additional content from our community that is **not freely reusable** or **redistributable without proper attribution**, and **must not be used for commercial purposes**.
 >
 > If you are looking for a fully open-source version of this project (under the MIT License) without any community-specific content, please visit the original repository:  
 > 👉 [Serena1432/NobihazaVietnamCollection](https://github.com/Serena1432/NobihazaVietnamCollection)
@@ -9,7 +9,7 @@
 
 ![Screenshot](screenshot.png)
 
-**Nobihaza Vietnam Community Collection** website ([nbhzvn.one](https://nbhzvn.one))'s official source code repository, used as a "game storage" website to upload and manage various Nobihaza games for ease of downloading, searching, and even linking to a chatbot.
+**Nobihaza Vietnam Community Collection** website ([nbhzvn.com](https://nbhzvn.com))'s official source code repository, used as a "game storage" website to upload and manage various Nobihaza games for ease of downloading, searching, and even linking to a chatbot.
 
 This website uses PHP for backend, and MySQL for database management.
 

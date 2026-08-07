@@ -10,10 +10,10 @@
 'use strict';
 
 function showMaintenancePopup() {
-    if (!window.localStorage.getItem("nbhzvn_domain_maintenance")) {
+    if (!window.localStorage.getItem("nbhzvn_domain_announcement")) {
         var modal = new Modal();
         modal.body = `
-            <p>Trang web Nobihaza Vietnam Collection sẽ bảo trì trong ngày 8/8/2026 để chuyển đổi tên miền sang <b>nbhzvn.com</b>.</p>
+            <p>Kể từ ngày 8/8/2026, tên miền của trang web Nobihaza Vietnam Collection đã được thay đổi thành <b>nbhzvn.com</b>.</p>
             <p>Các liên kết thuộc tên miền cũ sẽ được chuyển hướng sang tên miền mới cho đến khi tên miền hết hạn vào ngày 16/8 (hoặc có thể sẽ thêm vài ngày nữa từ nhà cung cấp).</p>
             <p>Nhấn vào nút <b>Tìm hiểu thêm</b> để biết thêm chi tiết.</p>
         `;
@@ -21,7 +21,7 @@ function showMaintenancePopup() {
             <a href="/bulletin"><button type="button" class="btn btn-primary">Tìm hiểu thêm</button></a>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
         `;
-        window.localStorage.setItem("nbhzvn_domain_maintenance", "1");
+        window.localStorage.setItem("nbhzvn_domain_announcement", "1");
         modal.show();
     }
 }
@@ -108,7 +108,7 @@ function showMaintenancePopup() {
         });
         $(".owl-item").css("height", maxHeight + "px");
 
-        //showMaintenancePopup();
+        showMaintenancePopup();
     }
     $(document).ready(equalizeCarouselHeights);
     $(window).resize(equalizeCarouselHeights);

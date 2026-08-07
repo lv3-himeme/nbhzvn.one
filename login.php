@@ -23,7 +23,7 @@ if (post("submit")) {
             if ($result == SUCCESS) {
                 $user = new Nbhzvn_User($username);
                 $user->apply_cookie();
-                header(get("speedrun") ? "Location: https://speedrun.nbhzvn.one" : "Location: /");
+                header(get("speedrun") ? "Location: https://speedrun.nbhzvn.com" : "Location: /");
                 die();
             }
         }

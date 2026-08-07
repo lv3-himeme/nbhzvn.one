@@ -1,24 +1,28 @@
 ## Thông báo đổi tên miền của Nobihaza Vietnam Collection thành nbhzvn.com
-*Thông báo này được viết vào ngày 6 tháng 8, 2026.*
+*Thông báo này được viết vào ngày 8 tháng 8, 2026.*
 
 ---
 
 Chào mọi người, mình là Serena1432 đây.
 
-Như một số bạn đã biết, tên miền **nbhzvn.one** hiện tại của Nobihaza Vietnam Community Collection (NVCC) sẽ hết hạn vào ngày 16/8/2026. Đồng thời thì 16/8 sắp tới cũng sẽ là tròn 2 năm trang web này được thành lập (nhưng phải đến tháng 12 thì mới đi vào hoạt động).
+Việc đổi tên miền từ **nbhzvn.one** sang **nbhzvn.com** đã hoàn thành sớm hơn mình nghĩ. Cho đến thời điểm hiện tại, ngoại trừ một số tên miền phụ (như trang web hướng dẫn **guides.nbhzvn.com** chưa có chứng chỉ SSL nên sẽ bị cảnh báo không an toàn) ra, thì tên miền chính và các tính năng đã có thể hoạt động được trên tên miền mới.
 
-![1](/bulletin_files/2026-08-06-23-31-35.png)
+Vì đây là tên miền mới, nên các bạn sẽ cần đăng nhập lại tài khoản của mình nếu có. Tuy nhiên vì cơ sở dữ liệu không thay đổi, nên bạn vẫn có thể sử dụng thông tin cũ để đăng nhập, cũng như mọi thông tin từ tên miền cũ vẫn tồn tại trên tên miền mới này.
 
-Tuy nhiên vì phí gia hạn của tên miền khá cao, và mình cũng muốn đổi tên miền để "tăng uy tín" cũng như làm mọi người dễ nhớ hơn, mình sẽ đổi tên miền của trang web thành **nbhzvn.com** thay vì **nbhzvn.one** như cũ. Lịch trình thay đổi tên miền sẽ như sau:
+Các liên kết của tên miền cũ mà bạn đã từng sử dụng sẽ được tự động chuyển hướng sang tên miền mới, cho đến ngày 16/8 (hoặc có thể thêm vài ngày nếu nhà cung cấp cho phép) khi tên miền **nbhzvn.one** đã hết hạn. Sau khi tên miền đã hết hạn, các liên kết có tên miền cũ sẽ không còn hiệu lực.
 
-* Vào ngày 8/8 (thứ 7 tuần này), mình sẽ bảo trì website cho đến hết ngày 8/8 để di chuyển tên miền.
-* Sau khi bảo trì xong, tất cả các liên kết cũ từ tên miền **nbhzvn.one** sẽ được tự động chuyển đổi sang tên miền mới là **nbhzvn.com**.
-* Các liên kết cũ sẽ được chuyển hướng cho đến khi tên miền hết hạn vào ngày 16/8 (hoặc có thể sẽ lâu hơn vì bên nhà cung cấp vẫn cho thêm vài ngày chờ đợi).
-
-Đồng thời thì hiện tại mình cũng đang làm giao diện mới cho trang web, và nếu kịp thì mình sẽ nâng cấp giao diện mới trong ngày 16/8 luôn (nhưng chưa chắc chắn). Mình cũng sẽ dự kiến thêm một số tính năng mới vào trong bản mới này, và giao diện về cơ bản sẽ như thế này:
-
-![2](/bulletin_files/2026-08-07-00-13-21.png)
+Mình thực sự xin lỗi vì đã thực hiện thay đổi này quá muộn, khi chỉ còn 8 ngày nữa là tên miền sẽ hết hạn. Lẽ ra việc thay đổi này đã có thể thực hiện sớm hơn nếu như không có một vài sự việc ngoài ý muốn từ phía cá nhân mình. Tuy nhiên thì hiện tại mọi thứ đã ổn, và trang web vẫn sẽ tiếp tục hoạt động như bình thường.
 
 ---
 
-Mong là với tên miền mới và giao diện mới, thì các bạn sẽ có trải nghiệm tốt hơn. Cảm ơn các bạn vì đã luôn ủng hộ trang web này và đồng hành cùng cộng đồng.
+Đồng thời thì hiện tại mình cũng đang làm giao diện mới cho trang web, và nếu kịp thì mình sẽ nâng cấp giao diện mới trong ngày 16/8 luôn (nhưng chưa chắc chắn). Mình cũng sẽ dự kiến thêm một số tính năng mới vào trong bản mới này, và giao diện về cơ bản sẽ như thế này:
+
+[1](/bulletin_files/2026-08-07-00-13-21.png)
+
+Mình có đề cập tới giao diện mới này trong [stream gần nhất của mình](https://www.youtube.com/watch?v=aN-z5wbNAKo&t=2120s) kể từ mốc 35:20, nếu bạn quan tâm thì bạn cũng có thể xem thử.
+
+Một lần nữa, cảm ơn KnzkSer0817 vì đã thiết kế giao diện mới này giúp mình. Mình sẽ hoàn thành và áp dụng nó vào website của chúng ta trong thời gian sớm nhất.
+
+---
+
+Mong là với tên miền mới này và giao diện mới sắp tới, thì các bạn sẽ có trải nghiệm tốt hơn. Cảm ơn các bạn vì đã luôn ủng hộ trang web này và đồng hành cùng cộng đồng.
