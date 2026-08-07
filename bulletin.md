@@ -9,6 +9,8 @@ Việc đổi tên miền từ **nbhzvn.one** sang **nbhzvn.com** đã hoàn th�
 
 Vì đây là tên miền mới, nên các bạn sẽ cần đăng nhập lại tài khoản của mình nếu có. Tuy nhiên vì cơ sở dữ liệu không thay đổi, nên bạn vẫn có thể sử dụng thông tin cũ để đăng nhập, cũng như mọi thông tin từ tên miền cũ vẫn tồn tại trên tên miền mới này.
 
+Quá trình chuyển tên miền có thể sẽ có một số lỗi ngoài ý muốn mà mình không biết, nếu bạn gặp lỗi trong quá trình sử dụng website thì hãy báo cho mình biết nhé.
+
 Các liên kết của tên miền cũ mà bạn đã từng sử dụng sẽ được tự động chuyển hướng sang tên miền mới, cho đến ngày 16/8 (hoặc có thể thêm vài ngày nếu nhà cung cấp cho phép) khi tên miền **nbhzvn.one** đã hết hạn. Sau khi tên miền đã hết hạn, các liên kết có tên miền cũ sẽ không còn hiệu lực.
 
 Mình thực sự xin lỗi vì đã thực hiện thay đổi này quá muộn, khi chỉ còn 8 ngày nữa là tên miền sẽ hết hạn. Lẽ ra việc thay đổi này đã có thể thực hiện sớm hơn nếu như không có một vài sự việc ngoài ý muốn từ phía cá nhân mình. Tuy nhiên thì hiện tại mọi thứ đã ổn, và trang web vẫn sẽ tiếp tục hoạt động như bình thường.
