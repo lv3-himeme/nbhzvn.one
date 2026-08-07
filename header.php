@@ -1,5 +1,5 @@
         <?php if (true): ?>
-        <div style="width: 100%; padding: 10px; background-color: #af1932; color: #ddd; text-align: center">Trang web Nobihaza Vietnam Community Collection sẽ được bảo trì trong ngày 7/8/2026 để dổi tên miền mới. <a style="color: #ffbebe" href="/bulletin">Nhấn vào đây để xem thêm thông tin.</a></div>
+        <div style="width: 100%; padding: 10px; background-color: #af1932; color: #ddd; text-align: center">Trang web Nobihaza Vietnam Community Collection sẽ được bảo trì trong ngày 8/8/2026 để dổi tên miền mới. <a style="color: #ffbebe" href="/bulletin">Nhấn vào đây để xem thêm thông tin.</a></div>
         <?php endif ?>
         <div class="container">
             <div class="row align-items-center">

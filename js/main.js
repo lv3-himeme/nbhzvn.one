@@ -108,7 +108,7 @@ function showMaintenancePopup() {
         });
         $(".owl-item").css("height", maxHeight + "px");
 
-        showMaintenancePopup();
+        //showMaintenancePopup();
     }
     $(document).ready(equalizeCarouselHeights);
     $(window).resize(equalizeCarouselHeights);

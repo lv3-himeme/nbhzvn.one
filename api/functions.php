@@ -92,4 +92,9 @@ function get_total() {
 
 // Update views_today
 db_query('UPDATE `nbhzvn_games` SET `views_today` = 0, `downloads_today` = 0, `updated_date` = ? WHERE `updated_date` != ?', date('Y-m-d'), date('Y-m-d'));
+
+if (!str_contains($_SERVER["REQUEST_URI"], "maintenance")) {
+    header("Location: /maintenance");
+    die();
+}
 ?>

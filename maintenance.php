@@ -29,7 +29,7 @@ require "api/users/cookies.php";
     <section class="signup spad">
         <div class="container">
             <h3 class="nbhzvn_title">Website Đang Bảo Trì</h3>
-            <p>Website đang trong quá trình bảo trì để sửa lỗi nghiêm trọng từ 8:00 - 23:00 ngày 26/9/2025. Bạn hãy quay lại sau nhé!</p>
+            <p>Website sẽ bảo trì trong ngày 8/8/2026 để đổi tên miền của website sang <b>nbhzvn.com</b>. Bạn hãy kiên nhẫn chờ đợi nhé!</p>
         </div>
     </section>
     <!-- Signup Section End -->
