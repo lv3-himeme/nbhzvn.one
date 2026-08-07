@@ -19,7 +19,7 @@ Mình thực sự xin lỗi vì đã thực hiện thay đổi này quá muộn,
 
 Đồng thời thì hiện tại mình cũng đang làm giao diện mới cho trang web, và nếu kịp thì mình sẽ nâng cấp giao diện mới trong ngày 16/8 luôn (nhưng chưa chắc chắn). Mình cũng sẽ dự kiến thêm một số tính năng mới vào trong bản mới này, và giao diện về cơ bản sẽ như thế này:
 
-[1](/bulletin_files/2026-08-07-00-13-21.png)
+![1](/bulletin_files/2026-08-07-00-13-21.png)
 
 Mình có đề cập tới giao diện mới này trong [stream gần nhất của mình](https://www.youtube.com/watch?v=aN-z5wbNAKo&t=2120s) kể từ mốc 35:20, nếu bạn quan tâm thì bạn cũng có thể xem thử.
 
