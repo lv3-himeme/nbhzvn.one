@@ -232,6 +232,6 @@ Nếu có vấn đề phát sinh liên quan đến Trang Web (bao gồm vấn đ
 * **Facebook:** https://www.facebook.com/Serena1432
 * **Email:** admin@s1432.org / harpaedieheilige@gmail.com
 * **SĐT:** +84398929702
-* **Zalo:** 0398929702 (Skirk) / https://zaloapp.com/qr/p/1rjy4k1eezecu
+* **Zalo:** https://zaloapp.com/qr/p/1rjy4k1eezecu
 
 **Cảm ơn bạn vì đã tin tưởng sử dụng trang web Nobihaza Vietnam Community Collection!** Chúc bạn một ngày tốt lành!

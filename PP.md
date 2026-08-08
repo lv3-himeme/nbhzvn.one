@@ -64,7 +64,7 @@ Nếu bạn có bất kỳ câu hỏi nào về Chính Sách Bảo Mật, bạn 
 * **Facebook:** https://www.facebook.com/Serena1432
 * **Email:** admin@s1432.org / harpaedieheilige@gmail.com
 * **SĐT:** +84398929702
-* **Zalo:** 0398929702 (Skirk) / https://zaloapp.com/qr/p/1rjy4k1eezecu
+* **Zalo:** https://zaloapp.com/qr/p/1rjy4k1eezecu
 
 ---
 © 2024 **Nobihaza Vietnam Community Collection**
